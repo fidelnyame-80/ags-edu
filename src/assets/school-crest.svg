@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" fill="none">
+  <defs>
+    <linearGradient id="crestGlow" x1="27" x2="133" y1="18" y2="142" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F7FBFF"/>
+      <stop offset="1" stop-color="#C7DAF5"/>
+    </linearGradient>
+  </defs>
+  <path d="M80 8c18 7 34 10 52 10 1 20 10 33 20 44-4 49-32 73-72 90C40 135 12 111 8 62c10-11 19-24 20-44 18 0 34-3 52-10Z" stroke="url(#crestGlow)" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M80 20c15 5 28 8 43 8 1 17 8 28 16 38-3 40-26 59-59 74-33-15-56-34-59-74 8-10 15-21 16-38 15 0 28-3 43-8Z" stroke="#F7FBFF" stroke-opacity=".58" stroke-width="2.6" stroke-linejoin="round"/>
+  <path d="M80 23 84.1 31.3l9.2 1.4-6.7 6.5 1.6 9.2L80 44.1l-8.2 4.3 1.6-9.2-6.7-6.5 9.2-1.4L80 23Z" fill="#F7FBFF" fill-opacity=".9"/>
+  <circle cx="80" cy="73" r="31" fill="#F7FBFF" fill-opacity=".12" stroke="#F7FBFF" stroke-width="2.2"/>
+  <path d="m82 47-10 7-2 11 4 10-3 12 7 14 12-5 6-12 10-8-5-10 2-10-8-7-13-2Z" fill="#F7FBFF"/>
+  <path d="M61 113c12 4 26 4 38 0" stroke="#F7FBFF" stroke-linecap="round" stroke-width="2.5"/>
+  <path d="M46 119c9 6 21 9 34 10" stroke="#F7FBFF" stroke-linecap="round" stroke-opacity=".75" stroke-width="2.5"/>
+  <path d="M114 119c-9 6-21 9-34 10" stroke="#F7FBFF" stroke-linecap="round" stroke-opacity=".75" stroke-width="2.5"/>
+  <path d="M16 59h17M127 59h17M25 83h13M122 83h13" stroke="#F7FBFF" stroke-linecap="round" stroke-opacity=".72" stroke-width="3"/>
+  <path d="M48 143h64" stroke="#F7FBFF" stroke-linecap="round" stroke-opacity=".78" stroke-width="3"/>
+</svg>
