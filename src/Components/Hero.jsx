@@ -2,6 +2,17 @@ import { useEffect, useState } from "react";
 import { Images } from "../assets/Images/Images";
 import MotionText from "./MotionText";
 
+//function to handle hero nav link clicks, preventing default and using history API for smooth navigation and scroll to top
+const handleHeroNavClick = (event, href) => {
+  event.preventDefault();
+
+  const targetUrl = new URL(href, window.location.origin);
+  window.history.pushState({}, "", `${targetUrl.pathname}${targetUrl.hash}`);
+  window.dispatchEvent(new Event("ags:navigate"));
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
 const SCHOOL_BG = Images.heroImg1;
 const WELCOME_TEXT = "Welcome to Accra Grammar School";
 const TAGLINE_TEXT = "Shaping leaders, building futures";
@@ -181,7 +192,7 @@ export default function HeroSection() {
 
           <div className="flex flex-wrap gap-4 lg:gap-3">
             <a
-              href="/admissions/"
+              href="/admissions/" onClick={(event) => handleHeroNavClick(event, "/admissions/")}
               className="flex items-center gap-2 rounded-full px-7 py-3 font-medium text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(30,100,220,0.45)] lg:px-6 lg:py-2.5 lg:[font-size:0.92rem]"
               style={{
                 background: "linear-gradient(135deg, #2563eb, #1d4ed8)",
@@ -201,7 +212,7 @@ export default function HeroSection() {
             </a>
 
             <a
-              href="/about/"
+              href="/about/" onClick={(event) => handleHeroNavClick(event, "/about/")}
               className="flex items-center gap-2 rounded-full px-7 py-3 font-medium text-white transition-all duration-300 hover:-translate-y-1 hover:bg-white/10 lg:px-6 lg:py-2.5 lg:[font-size:0.92rem]"
               style={{
                 border: "1.5px solid rgba(255,255,255,0.55)",
