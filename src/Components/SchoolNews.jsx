@@ -6,6 +6,7 @@ import {
   School,
   Umbrella,
 } from "lucide-react";
+import MotionText from "./MotionText";
 
 const featuredStory = {
   category: "BECE Update",
@@ -59,10 +60,10 @@ const briefs = [
   "Admissions desk opens extra enquiry hours this week",
 ];
 
-function PurpleSpiderMark() {
+function SpiderNewsMark() {
   return (
     <svg
-      className="spider-news-mark h-14 w-14 shrink-0 text-[#5448a3] sm:h-16 sm:w-16 lg:h-[74px] lg:w-[74px]"
+      className="spider-news-mark h-10 w-10 shrink-0 text-[#7b70cc] sm:h-11 sm:w-11 lg:h-12 lg:w-12"
       viewBox="0 0 512 512"
       fill="currentColor"
       stroke="currentColor"
@@ -77,7 +78,7 @@ function PurpleSpiderMark() {
 
 export default function SchoolNews() {
   return (
-    <section className="relative overflow-hidden bg-[#f4f1fb] px-5 py-16 text-[#171727] sm:px-8 lg:px-20 lg:py-20">
+    <section id="news" className="relative overflow-hidden bg-[#fffefa] px-5 py-16 text-[#171727] sm:px-8 lg:px-20 lg:py-20">
       <style>
         {`
           @keyframes spiderNewsDrift {
@@ -104,27 +105,32 @@ export default function SchoolNews() {
         <div>
           <div>
             <div className="flex items-center gap-4 sm:gap-5">
-              <PurpleSpiderMark />
+              <SpiderNewsMark />
               <div>
-                <p className="text-[1.85rem] font-extrabold uppercase leading-none tracking-[0.16em] text-[#6657c8] sm:text-[2.35rem] lg:text-[2.8rem]">
+                <MotionText
+                  as="p"
+                  className="text-[1.25rem] font-extrabold uppercase leading-none tracking-[0.14em] text-[#7b70cc] sm:text-[1.5rem] lg:text-[1.85rem]"
+                >
                   Spider News
-                </p>
-                <div className="mt-4 h-0.5 w-20 bg-[#6657c8]" />
+                </MotionText>
+                <div className="mt-3 h-0.5 w-16 bg-[#7b70cc]" />
               </div>
             </div>
-            <h2
-              className="mt-6 max-w-[680px] text-[2.4rem] font-bold leading-[1.04] sm:text-[3rem] lg:text-[3.4rem]"
+            <MotionText
+              as="h2"
+              delay={0.08}
+              className="mt-6 max-w-[560px] text-[2.05rem] font-bold leading-[1.04] sm:text-[2.55rem] lg:text-[2rem]"
               style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
             >
               Fresh updates from the AGS web.
-            </h2>
+            </MotionText>
           </div>
         </div>
 
         <div className="mt-10 grid gap-5 lg:grid-cols-[1.35fr_0.65fr]">
-          <article className="rounded-lg border border-[#ded8ef] bg-white p-6 shadow-[0_24px_70px_rgba(86,72,150,0.1)] sm:p-8">
+          <article className="rounded-lg border border-[#e4dfd2] bg-white p-6 shadow-[0_24px_70px_rgba(67,56,37,0.08)] sm:p-8">
             <div className="flex flex-wrap items-center gap-3">
-              <span className="inline-flex items-center gap-2 rounded-md bg-[#eeeaff] px-3 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-[#6657c8]">
+              <span className="inline-flex items-center gap-2 rounded-full bg-[#eeeaff] px-3 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-[#7b70cc]">
                 <Newspaper size={15} strokeWidth={2.3} />
                 {featuredStory.category}
               </span>
@@ -137,28 +143,34 @@ export default function SchoolNews() {
               </time>
             </div>
 
-            <h3
+            <MotionText
+              as="h3"
+              delay={0.08}
               className="mt-7 max-w-[780px] text-[2rem] font-bold leading-tight text-[#171727] sm:text-[2.45rem]"
               style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
             >
               {featuredStory.title}
-            </h3>
-            <p className="mt-5 max-w-[820px] text-base leading-8 text-[#555568]">
+            </MotionText>
+            <MotionText
+              as="p"
+              delay={0.14}
+              className="mt-5 max-w-[820px] text-base leading-8 text-[#555568]"
+            >
               {featuredStory.body}
-            </p>
+            </MotionText>
             <a
-              href="#contacts"
-              className="mt-7 inline-flex min-h-11 items-center gap-2 rounded-md bg-[#6657c8] px-5 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#7869d7]"
+              href="/contacts/"
+              className="mt-7 inline-flex min-h-11 items-center gap-2 rounded-full bg-[#7b70cc] px-5 text-sm font-bold text-white shadow-[0_16px_36px_rgba(123,112,204,0.22)] transition hover:-translate-y-0.5 hover:bg-[#6657c8]"
             >
               Contact the school office
               <ArrowRight size={16} strokeWidth={2.4} />
             </a>
           </article>
 
-          <aside className="rounded-lg border border-[#ded8ef] bg-[#fffefa] p-6">
-            <p className="text-xs font-extrabold uppercase tracking-[0.24em] text-[#6657c8]">
+          <aside className="rounded-lg border border-[#e4dfd2] bg-white p-6">
+            <MotionText as="p" className="text-xs font-extrabold uppercase tracking-[0.24em] text-[#7b70cc]">
               Published Briefs
-            </p>
+            </MotionText>
             <div className="mt-5 space-y-4">
               {briefs.map((brief) => (
                 <div key={brief} className="border-l-2 border-[#c7bff1] pl-4">
@@ -178,12 +190,12 @@ export default function SchoolNews() {
             return (
               <article
                 key={item.title}
-                className="rounded-lg border border-[#ded8ef] bg-white p-6 transition hover:-translate-y-1 hover:border-[#c7bff1] hover:shadow-[0_20px_52px_rgba(86,72,150,0.12)]"
+                className="rounded-lg border border-[#e4dfd2] bg-white p-6 transition hover:-translate-y-1 hover:border-[#c7bff1] hover:shadow-[0_20px_52px_rgba(86,72,150,0.1)]"
               >
                 <div className={`flex h-11 w-11 items-center justify-center rounded-md ${item.bg} ${item.color}`}>
                   <Icon size={22} strokeWidth={2.2} />
                 </div>
-                <p className="mt-5 text-xs font-extrabold uppercase tracking-[0.2em] text-[#6657c8]">
+                <p className="mt-5 text-xs font-extrabold uppercase tracking-[0.2em] text-[#7b70cc]">
                   {item.category}
                 </p>
                 <h3 className="mt-3 text-xl font-bold leading-snug text-[#171727]">

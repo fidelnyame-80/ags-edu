@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Images } from "../assets/Images/Images";
+import MotionText from "./MotionText";
 
 const SCHOOL_BG = Images.heroImg1;
 const WELCOME_TEXT = "Welcome to Accra Grammar School";
@@ -101,14 +102,20 @@ export default function HeroSection() {
       >
         {/* Left: Text */}
         <div className="flex-1 max-w-xl">
-          <div className="mb-5 flex items-center gap-4 text-blue-100/72">
+          <MotionText
+            amount={0.6}
+            className="mb-5 flex items-center gap-4 text-blue-100/72"
+          >
             <span className="h-px w-11 bg-current" aria-hidden="true" />
             <p className="text-xs font-semibold uppercase tracking-[0.34em]">
               EST. 1996 <span aria-hidden="true">&middot;</span> ACCRA, GHANA
             </p>
-          </div>
+          </MotionText>
 
-          <h1
+          <MotionText
+            as="h1"
+            amount={0.6}
+            delay={0.08}
             className="mb-1 font-bold leading-tight text-white lg:[font-size:clamp(1.85rem,3vw,4.35rem)] lg:[min-height:clamp(4.2rem,7vw,9.5rem)]"
             style={{
               fontFamily: "Georgia, 'Times New Roman', serif",
@@ -125,7 +132,7 @@ export default function HeroSection() {
                 aria-hidden="true"
               />
             )}
-          </h1>
+          </MotionText>
 
           <div className="mb-4 lg:mb-3" style={{ minHeight: "2.25rem" }}>
             <p
@@ -155,7 +162,10 @@ export default function HeroSection() {
             style={{ height: "4px", width: "56px", background: "#3b82f6" }}
           />
 
-          <p
+          <MotionText
+            as="p"
+            amount={0.6}
+            delay={0.16}
             className="mb-10 leading-relaxed text-blue-100 lg:mb-6 lg:[font-size:clamp(0.92rem,1.15vw,1.03rem)]"
             style={{
               fontFamily: "'DM Sans', sans-serif",
@@ -167,10 +177,11 @@ export default function HeroSection() {
           >
             Accra Grammar School is committed to academic excellence, character
             development, and leadership in a supportive community.
-          </p>
+          </MotionText>
 
           <div className="flex flex-wrap gap-4 lg:gap-3">
-            <button
+            <a
+              href="/admissions/"
               className="flex items-center gap-2 rounded-full px-7 py-3 font-medium text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(30,100,220,0.45)] lg:px-6 lg:py-2.5 lg:[font-size:0.92rem]"
               style={{
                 background: "linear-gradient(135deg, #2563eb, #1d4ed8)",
@@ -187,9 +198,10 @@ export default function HeroSection() {
                   strokeLinejoin="round"
                 />
               </svg>
-            </button>
+            </a>
 
-            <button
+            <a
+              href="/about/"
               className="flex items-center gap-2 rounded-full px-7 py-3 font-medium text-white transition-all duration-300 hover:-translate-y-1 hover:bg-white/10 lg:px-6 lg:py-2.5 lg:[font-size:0.92rem]"
               style={{
                 border: "1.5px solid rgba(255,255,255,0.55)",
@@ -208,7 +220,7 @@ export default function HeroSection() {
                   strokeLinejoin="round"
                 />
               </svg>
-            </button>
+            </a>
           </div>
         </div>
       </div>

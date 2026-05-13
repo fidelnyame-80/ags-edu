@@ -11,26 +11,36 @@ import { Images } from "../assets/Images/Images";
 const footerLinks = [
   {
     title: "School",
-    links: ["About", "Academics", "Admissions", "Community"],
+    links: [
+      { label: "About", href: "/about/" },
+      { label: "Academics", href: "/academics/" },
+      { label: "Admissions", href: "/admissions/" },
+      { label: "Community", href: "/community/" },
+    ],
   },
   {
     title: "Resources",
-    links: ["Student Life", "Alumni", "News", "Contacts"],
+    links: [
+      { label: "Student Life", href: "/community/#events" },
+      { label: "Alumni", href: "/community/#ags-alumni" },
+      { label: "News", href: "/community/#news" },
+      { label: "Contacts", href: "/contacts/" },
+    ],
   },
 ];
 
 const contactItems = [
   {
     icon: MapPin,
-    text: "Accra, Ghana",
+    text: "Oyibi, Accra, Ghana",
   },
   {
     icon: Phone,
-    text: "+233 000 000 000",
+    text: "+233 (0)27-700-0034",
   },
   {
     icon: Mail,
-    text: "info@agsedu.org",
+    text: "admin@agsedu.org",
   },
 ];
 
@@ -167,7 +177,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative isolate overflow-hidden bg-[#fffefa] px-5 py-12 text-[#171727] sm:px-8 lg:px-20">
+    <footer id="contacts" className="relative isolate overflow-hidden bg-[#fffefa] px-5 py-12 text-[#171727] sm:px-8 lg:px-20">
       <FooterMotionStyles />
       <FooterArtwork />
       <div className="relative z-10 mx-auto max-w-[1180px]">
@@ -197,14 +207,14 @@ export default function Footer() {
 
             <div className="mt-7 flex flex-wrap gap-3">
               <a
-                href="#admissions"
+                href="/admissions/"
                 className="inline-flex min-h-11 items-center gap-2 rounded-full bg-blue-600 px-5 text-sm font-bold text-white shadow-[0_16px_36px_rgba(37,99,235,0.22)] transition hover:-translate-y-0.5 hover:bg-blue-500"
               >
                 Admissions
                 <ArrowUpRight size={16} strokeWidth={2.4} />
               </a>
               <a
-                href="#academics"
+                href="/academics/"
                 className="inline-flex min-h-11 items-center gap-2 rounded-full border border-[#cfc7ea] bg-white px-5 text-sm font-bold text-[#5f54bf] transition hover:-translate-y-0.5 hover:bg-[#f4f1ff]"
               >
                 Academics
@@ -222,11 +232,11 @@ export default function Footer() {
                 <div className="mt-5 grid gap-3">
                   {group.links.map((link) => (
                     <a
-                      key={link}
-                      href="#"
+                      key={link.label}
+                      href={link.href}
                       className="text-sm text-[#555568] transition hover:text-[#171727]"
                     >
-                      {link}
+                      {link.label}
                     </a>
                   ))}
                 </div>

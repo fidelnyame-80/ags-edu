@@ -59,7 +59,7 @@ const liveStyle = (transitionDelay, minDuration = 6.4, maxDuration = 10.8) => ({
   "--intro-live-delay": `${randomBetween(-4.4, -0.4)}s`,
 });
 
-function IntroMotionStyles() {
+export function IntroMotionStyles() {
   return (
     <style>
       {`
@@ -150,7 +150,7 @@ function IntroMotionStyles() {
   );
 }
 
-function IntroBackgroundArtwork({ isVisible }) {
+export function IntroBackgroundArtwork({ isVisible }) {
   const popClass = isVisible ? "opacity-100 scale-100" : "opacity-0 scale-75";
   const motion = useMemo(
     () => ({
@@ -399,6 +399,7 @@ export default function Intro() {
 
   return (
     <section
+      id="about"
       ref={introRef}
       className="relative isolate overflow-hidden bg-[#fffefa] px-5 py-14 text-[#171727] sm:px-8 lg:h-[620px] lg:px-0 lg:py-0"
     >
@@ -494,7 +495,7 @@ export default function Intro() {
                   lasting mastery.
                 </p>
                 <a
-                  href="#academics"
+                  href="/academics/"
                   className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#5f54bf] transition hover:text-[#7164d2] lg:mt-4 lg:text-[0.68rem]"
                 >
                   Explore Academics

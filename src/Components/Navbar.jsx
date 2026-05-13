@@ -1,22 +1,114 @@
-import { Menu, User, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { ChevronDown, Menu, User, X } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Images } from "../assets/Images/Images";
 
-export default function Navbar() {
+const navLinks = [
+  { label: "Home", href: "/", page: "home" },
+  {
+    label: "About",
+    href: "/about/",
+    page: "about",
+    dropdown: [
+      { label: "Welcome", href: "/about/#welcome" },
+      { label: "Mission", href: "/about/#mission" },
+      { label: "Vision", href: "/about/#vision" },
+      { label: "Awards", href: "/about/#awards" },
+      { label: "Discover", href: "/about/#discover" },
+    ],
+  },
+  {
+    label: "Academics",
+    href: "/academics/",
+    page: "academics",
+    dropdown: [
+      { label: "Pre School", href: "/academics/#pre-school" },
+      { label: "Primary School", href: "/academics/#primary-school" },
+      { label: "Junior High School", href: "/academics/#junior-high-school" },
+      { label: "Academic Calendar", href: "/academics/#academic-calendar" },
+      { label: "Counseling", href: "/academics/#counseling" },
+      { label: "Co-Curricular", href: "/academics/#co-curricular" },
+    ],
+  },
+  { label: "Admissions", href: "/admissions/", page: "admissions" },
+  {
+    label: "Community",
+    href: "/community/",
+    page: "community",
+    dropdown: [
+      { label: "Parents Forum", href: "/community/#parents-forum" },
+      { label: "AGS Alumni", href: "/community/#ags-alumni" },
+      { label: "Sports", href: "/community/#sports" },
+      { label: "Transport", href: "/community/#transport" },
+      { label: "Cafeteria", href: "/community/#cafeteria" },
+      { label: "Events", href: "/community/#events" },
+      { label: "News", href: "/community/#news" },
+      {
+        label: "Janet C Rickert Library",
+        href: "/community/#janet-c-rickert-library",
+      },
+    ],
+  },
+  { label: "Contacts", href: "/contacts/", page: "contacts" },
+];
+
+const navigate = (href) => {
+  if (typeof window === "undefined" || !href.startsWith("/")) return;
+
+  const targetUrl = new URL(href, window.location.origin);
+  window.history.pushState({}, "", `${targetUrl.pathname}${targetUrl.hash}`);
+  window.dispatchEvent(new Event("ags:navigate"));
+
+  window.setTimeout(() => {
+    if (targetUrl.hash) {
+      const target = document.querySelector(targetUrl.hash);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+    }
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, 80);
+};
+
+export default function Navbar({ currentPage = "home" }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [openMobileDropdown, setOpenMobileDropdown] = useState(null);
   const mobileMenuRef = useRef(null);
 
-  const navLinks = [
-    "Home",
-    "About",
-    "Academics",
-    "Admissions",
-    "Community",
-    "Contacts",
-  ];
+  const toggleMenu = () => {
+    setIsMenuOpen((current) => !current);
 
-  const toggleMenu = () => setIsMenuOpen((current) => !current);
-  const closeMenu = () => setIsMenuOpen(false);
+    if (isMenuOpen) {
+      setOpenMobileDropdown(null);
+    }
+  };
+  const closeMenu = useCallback(() => {
+    setIsMenuOpen(false);
+    setOpenMobileDropdown(null);
+  }, []);
+  const toggleMobileDropdown = (label) => {
+    setOpenMobileDropdown((current) => (current === label ? null : label));
+  };
+  const handleNavClick = (event, href) => {
+    if (!href.startsWith("/")) return;
+
+    event.preventDefault();
+    closeMenu();
+    navigate(href);
+  };
+
+  useEffect(() => {
+    const handleRouteChange = () => closeMenu();
+
+    window.addEventListener("popstate", handleRouteChange);
+    window.addEventListener("ags:navigate", handleRouteChange);
+
+    return () => {
+      window.removeEventListener("popstate", handleRouteChange);
+      window.removeEventListener("ags:navigate", handleRouteChange);
+    };
+  }, [closeMenu]);
 
   useEffect(() => {
     if (!isMenuOpen) {
@@ -39,56 +131,83 @@ export default function Navbar() {
       document.removeEventListener("mousedown", handleOutsideClick);
       document.removeEventListener("touchstart", handleOutsideClick);
     };
-  }, [isMenuOpen]);
+  }, [closeMenu, isMenuOpen]);
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#061a34]/78 px-4 py-3 shadow-[0_12px_32px_rgba(2,10,24,0.16)] backdrop-blur-md sm:px-6 lg:py-2">
       <div ref={mobileMenuRef} className="relative mx-auto max-w-[1200px]">
         <div className="flex items-center justify-between gap-4">
-          {/* Left Logo / School Info */}
-          <div className="flex min-w-0 items-center gap-3 sm:gap-4">
-            {/* Logo */}
-            <div className="h-14 w-14 shrink-0 sm:h-[3.75rem] sm:w-14">
-              <img
-                src={Images.agsLogo}
-                alt="Accra Grammar School Logo"
-                className="h-full w-full object-contain"
-              />
-            </div>
-
-            {/* Divider */}
-            <div className="my-2 hidden h-16 w-px bg-white/30 sm:block" />
-
-            {/* School Text */}
-            <div className="min-w-0 sm:w-[15rem]">
-              <h1 className="text-sm font-semibold tracking-wide text-white sm:text-base">
-                ACCRA GRAMMAR SCHOOL
-              </h1>
-              <p className="mt-1 text-xs text-white/80 sm:mt-2 sm:text-sm">
-                Integrity. Leadership. Excellence.
-              </p>
-            </div>
+          {/* Left Logo */}
+          <div className="flex min-w-0 items-center">
+            <a
+              href="/"
+              onClick={(event) => handleNavClick(event, "/")}
+              className="flex min-w-0 items-center gap-2.5 sm:gap-3"
+              aria-label="Accra Grammar School home"
+            >
+              {/* Logo */}
+              <div className="h-12 w-12 shrink-0 sm:h-14 sm:w-14">
+                <img
+                  src={Images.agsLogo}
+                  alt="Accra Grammar School Logo"
+                  className="h-full w-full object-contain"
+                />
+              </div>
+              <span className="whitespace-nowrap text-[0.66rem] font-extrabold uppercase tracking-[0.07em] text-white sm:text-xs lg:text-[0.58rem] xl:text-xs">
+                Accra Grammar School
+              </span>
+            </a>
           </div>
 
           {/* Navigation Links */}
-          <div className="hidden items-center gap-10 lg:flex">
-            {navLinks.map((link) => (
-              <a
-                key={link}
-                href="#"
-                className={`relative text-sm font-medium transition ${
-                  link === "Home"
-                    ? "text-blue-400"
-                    : "text-white hover:text-blue-400"
-                }`}
-              >
-                {link}
+          <div className="hidden items-center gap-6 xl:gap-9 lg:flex">
+            {navLinks.map((link) => {
+              const isActive = link.page === currentPage;
 
-                {link === "Home" && (
-                  <span className="absolute -bottom-5 left-0 h-1 w-full rounded-full bg-blue-500" />
-                )}
-              </a>
-            ))}
+              return (
+                <div key={link.label} className="group relative">
+                  <a
+                    href={link.href}
+                    onClick={(event) => handleNavClick(event, link.href)}
+                    className={`relative inline-flex items-center gap-1.5 text-sm font-medium transition ${
+                      isActive
+                        ? "text-blue-400"
+                        : "text-white hover:text-blue-400"
+                    }`}
+                  >
+                    {link.label}
+                    {link.dropdown && (
+                      <ChevronDown
+                        size={15}
+                        strokeWidth={2.2}
+                        className="transition group-hover:rotate-180"
+                      />
+                    )}
+
+                    {isActive && (
+                      <span className="absolute -bottom-5 left-0 h-1 w-full rounded-full bg-blue-500" />
+                    )}
+                  </a>
+
+                  {link.dropdown && (
+                    <div className="invisible absolute left-1/2 top-full z-40 min-w-52 -translate-x-1/2 pt-5 opacity-0 transition duration-200 group-hover:visible group-hover:opacity-100">
+                      <div className="border border-[#dcd6f3] bg-white p-2 text-[#171727] shadow-[0_22px_70px_rgba(1,8,20,0.18)]">
+                        {link.dropdown.map((item) => (
+                          <a
+                            key={item.label}
+                            href={item.href}
+                            onClick={(event) => handleNavClick(event, item.href)}
+                            className="block px-4 py-3 text-sm font-semibold transition hover:bg-[#f4f1fb] hover:text-[#6657c8]"
+                          >
+                            {item.label}
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
 
           {/* Login Button */}
@@ -121,20 +240,61 @@ export default function Navbar() {
         >
           <div className="rounded-[1.75rem] border border-white/12 bg-[#081a35]/92 p-4 shadow-[0_24px_60px_rgba(1,8,20,0.55)] backdrop-blur-xl">
             <div className="flex flex-col gap-2">
-              {navLinks.map((link) => (
-                <a
-                  key={link}
-                  href="#"
-                  onClick={closeMenu}
-                  className={`rounded-2xl px-4 py-3 text-sm font-medium transition ${
-                    link === "Home"
-                      ? "bg-blue-500/15 text-blue-400"
-                      : "text-white hover:bg-white/5 hover:text-blue-400"
-                  }`}
-                >
-                  {link}
-                </a>
-              ))}
+              {navLinks.map((link) => {
+                const isActive = link.page === currentPage;
+                const isDropdownOpen = openMobileDropdown === link.label;
+
+                return (
+                  <div key={link.label}>
+                    <div
+                      className={`flex items-center rounded-2xl transition ${
+                        isActive
+                          ? "bg-blue-500/15 text-blue-400"
+                          : "text-white hover:bg-white/5 hover:text-blue-400"
+                      }`}
+                    >
+                      <a
+                        href={link.href}
+                        onClick={(event) => handleNavClick(event, link.href)}
+                        className="block min-w-0 flex-1 px-4 py-3 text-sm font-medium"
+                      >
+                        {link.label}
+                      </a>
+
+                      {link.dropdown && (
+                        <button
+                          type="button"
+                          aria-label={`${isDropdownOpen ? "Collapse" : "Expand"} ${link.label} menu`}
+                          aria-expanded={isDropdownOpen}
+                          onClick={() => toggleMobileDropdown(link.label)}
+                          className="mr-2 flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-current transition hover:bg-white/10"
+                        >
+                          <ChevronDown
+                            size={16}
+                            strokeWidth={2.2}
+                            className={`transition ${isDropdownOpen ? "rotate-180" : ""}`}
+                          />
+                        </button>
+                      )}
+                    </div>
+
+                    {link.dropdown && isDropdownOpen && (
+                      <div className="ml-4 mt-1 grid gap-1 border-l border-white/10 pl-3">
+                        {link.dropdown.map((item) => (
+                          <a
+                            key={item.label}
+                            href={item.href}
+                            onClick={(event) => handleNavClick(event, item.href)}
+                            className="rounded-xl px-4 py-2 text-xs font-semibold text-white/78 transition hover:bg-white/5 hover:text-blue-300"
+                          >
+                            {item.label}
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
 
             <button

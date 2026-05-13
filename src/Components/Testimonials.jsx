@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Images } from "../assets/Images/Images";
+import MotionText from "./MotionText";
 
 const TESTIMONIALS = [
   {
@@ -52,11 +53,12 @@ export default function Testimonials() {
 
   return (
     <section
+      id="community"
       ref={sectionRef}
       className="relative isolate min-h-[520px] overflow-hidden px-5 py-14 text-white sm:px-8 lg:min-h-[560px] lg:px-20"
     >
       <img
-        src={Images.heroImg1}
+        src={Images.graduation3}
         alt=""
         className="absolute inset-0 h-full w-full object-cover object-center"
         aria-hidden="true"
@@ -75,9 +77,9 @@ export default function Testimonials() {
           isSectionVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
         }`}
       >
-        <p className="text-xs font-bold uppercase tracking-[0.28em] text-blue-200">
+        <MotionText as="p" className="text-xs font-bold uppercase tracking-[0.28em] text-blue-200">
           Alumni Testimonials
-        </p>
+        </MotionText>
         <div className="mt-4 h-1 w-14 rounded-full bg-blue-500" />
 
         <div className="mt-9 max-w-[830px]">
@@ -99,7 +101,9 @@ export default function Testimonials() {
               </span>
 
               <div className="min-w-0">
-                <blockquote
+                <MotionText
+                  as="blockquote"
+                  delay={0.08}
                   className="font-semibold leading-[1.38] text-white sm:leading-[1.42]"
                   style={{
                     fontFamily: "Georgia, 'Times New Roman', serif",
@@ -109,7 +113,7 @@ export default function Testimonials() {
                   }}
                 >
                   {activeTestimonial.quote}
-                </blockquote>
+                </MotionText>
 
                 <div className="mt-6 border-l border-white/28 pl-5">
                   <p className="text-sm font-semibold text-white sm:text-base">
