@@ -12,6 +12,17 @@ import {
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Images } from "../assets/Images/Images";
 
+//function to handle hero nav link clicks, preventing default and using history API for smooth navigation and scroll to top
+const handleHeroNavClick = (event, href) => {
+  event.preventDefault();
+
+  const targetUrl = new URL(href, window.location.origin);
+  window.history.pushState({}, "", `${targetUrl.pathname}${targetUrl.hash}`);
+  window.dispatchEvent(new Event("ags:navigate"));
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
 const promiseStats = [
   {
     icon: Users,
@@ -441,7 +452,7 @@ export default function Intro() {
             style={{ transitionDelay: "220ms" }}
           >
             <a
-              href="#about"
+              href="#about" onClick={(event) => handleHeroNavClick(event, "/about/")}
               className="inline-flex min-h-11 items-center gap-2 rounded-md bg-[#5f54bf] px-5 text-xs font-bold text-white shadow-[0_16px_30px_rgba(95,84,191,0.2)] transition hover:-translate-y-0.5 hover:bg-[#7164d2] lg:min-h-10 lg:px-4 lg:text-[0.68rem]"
             >
               Learn More About Us
@@ -449,7 +460,7 @@ export default function Intro() {
             </a>
 
             <a
-              href="#values"
+              href="#values" onClick={(event) => handleHeroNavClick(event, "/about/")}
               className="inline-flex min-h-11 items-center gap-3 rounded-md border border-[#7468d0] bg-white px-5 text-xs font-bold text-[#6657c8] transition hover:-translate-y-0.5 hover:bg-[#f4f1ff] lg:min-h-10 lg:px-4 lg:text-[0.68rem]"
             >
               Our Values
