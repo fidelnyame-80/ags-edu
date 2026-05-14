@@ -2,80 +2,33 @@ import { useEffect, useRef, useState } from "react";
 import academicPathwayIcon from "../assets/academic-pathway-icon.svg";
 import { ImageCollections, Images } from "../assets/Images/Images";
 
-const getViewportMode = () => {
-  if (typeof window === "undefined") return "desktop";
-
-  const viewportWidth = Math.min(
-    window.innerWidth,
-    document.documentElement.clientWidth || window.innerWidth
-  );
-
-  if (viewportWidth < 768) return "mobile";
-  if (viewportWidth < 1180) return "compact";
-
-  return "desktop";
-};
-
-const albumImages = [
+const pathwayCards = [
   {
-    title: "Graduation Moment",
-    src: ImageCollections.graduation[0],
-    alt: "AGS student receiving recognition during graduation",
-    shape: "landscape",
-  },
-  {
-    title: "Focused Learning",
-    src: Images.academicExcellence,
+    step: "01",
+    label: "Discover",
+    title: "Focused foundations",
+    src: Images.playground,
     alt: "AGS student in a focused classroom learning session",
-    shape: "portrait",
+    description:
+      "Core classroom habits help students build confidence, curiosity, and steady academic discipline.",
   },
   {
-    title: "Campus Life",
+    step: "02",
+    label: "Grow",
+    title: "A campus built for readiness",
     src: ImageCollections.campus[0],
     alt: "AGS campus grounds",
-    shape: "landscape",
+    description:
+      "Learning extends across shared spaces where students practice leadership, service, and collaboration.",
   },
   {
-    title: "Family Day Portrait",
-    src: Images.familyday6,
-    alt: "AGS family day community moment",
-    shape: "portrait",
-  },
-  {
-    title: "School Community",
-    src: ImageCollections.community[0],
-    alt: "AGS family day gathering",
-    shape: "landscape",
-  },
-  {
-    title: "Outdoor Play",
-    src: ImageCollections.playground[0],
-    alt: "AGS students enjoying the playground",
-    shape: "landscape",
-  },
-  {
-    title: "Sports Life",
-    src: ImageCollections.sports[0],
-    alt: "AGS students during sports activities",
-    shape: "landscape",
-  },
-  {
-    title: "Playground",
-    src: ImageCollections.playground[1],
-    alt: "AGS playground and outdoor learning space",
-    shape: "landscape",
-  },
-  {
-    title: "Campus Environment",
-    src: ImageCollections.campus[1],
-    alt: "AGS campus environment",
-    shape: "landscape",
-  },
-  {
-    title: "Alumni Celebration",
-    src: ImageCollections.graduation[1],
-    alt: "AGS graduation ceremony celebration",
-    shape: "landscape",
+    step: "03",
+    label: "Lead",
+    title: "Prepared for what comes next",
+    src: ImageCollections.graduation[0],
+    alt: "AGS student receiving recognition during graduation",
+    description:
+      "Students leave each stage equipped to think clearly, act responsibly, and keep growing.",
   },
 ];
 
@@ -86,12 +39,6 @@ function AcademicMotionStyles() {
         @keyframes academicUnderlineDraw {
           from { transform: scaleX(0); }
           to { transform: scaleX(1); }
-        }
-
-        @keyframes academicImageDrift {
-          0%, 100% { transform: translate3d(0, 0, 0); }
-          38% { transform: translate3d(var(--album-float-x, 4px), var(--album-float-y, -5px), 0); }
-          72% { transform: translate3d(calc(var(--album-float-x, 4px) * -0.45), calc(var(--album-float-y, -5px) * 0.55), 0); }
         }
 
         .academic-glide-up {
@@ -119,12 +66,6 @@ function AcademicMotionStyles() {
           animation: academicUnderlineDraw 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
         }
 
-        .academic-gallery-float {
-          animation: academicImageDrift var(--album-float-duration, 9200ms) ease-in-out infinite;
-          animation-delay: var(--album-float-delay, 0ms);
-          will-change: transform;
-        }
-
         @media (prefers-reduced-motion: reduce) {
           .academic-glide-up,
           .academic-underline-reveal {
@@ -132,115 +73,80 @@ function AcademicMotionStyles() {
             opacity: 1;
             transform: none;
           }
-
-          .academic-gallery-float {
-            animation: none !important;
-            transform: none;
-          }
         }
       `}
     </style>
   );
 }
-
-function AlbumStack({ viewportMode }) {
-  const visibleAlbumImages =
-    viewportMode === "mobile" ? albumImages.slice(0, 7) : albumImages;
-  const desktopLayouts = [
-    { left: "2%", top: 132, width: 292, z: 4 },
-    { left: "10%", top: 34, width: 198, z: 8 },
-    { left: "21%", top: 224, width: 340, z: 7 },
-    { left: "33%", top: 70, width: 194, z: 9 },
-    { left: "43%", top: 20, width: 314, z: 5 },
-    { left: "53%", top: 198, width: 194, z: 10 },
-    { left: "60%", top: 322, width: 331, z: 6 },
-    { left: "70%", top: 52, width: 194, z: 11 },
-    { left: "75%", top: 248, width: 318, z: 7 },
-    { left: "84%", top: 36, width: 198, z: 12 },
-  ];
-  const compactLayouts = [
-    { left: "2%", top: 134, width: 215, z: 4 },
-    { left: "9%", top: 34, width: 146, z: 8 },
-    { left: "18%", top: 224, width: 245, z: 7 },
-    { left: "29%", top: 68, width: 143, z: 9 },
-    { left: "39%", top: 20, width: 241, z: 5 },
-    { left: "50%", top: 198, width: 143, z: 10 },
-    { left: "57%", top: 332, width: 245, z: 6 },
-    { left: "67%", top: 54, width: 143, z: 11 },
-    { left: "74%", top: 258, width: 228, z: 7 },
-    { left: "83%", top: 40, width: 142, z: 12 },
-  ];
-  const mobileLayouts = [
-    { left: "2%", top: 112, width: 176, z: 5 },
-    { left: "40%", top: 26, width: 129, z: 8 },
-    { left: "15%", top: 306, width: 211, z: 7 },
-    { left: "58%", top: 142, width: 129, z: 9 },
-    { left: "3%", top: 474, width: 202, z: 6 },
-    { left: "45%", top: 404, width: 129, z: 10 },
-    { left: "22%", top: 620, width: 206, z: 7 },
-  ];
-  const layouts =
-    viewportMode === "mobile"
-      ? mobileLayouts
-      : viewportMode === "compact"
-        ? compactLayouts
-        : desktopLayouts;
-
+function AcademicCardRow() {
   return (
-    <div className="relative mx-auto mt-10 h-[800px] w-full max-w-[1540px] overflow-hidden sm:mt-12 sm:h-[630px] lg:mt-14 lg:h-[640px]">
-      {visibleAlbumImages.map((item, index) => {
-        const isPortrait = item.shape === "portrait";
-        const layout = layouts[index];
+    <div className="mx-auto mt-12 w-full max-w-[1180px] py-5 sm:mt-14 lg:mt-16">
+      <div className="flex flex-col items-center justify-center gap-6 md:flex-row md:gap-7">
+        {pathwayCards.map((card, index) => {
+          const isFeatured = index === 1;
 
-        return (
-          <article
-            key={item.title}
-            className={`academic-gallery-float absolute min-w-0 overflow-hidden bg-transparent ${
-              isPortrait ? "aspect-[0.72]" : "aspect-[1.48]"
-            }`}
-            style={{
-              left: layout.left,
-              top: `${layout.top}px`,
-              width: `${layout.width}px`,
-              zIndex: layout.z,
-              "--album-float-x": `${index % 2 === 0 ? 4 : -4}px`,
-              "--album-float-y": `${index % 3 === 0 ? -5 : 3}px`,
-              "--album-float-duration": `${8800 + index * 420}ms`,
-              "--album-float-delay": `${index * -520}ms`,
-            }}
-          >
-            <img
-              src={item.src}
-              alt={item.alt}
-              className="block h-full w-full object-cover"
-            />
-          </article>
-        );
-      })}
+          return (
+            <article
+              key={card.title}
+              className={`group relative overflow-hidden rounded-2xl border bg-white text-left hover:shadow-[0_30px_80px_rgba(65,57,102,0.18)] ${
+                isFeatured
+                  ? "z-10 w-full max-w-[390px] border-[#d6cef8] shadow-[0_30px_90px_rgba(95,84,191,0.2)] md:scale-110"
+                  : "w-full max-w-[340px] border-[#e7e0d6] shadow-[0_20px_56px_rgba(65,57,102,0.1)] md:scale-95"
+              }`}
+            >
+              <div
+                className={`overflow-hidden bg-[#e9e3d9] ${
+                  isFeatured
+                    ? "h-[300px] sm:h-[330px]"
+                    : "h-[240px] sm:h-[270px]"
+                }`}
+              >
+                <img
+                  src={card.src}
+                  alt={card.alt}
+                  className="h-full w-full object-cover object-[10%0%]"
+                />
+              </div>
+
+              <div className={isFeatured ? "p-7" : "p-5 sm:p-6"}>
+                <div className="flex items-center justify-between gap-4">
+                  <p className="text-[0.68rem] font-bold uppercase tracking-[0.28em] text-[#6657c8]">
+                    {card.label}
+                  </p>
+
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#f4f1ff] text-xs font-extrabold text-[#5f54bf]">
+                    {card.step}
+                  </span>
+                </div>
+
+                <h3
+                  className={`mt-4 font-bold leading-tight text-[#171727] ${
+                    isFeatured ? "text-2xl sm:text-[1.8rem]" : "text-xl"
+                  }`}
+                  style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+                >
+                  {card.title}
+                </h3>
+
+                <p className="mt-3 text-sm leading-6 text-[#5c5c6f]">
+                  {card.description}
+                </p>
+              </div>
+            </article>
+          );
+        })}
+      </div>
     </div>
   );
 }
 
 export default function AcademicFlip() {
   const headingRef = useRef(null);
-  const [viewportMode, setViewportMode] = useState(() => getViewportMode());
   const [isHeadingVisible, setIsHeadingVisible] = useState(() => {
     if (typeof window === "undefined") return false;
 
     return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   });
-
-  useEffect(() => {
-    const updateViewportMode = () => {
-      setViewportMode(getViewportMode());
-    };
-
-    window.addEventListener("resize", updateViewportMode);
-
-    return () => {
-      window.removeEventListener("resize", updateViewportMode);
-    };
-  }, []);
 
   useEffect(() => {
     const headingNode = headingRef.current;
@@ -323,7 +229,7 @@ export default function AcademicFlip() {
           </p>
         </div>
 
-        <AlbumStack viewportMode={viewportMode} />
+        <AcademicCardRow isVisible={isHeadingVisible} />
       </div>
     </section>
   );
