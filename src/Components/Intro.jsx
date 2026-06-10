@@ -26,7 +26,7 @@ const handleHeroNavClick = (event, href) => {
 const promiseStats = [
   {
     icon: Users,
-    value: "60+ Years",
+    value: "20+ Years",
     label: "of Excellence",
     color: "text-[#6657c8]",
     bg: "bg-[#eeeaff]",

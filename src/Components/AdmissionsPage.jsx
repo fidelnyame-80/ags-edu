@@ -220,18 +220,22 @@ export default function AdmissionsPage() {
           >
             <div className="grid gap-5 md:grid-cols-2">
               <label className="grid gap-2 text-sm font-bold text-[#171727]">
-                Parent or guardian name
+                Parent or guardian name *
                 <input
                   type="text"
                   name="guardian"
+                  required
+                  autoComplete="name"
                   className="min-h-12 border border-[#d9d4e8] bg-[#fffefa] px-4 text-sm font-medium outline-none transition focus:border-[#6657c8]"
                 />
               </label>
               <label className="grid gap-2 text-sm font-bold text-[#171727]">
-                Email address
+                Email address *
                 <input
                   type="email"
                   name="email"
+                  required
+                  autoComplete="email"
                   className="min-h-12 border border-[#d9d4e8] bg-[#fffefa] px-4 text-sm font-medium outline-none transition focus:border-[#6657c8]"
                 />
               </label>
@@ -240,6 +244,7 @@ export default function AdmissionsPage() {
                 <input
                   type="tel"
                   name="phone"
+                  autoComplete="tel"
                   className="min-h-12 border border-[#d9d4e8] bg-[#fffefa] px-4 text-sm font-medium outline-none transition focus:border-[#6657c8]"
                 />
               </label>
@@ -269,10 +274,11 @@ export default function AdmissionsPage() {
                 </select>
               </label>
               <label className="grid gap-2 text-sm font-bold text-[#171727] md:col-span-2">
-                Message
+                Message *
                 <textarea
                   name="message"
                   rows="5"
+                  required
                   className="resize-none border border-[#d9d4e8] bg-[#fffefa] px-4 py-3 text-sm font-medium outline-none transition focus:border-[#6657c8]"
                 />
               </label>

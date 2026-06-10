@@ -147,6 +147,53 @@ const primaryEnhancedStudies = [
   "Information & Computer Technology",
 ];
 
+const juniorProgramPoints = [
+  {
+    title: "International Outlook",
+    body:
+      "AGS prepares learners to compete confidently anywhere in the world, combining national curriculum goals with international teaching ideas.",
+  },
+  {
+    title: "Subject Specialists",
+    body:
+      "Junior High learners receive subject-level teaching from specialist graduates from Grade 6 upwards.",
+  },
+  {
+    title: "BECE Readiness",
+    body:
+      "Students are equipped with the tools and required grades for the national BECE exam and Senior High School admissions.",
+  },
+  {
+    title: "Beyond National Exams",
+    body:
+      "Learners who choose other pathways are supported to compete with Cambridge and IB/AP curriculum expectations.",
+  },
+];
+
+const juniorGradeRows2023 = [
+  { subject: "English", grade1: 41, grade2: 6, grade3: 0, pass: "100.00%" },
+  { subject: "Social Studies", grade1: 18, grade2: 15, grade3: 12, pass: "95.74%" },
+  { subject: "RME", grade1: 16, grade2: 20, grade3: 10, pass: "97.87%" },
+  { subject: "Mathematics", grade1: 5, grade2: 9, grade3: 8, pass: "46.81%" },
+  { subject: "Science", grade1: 28, grade2: 15, grade3: 4, pass: "100.00%" },
+  { subject: "ICT", grade1: 34, grade2: 3, grade3: 9, pass: "97.87%" },
+  { subject: "French", grade1: 13, grade2: 26, grade3: 5, pass: "93.62%" },
+  { subject: "Ghanaian Language", grade1: 6, grade2: 15, grade3: 17, pass: "80.85%" },
+  { subject: "Design Technologies", grade1: 39, grade2: 8, grade3: 0, pass: "100.00%" },
+];
+
+const juniorPassRates2020To2023 = [
+  { subject: "English", pass: "100.00%" },
+  { subject: "Social Studies", pass: "95.74%" },
+  { subject: "RME", pass: "97.87%" },
+  { subject: "Mathematics", pass: "88.81%" },
+  { subject: "Science", pass: "100.00%" },
+  { subject: "ICT", pass: "98.87%" },
+  { subject: "French", pass: "93.62%" },
+  { subject: "Ghanaian Language", pass: "80.85%" },
+  { subject: "Design Technologies", pass: "96.00%" },
+];
+
 function PreschoolDecorations() {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
@@ -798,6 +845,159 @@ function PrimaryPage({ division }) {
   );
 }
 
+function JuniorProgramSection() {
+  return (
+    <section className="relative isolate px-5 pb-10 sm:px-8 lg:px-20">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+        <svg
+          className="absolute left-[6%] top-8 h-20 w-20 text-[#ffd166]/62"
+          viewBox="0 0 72 72"
+          fill="none"
+        >
+          <path
+            d="M36 9 43 28l20 1-16 12 5 19-16-11-17 11 6-19L9 29l20-1 7-19Z"
+            stroke="currentColor"
+            strokeWidth="3"
+            strokeLinejoin="round"
+          />
+        </svg>
+        <svg
+          className="absolute right-[7%] bottom-10 h-20 w-28 text-[#43a966]/36"
+          viewBox="0 0 112 80"
+          fill="none"
+        >
+          <path
+            d="M7 49c16 13 34 10 51-8 15-16 29-20 47-9"
+            stroke="currentColor"
+            strokeWidth="4"
+            strokeLinecap="round"
+          />
+        </svg>
+      </div>
+
+      <div className="relative z-10 mx-auto grid max-w-[1180px] gap-5 lg:grid-cols-[0.82fr_1.18fr]">
+        <div className="rounded-[30px] border border-[#dcd6f3] bg-[#f2edff] p-6">
+          <p className="text-xs font-extrabold uppercase tracking-[0.24em] text-[#6657c8]">
+            Junior High Program
+          </p>
+          <h2
+            className="mt-4 text-[1.75rem] font-black leading-tight text-[#171727] sm:text-[2.25rem]"
+            style={{ fontFamily: "Montserrat, var(--font-sans)" }}
+          >
+            A global-minded pathway toward Senior High School.
+          </h2>
+          <p className="mt-4 text-sm leading-7 text-[#555568]">
+            AGS combines rigorous national preparation with international
+            curriculum influences, helping students build subject depth,
+            critical thinking, and the confidence to pursue competitive next
+            steps.
+          </p>
+        </div>
+
+        <div className="grid gap-3 sm:grid-cols-2">
+          {juniorProgramPoints.map((point, index) => (
+            <article
+              key={point.title}
+              className={`rounded-[24px] border p-4 ${
+                index % 2 === 0
+                  ? "border-[#cfdcf8] bg-[#eef5ff]"
+                  : "border-[#f0dfaa] bg-[#fff4cc]"
+              }`}
+            >
+              <p className="text-sm font-black text-[#171727]">{point.title}</p>
+              <p className="mt-2 text-xs leading-6 text-[#555568]">
+                {point.body}
+              </p>
+            </article>
+          ))}
+        </div>
+
+        <div className="lg:col-span-2">
+          <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
+            <div className="rounded-[30px] border border-[#e8e5f0] bg-white p-5 shadow-[0_18px_50px_rgba(86,72,150,0.07)]">
+              <div className="flex flex-wrap items-end justify-between gap-3">
+                <div>
+                  <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#6657c8]">
+                    2023 BECE
+                  </p>
+                  <h3 className="mt-2 text-xl font-black text-[#171727]">
+                    Aggregated Grades
+                  </h3>
+                </div>
+                <span className="rounded-full bg-[#eef5ff] px-4 py-2 text-xs font-extrabold text-[#2563eb]">
+                  Grade 1-3 + pass rate
+                </span>
+              </div>
+
+              <div className="mt-5 overflow-hidden rounded-[22px] border border-[#e8e5f0] bg-[#fffefa]">
+                <div className="grid grid-cols-[1.35fr_0.5fr_0.5fr_0.5fr_0.85fr] items-center border-b border-[#e8e5f0] bg-[#f7f4ed] px-4 py-3 text-[0.68rem] font-black uppercase tracking-[0.14em] text-[#6657c8]">
+                  <span>Subject</span>
+                  <span className="text-center">G1</span>
+                  <span className="text-center">G2</span>
+                  <span className="text-center">G3</span>
+                  <span className="text-right">Pass</span>
+                </div>
+
+                {juniorGradeRows2023.map((row) => (
+                  <div
+                    key={row.subject}
+                    className="grid grid-cols-[1.35fr_0.5fr_0.5fr_0.5fr_0.85fr] items-center border-b border-[#eeeaf6] px-4 py-3 last:border-b-0"
+                  >
+                    <p className="text-sm font-bold text-[#171727]">
+                      {row.subject}
+                    </p>
+                    <p className="text-center text-sm font-black text-[#171727]">
+                      {row.grade1}
+                    </p>
+                    <p className="text-center text-sm font-black text-[#171727]">
+                      {row.grade2}
+                    </p>
+                    <p className="text-center text-sm font-black text-[#171727]">
+                      {row.grade3}
+                    </p>
+                    <p className="text-right text-sm font-black text-[#2f8a52]">
+                      {row.pass}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-[30px] border border-[#dcd6f3] bg-[#f2edff] p-5">
+              <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#6657c8]">
+                2020-2023
+              </p>
+              <h3 className="mt-2 text-xl font-black text-[#171727]">
+                Pass Rate Snapshot
+              </h3>
+              <div className="mt-5 grid gap-3">
+                {juniorPassRates2020To2023.map((row) => (
+                  <div key={row.subject}>
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="text-xs font-bold text-[#555568]">
+                        {row.subject}
+                      </p>
+                      <p className="text-xs font-black text-[#171727]">
+                        {row.pass}
+                      </p>
+                    </div>
+                    <div className="mt-2 h-2 overflow-hidden rounded-full bg-white">
+                      <div
+                        className="h-full rounded-full bg-[#2563eb]"
+                        style={{ width: row.pass }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function JuniorHighPage({ division }) {
   return (
     <main className="relative overflow-hidden bg-[#fffefa] text-[#171727]">
@@ -870,6 +1070,8 @@ function JuniorHighPage({ division }) {
           </div>
         </div>
       </section>
+
+      <JuniorProgramSection />
 
       <section className="relative isolate px-5 pb-10 sm:px-8 lg:px-20">
         <div className="relative z-10 mx-auto grid max-w-[1180px] gap-4 lg:grid-cols-[1.1fr_0.9fr]">
