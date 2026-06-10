@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import HeroSection from './Components/Hero';
 import AcademicFlip from './Components/AcademicFlip';
+import AcademicDivisionPage from './Components/AcademicDivisionPage';
 import AcademicsPage from './Components/AcademicsPage';
 import AboutPage from './Components/AboutPage';
 import AdmissionsPage from './Components/AdmissionsPage';
@@ -12,28 +13,40 @@ import Navbar from './Components/Navbar';
 import SchoolNews from './Components/SchoolNews';
 import Testimonials from './Components/Testimonials';
 
-const getCurrentPage = () => {
-  if (typeof window === 'undefined') return 'home';
+const getCurrentRoute = () => {
+  if (typeof window === 'undefined') {
+    return { page: 'home', academicDivision: null };
+  }
 
   const pathSegments = window.location.pathname
     .split('/')
     .filter(Boolean)
     .map((segment) => segment.toLowerCase());
-  const [section] = pathSegments;
+  const [section, academicDivision] = pathSegments;
 
-  if (section === 'about') return 'about';
+  if (section === 'about') return { page: 'about', academicDivision: null };
   if (section === 'academics' || window.location.hash === '#academics') {
-    return 'academics';
+    const normalizedDivision = academicDivision === 'pre-school' ? 'preschool' : academicDivision;
+    const isAcademicDivision = [
+      'preschool',
+      'primary-school',
+      'junior-high-school',
+    ].includes(normalizedDivision);
+
+    return {
+      page: isAcademicDivision ? 'academicDivision' : 'academics',
+      academicDivision: isAcademicDivision ? normalizedDivision : null,
+    };
   }
-  if (section === 'admissions') return 'admissions';
+  if (section === 'admissions') return { page: 'admissions', academicDivision: null };
   if (section === 'community' || window.location.hash === '#community') {
-    return 'community';
+    return { page: 'community', academicDivision: null };
   }
   if (section === 'contacts' || window.location.hash === '#contacts') {
-    return 'contacts';
+    return { page: 'contacts', academicDivision: null };
   }
 
-  return 'home';
+  return { page: 'home', academicDivision: null };
 };
 
 function HomePage() {
@@ -49,10 +62,12 @@ function HomePage() {
 }
 
 const App = () => {
-  const [currentPage, setCurrentPage] = useState(() => getCurrentPage());
+  const [currentRoute, setCurrentRoute] = useState(() => getCurrentRoute());
+  const { page: currentPage, academicDivision } = currentRoute;
+  const navCurrentPage = currentPage === 'academicDivision' ? 'academics' : currentPage;
 
   useEffect(() => {
-    const updatePage = () => setCurrentPage(getCurrentPage());
+    const updatePage = () => setCurrentRoute(getCurrentRoute());
 
     window.addEventListener('popstate', updatePage);
     window.addEventListener('ags:navigate', updatePage);
@@ -77,9 +92,12 @@ const App = () => {
 
   return (
     <div>
-      <Navbar currentPage={currentPage} />
+      <Navbar currentPage={navCurrentPage} />
       {currentPage === 'about' && <AboutPage />}
       {currentPage === 'academics' && <AcademicsPage />}
+      {currentPage === 'academicDivision' && (
+        <AcademicDivisionPage slug={academicDivision} />
+      )}
       {currentPage === 'admissions' && <AdmissionsPage />}
       {currentPage === 'community' && <CommunityPage />}
       {currentPage === 'contacts' && <ContactsPage />}

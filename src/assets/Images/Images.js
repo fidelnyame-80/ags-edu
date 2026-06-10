@@ -24,6 +24,7 @@ import sports2 from "./sports2.webp";
 import heroImg1 from "./ags-compound.webp";
 import schoolProspectus from "./schoolProspectus.webp";
 import schoolBroadsheet from "./schoolBroadsheet.webp";
+import principal from "./principalImage.webp";
 
 export const Images = {
   agsLogo,
@@ -52,6 +53,7 @@ export const Images = {
   heroImg1,
   schoolProspectus,
   schoolBroadsheet,
+  principal,
 };
 
 export const ImageCollections = {

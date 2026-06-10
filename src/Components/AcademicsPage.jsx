@@ -19,7 +19,7 @@ const academicStats = [
 
 const divisions = [
   {
-    id: "pre-school",
+    id: "preschool",
     icon: School,
     label: "Pre School",
     title: "A gentle start for confident learners.",
@@ -49,6 +49,15 @@ const divisions = [
     tone: "bg-[#fff3cc] text-[#d99b1d]",
   },
 ];
+
+const handleAcademicCardClick = (event, href) => {
+  event.preventDefault();
+
+  const targetUrl = new URL(href, window.location.origin);
+  window.history.pushState({}, "", targetUrl.pathname);
+  window.dispatchEvent(new Event("ags:navigate"));
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
 
 const calendarItems = [
   "Structured academic terms with assessment checkpoints",
@@ -178,17 +187,24 @@ export default function AcademicsPage() {
               const Icon = division.icon;
 
               return (
-                <article
+                <a
+                  href={`/academics/${division.id}/`}
+                  onClick={(event) =>
+                    handleAcademicCardClick(event, `/academics/${division.id}/`)
+                  }
                   id={division.id}
                   key={division.id}
-                  className="scroll-mt-28 border border-[#e8e5f0] bg-white shadow-[0_22px_62px_rgba(78,68,132,0.08)]"
+                  className="group block scroll-mt-28 border border-[#e8e5f0] bg-white text-inherit shadow-[0_22px_62px_rgba(78,68,132,0.08)] transition hover:-translate-y-1 hover:border-[#cfc6ef] hover:shadow-[0_28px_72px_rgba(78,68,132,0.14)] focus:outline-none focus:ring-2 focus:ring-[#6657c8] focus:ring-offset-4"
+                  aria-label={`Open ${division.label} page`}
                 >
-                  <img
-                    src={division.image}
-                    alt=""
-                    className="h-56 w-full object-cover"
-                    aria-hidden="true"
-                  />
+                  <div className="h-56 overflow-hidden">
+                    <img
+                      src={division.image}
+                      alt=""
+                      className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                      aria-hidden="true"
+                    />
+                  </div>
                   <div className="p-6">
                     <span
                       className={`inline-flex h-12 w-12 items-center justify-center ${division.tone}`}
@@ -205,7 +221,7 @@ export default function AcademicsPage() {
                       {division.body}
                     </p>
                   </div>
-                </article>
+                </a>
               );
             })}
           </div>

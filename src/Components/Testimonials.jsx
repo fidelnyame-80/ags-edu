@@ -4,22 +4,35 @@ import MotionText from "./MotionText";
 
 const TESTIMONIALS = [
   {
+    title: "Principal's Welcome",
+    quote: "Welcome to Accra Grammar School, where academic excellence, character development, and meaningful learning experiences come together. Our mission is to nurture confident learners, inspire innovative thinking, and prepare students to become responsible leaders in society. We look forward to partnering with families as we continue to build a community where every student can thrive.",
+    author: "Principal",
+    detail: "Accra Grammar School",
+    image: Images.principal,
+  },
+  {
+    title: "Alumni Voice",
     quote:
       "AGS is simply the school you wished to have attended. A home away from home, is my simplest description of it. To many of us alumni, it's one of the best foundation blocks we were privileged to have had and for which we are forever grateful.",
     author: "Alumni Voice",
     detail: "Accra Grammar School",
+    image: null,
   },
   {
+    title: "Parent Testimonial",
     quote:
       "AGS is an exceptional school with dedicated teachers, supportive staff, and engaging curriculum which creates an environment where students thrive academically and personally.",
     author: "Dr. Joseph Kwablah Tetteh-Tsu",
     detail: "37 Military Hospital",
+    image: null,
   },
   {
+    title: "Student Testimonial",
     quote:
       "AGS was an integral foundation in my education, and I do believe I would not be where I am today without the experience I had at AGS.",
     author: "Ms Vanessa Selasi Vowotor",
     detail: "Line Technician, United Airlines",
+    image: null,
   },
 ];
 
@@ -77,15 +90,15 @@ export default function Testimonials() {
           isSectionVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
         }`}
       >
-        <MotionText as="p" className="text-xs font-bold uppercase tracking-[0.28em] text-blue-200">
-          Alumni Testimonials
+        <MotionText as="h2" className="text-xs font-bold uppercase tracking-[0.28em] text-blue-200">
+          {activeTestimonial.title}
         </MotionText>
         <div className="mt-4 h-1 w-14 rounded-full bg-blue-500" />
 
-        <div className="mt-9 max-w-[830px]">
+        <div className="mt-9 flex flex-col gap-8 lg:flex-row lg:items-center lg:gap-12">
           <div
             key={activeTestimonial.quote}
-            className="animate-[fadeUp_0.65s_ease_both]"
+            className="min-w-0 flex-1 animate-[fadeUp_0.65s_ease_both]"
             style={{ transition: TESTIMONIAL_TRANSITION }}
           >
             <div className="flex items-start gap-4 sm:gap-6">
@@ -126,6 +139,17 @@ export default function Testimonials() {
               </div>
             </div>
           </div>
+
+          {activeTestimonial.image && (
+            <figure className="mx-auto w-full max-w-[260px] shrink-0 overflow-hidden rounded-[8px] border border-white/18 bg-white/8 shadow-[0_24px_60px_rgba(0,0,0,0.32)] sm:max-w-[300px] lg:mx-0 lg:max-w-[330px]">
+              <img
+                src={activeTestimonial.image}
+                alt={`${activeTestimonial.author}, ${activeTestimonial.detail}`}
+                className="aspect-[4/5] h-full w-full object-cover object-center"
+                loading="lazy"
+              />
+            </figure>
+          )}
         </div>
 
         <div className="mt-9 flex items-center justify-center">

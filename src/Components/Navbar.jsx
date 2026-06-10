@@ -21,9 +21,9 @@ const navLinks = [
     href: "/academics/",
     page: "academics",
     dropdown: [
-      { label: "Pre School", href: "/academics/#pre-school" },
-      { label: "Primary School", href: "/academics/#primary-school" },
-      { label: "Junior High School", href: "/academics/#junior-high-school" },
+      { label: "Pre School", href: "/academics/preschool/" },
+      { label: "Primary School", href: "/academics/primary-school/" },
+      { label: "Junior High School", href: "/academics/junior-high-school/" },
       { label: "Academic Calendar", href: "/academics/#academic-calendar" },
       { label: "Counseling", href: "/academics/#counseling" },
       { label: "Co-Curricular", href: "/academics/#co-curricular" },
