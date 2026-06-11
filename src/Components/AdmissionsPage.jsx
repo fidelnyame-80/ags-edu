@@ -44,6 +44,38 @@ const entryLevels = [
   "Not sure yet",
 ];
 
+// Placeholder function for form submission handling
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  
+
+  const formdata = new FormData(e.target);
+
+  const data = {
+    guardian: formdata.get("guardian"),
+    email: formdata.get("email"),
+    phone: formdata.get("phone"),
+    message: formdata.get("message"),
+    learner: formdata.get("learner"),
+    entryLevel: formdata.get("entryLevel"),
+  }
+
+  console.log("Form Data:", data);
+
+  const response = await fetch("http://localhost:5000/admissions",{
+    method: "POST",
+    headers:{
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  })
+
+  const result = await response.json();
+  console.log(result);
+    e.target.reset();
+};
+
+
 function SectionLabel({ children, light = false }) {
   return (
     <MotionText amount={0.45}>
@@ -216,7 +248,7 @@ export default function AdmissionsPage() {
 
           <form
             className="border border-[#ded8ef] bg-white p-6 shadow-[0_24px_70px_rgba(86,72,150,0.08)] sm:p-8"
-            onSubmit={(event) => event.preventDefault()}
+            onSubmit={handleSubmit}
           >
             <div className="grid gap-5 md:grid-cols-2">
               <label className="grid gap-2 text-sm font-bold text-[#171727]">

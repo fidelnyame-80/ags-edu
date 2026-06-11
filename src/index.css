@@ -2,17 +2,24 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Outfit", sans-serif;
 }
 
 html {
   scroll-behavior: smooth;
+  font-family: "Outfit", sans-serif;
 }
 
 body {
   min-width: 320px;
   background: #071427;
   color: #e8f1ff;
+  font-family: "Outfit", sans-serif;
+  font-size: 28px;
+}
+
+* {
+  font-family: "Outfit", sans-serif !important;
 }
 
 #root {

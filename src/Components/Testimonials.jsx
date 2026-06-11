@@ -141,13 +141,21 @@ export default function Testimonials() {
           </div>
 
           {activeTestimonial.image && (
-            <figure className="mx-auto w-full max-w-[260px] shrink-0 overflow-hidden rounded-[8px] border border-white/18 bg-white/8 shadow-[0_24px_60px_rgba(0,0,0,0.32)] sm:max-w-[300px] lg:mx-0 lg:max-w-[330px]">
+            <figure className="mx-auto w-full max-w-[150px] shrink-0 overflow-hidden rounded-[8px] border border-white/18 bg-white/8 shadow-[0_24px_60px_rgba(0,0,0,0.32)] sm:max-w-[180px] lg:mx-0 lg:max-w-[205px]">
               <img
                 src={activeTestimonial.image}
                 alt={`${activeTestimonial.author}, ${activeTestimonial.detail}`}
-                className="aspect-[4/5] h-full w-full object-cover object-center"
+                className="aspect-[4/4.6] h-full w-full object-cover object-center"
                 loading="lazy"
               />
+              <figcaption className="px-2 pt-3 text-center">
+                <p className="text-sm font-extrabold text-white">
+                  Mr. Alfred Asare
+                </p>
+                <p className="mt-1 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-blue-100/72">
+                  Principal, Accra Grammar School
+                </p>
+              </figcaption>
             </figure>
           )}
         </div>
