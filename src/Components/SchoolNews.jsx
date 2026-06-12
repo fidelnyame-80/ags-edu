@@ -119,7 +119,7 @@ export default function SchoolNews() {
             <MotionText
               as="h2"
               delay={0.08}
-              className="mt-6 max-w-[560px] text-[2.05rem] font-bold leading-[1.04] sm:text-[2.55rem] lg:text-[2rem]"
+              className="mt-6 max-w-[560px] text-[2.05rem] font-bold leading-[1.04] sm:text-[2.55rem] lg:text-[2.55rem]"
               style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
             >
               Fresh updates from the AGS web.

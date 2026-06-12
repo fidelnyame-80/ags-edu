@@ -8,6 +8,7 @@ import familyday3 from "./familyday3.webp";
 import familyday4 from "./familyday4.webp";
 import familyday5 from "./familyday5.webp";
 import familyday6 from "./familyday6.webp";
+import founderImage from "./founderImage.webp";
 import graduation1 from "./graduation1.webp";
 import graduation2 from "./graduation2.webp";
 import graduation3 from "./graduation3.webp";
@@ -37,6 +38,7 @@ export const Images = {
   familyday4,
   familyday5,
   familyday6,
+  founderImage,
   graduation1,
   graduation2,
   graduation3,

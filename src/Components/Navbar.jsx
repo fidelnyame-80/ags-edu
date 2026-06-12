@@ -153,7 +153,7 @@ export default function Navbar({ currentPage = "home" }) {
                   className="h-full w-full object-contain"
                 />
               </div>
-              <span className="whitespace-nowrap text-[0.66rem] font-extrabold uppercase tracking-[0.07em] text-white sm:text-xs lg:text-[0.58rem] xl:text-xs">
+              <span className="whitespace-nowrap text-xs font-extrabold uppercase tracking-[0.07em] text-white sm:text-sm lg:text-xs xl:text-sm">
                 Accra Grammar School
               </span>
             </a>
@@ -169,7 +169,7 @@ export default function Navbar({ currentPage = "home" }) {
                   <a
                     href={link.href}
                     onClick={(event) => handleNavClick(event, link.href)}
-                    className={`relative inline-flex items-center gap-1.5 text-sm font-medium transition ${
+                    className={`relative inline-flex items-center gap-1.5 text-base font-medium transition ${
                       isActive
                         ? "text-blue-400"
                         : "text-white hover:text-blue-400"
@@ -197,7 +197,7 @@ export default function Navbar({ currentPage = "home" }) {
                             key={item.label}
                             href={item.href}
                             onClick={(event) => handleNavClick(event, item.href)}
-                            className="block px-4 py-3 text-sm font-semibold transition hover:bg-[#f4f1fb] hover:text-[#6657c8]"
+                            className="block px-4 py-3 text-base font-semibold transition hover:bg-[#f4f1fb] hover:text-[#6657c8]"
                           >
                             {item.label}
                           </a>
@@ -211,7 +211,7 @@ export default function Navbar({ currentPage = "home" }) {
           </div>
 
           {/* Login Button */}
-          <button className="hidden items-center gap-2 rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-900/30 transition hover:bg-blue-500 lg:flex">
+          <button className="hidden items-center gap-2 rounded-full bg-blue-600 px-5 py-2.5 text-base font-semibold text-white shadow-lg shadow-blue-900/30 transition hover:bg-blue-500 lg:flex">
             <User size={20} fill="white" />
             Login
           </button>
@@ -256,7 +256,7 @@ export default function Navbar({ currentPage = "home" }) {
                       <a
                         href={link.href}
                         onClick={(event) => handleNavClick(event, link.href)}
-                        className="block min-w-0 flex-1 px-4 py-3 text-sm font-medium"
+                        className="block min-w-0 flex-1 px-4 py-3 text-base font-medium"
                       >
                         {link.label}
                       </a>
@@ -285,7 +285,7 @@ export default function Navbar({ currentPage = "home" }) {
                             key={item.label}
                             href={item.href}
                             onClick={(event) => handleNavClick(event, item.href)}
-                            className="rounded-xl px-4 py-2 text-xs font-semibold text-white/78 transition hover:bg-white/5 hover:text-blue-300"
+                            className="rounded-xl px-4 py-2 text-sm font-semibold text-white/78 transition hover:bg-white/5 hover:text-blue-300"
                           >
                             {item.label}
                           </a>
@@ -299,7 +299,7 @@ export default function Navbar({ currentPage = "home" }) {
 
             <button
               type="button"
-              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-900/30 transition hover:bg-blue-500"
+              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-blue-600 px-4 py-3 text-base font-semibold text-white shadow-lg shadow-blue-900/30 transition hover:bg-blue-500"
             >
               <User size={18} fill="white" />
               Login

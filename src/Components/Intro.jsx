@@ -439,7 +439,7 @@ export default function Intro() {
           </h2>
 
           <p
-            className={`mt-6 max-w-[390px] text-[0.95rem] leading-7 text-[#555568] lg:mt-5 lg:max-w-[315px] lg:text-[0.78rem] lg:leading-5 ${glideClass(isArtworkVisible, "up")}`}
+            className={`mt-6 max-w-[390px] text-[0.95rem] leading-7 text-[#555568] lg:mt-5 lg:max-w-[335px] lg:text-[0.92rem] lg:leading-6 ${glideClass(isArtworkVisible, "up")}`}
             style={{ transitionDelay: "140ms" }}
           >
             We believe great schools do not simply teach. They shape minds
@@ -453,7 +453,7 @@ export default function Intro() {
           >
             <a
               href="#about" onClick={(event) => handleHeroNavClick(event, "/about/")}
-              className="inline-flex min-h-11 items-center gap-2 rounded-md bg-[#5f54bf] px-5 text-xs font-bold text-white shadow-[0_16px_30px_rgba(95,84,191,0.2)] transition hover:-translate-y-0.5 hover:bg-[#7164d2] lg:min-h-10 lg:px-4 lg:text-[0.68rem]"
+              className="inline-flex min-h-11 items-center gap-2 rounded-md bg-[#5f54bf] px-5 text-sm font-bold text-white shadow-[0_16px_30px_rgba(95,84,191,0.2)] transition hover:-translate-y-0.5 hover:bg-[#7164d2] lg:min-h-10 lg:px-4 lg:text-[0.82rem]"
             >
               Learn More About Us
               <ArrowRight size={15} strokeWidth={2.4} />
@@ -461,7 +461,7 @@ export default function Intro() {
 
             <a
               href="#values" onClick={(event) => handleHeroNavClick(event, "/about/")}
-              className="inline-flex min-h-11 items-center gap-3 rounded-md border border-[#7468d0] bg-white px-5 text-xs font-bold text-[#6657c8] transition hover:-translate-y-0.5 hover:bg-[#f4f1ff] lg:min-h-10 lg:px-4 lg:text-[0.68rem]"
+              className="inline-flex min-h-11 items-center gap-3 rounded-md border border-[#7468d0] bg-white px-5 text-sm font-bold text-[#6657c8] transition hover:-translate-y-0.5 hover:bg-[#f4f1ff] lg:min-h-10 lg:px-4 lg:text-[0.82rem]"
             >
               Our Values
               <Heart size={17} strokeWidth={2.3} />
@@ -496,18 +496,18 @@ export default function Intro() {
                   <BookOpen size={25} strokeWidth={2.1} />
                 </div>
                 <h3
-                  className="mt-4 text-xl font-bold leading-tight text-[#171727] lg:mt-3 lg:text-[0.96rem]"
+                  className="mt-4 text-xl font-bold leading-tight text-[#171727] lg:mt-3 lg:text-[1.12rem]"
                   style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
                 >
                   Academic Excellence
                 </h3>
-                <p className="mt-3 text-sm leading-6 text-[#626277] lg:text-[0.7rem] lg:leading-[1.05rem]">
+                <p className="mt-3 text-sm leading-6 text-[#626277] lg:text-[0.84rem] lg:leading-[1.35rem]">
                   Rigorous instruction and guided inquiry help students build
                   lasting mastery.
                 </p>
                 <a
                   href="/academics/"
-                  className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#5f54bf] transition hover:text-[#7164d2] lg:mt-4 lg:text-[0.68rem]"
+                  className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#5f54bf] transition hover:text-[#7164d2] lg:mt-4 lg:text-[0.84rem]"
                 >
                   Explore Academics
                   <ArrowRight size={15} strokeWidth={2.4} />
@@ -565,8 +565,8 @@ export default function Intro() {
                   <Icon size={19} strokeWidth={2.1} />
                 </div>
                 <div>
-                  <p className="text-sm font-extrabold text-[#171727] lg:text-[0.72rem]">{stat.value}</p>
-                  <p className="mt-1 text-xs leading-4 text-[#4d4d61] lg:text-[0.62rem] lg:leading-3">{stat.label}</p>
+                  <p className="text-sm font-extrabold text-[#171727] lg:text-[0.86rem]">{stat.value}</p>
+                  <p className="mt-1 text-xs leading-4 text-[#4d4d61] lg:text-[0.76rem] lg:leading-4">{stat.label}</p>
                 </div>
               </div>
             );

@@ -118,7 +118,7 @@ export default function HeroSection() {
             className="mb-5 flex items-center gap-4 text-blue-100/72"
           >
             <span className="h-px w-11 bg-current" aria-hidden="true" />
-            <p className="text-xs font-semibold uppercase tracking-[0.34em]">
+              <p className="text-sm font-semibold uppercase tracking-[0.34em]">
               EST. 1996 <span aria-hidden="true">&middot;</span> ACCRA, GHANA
             </p>
           </MotionText>
@@ -127,10 +127,10 @@ export default function HeroSection() {
             as="h1"
             amount={0.6}
             delay={0.08}
-            className="mb-1 font-bold leading-tight text-white lg:[font-size:clamp(1.85rem,3vw,4.35rem)] lg:[min-height:clamp(4.2rem,7vw,9.5rem)]"
+            className="mb-1 font-bold leading-tight text-white lg:[font-size:clamp(2.15rem,3.4vw,4.55rem)] lg:[min-height:clamp(4.8rem,7.4vw,9.8rem)]"
             style={{
               fontFamily: "Georgia, 'Times New Roman', serif",
-              fontSize: "clamp(2rem, 3.5vw, 5rem)",
+              fontSize: "clamp(2rem, 4.5vw, 5rem)",
               letterSpacing: "0",
               textShadow: "0 2px 24px rgba(0,0,0,0.3)",
               minHeight: "clamp(4.75rem, 8vw, 11rem)",
@@ -147,7 +147,7 @@ export default function HeroSection() {
 
           <div className="mb-4 lg:mb-3" style={{ minHeight: "2.25rem" }}>
             <p
-              className="text-blue-200 lg:[font-size:clamp(0.95rem,1.3vw,1.28rem)] lg:[min-height:1.65em]"
+              className="text-blue-200 lg:[font-size:clamp(1.05rem,1.45vw,1.38rem)] lg:[min-height:1.7em]"
               style={{
                 fontFamily: "Georgia, 'Times New Roman', serif",
                 fontSize: "clamp(1rem, 1.6vw, 1.45rem)",
@@ -177,7 +177,7 @@ export default function HeroSection() {
             as="p"
             amount={0.6}
             delay={0.16}
-            className="mb-10 leading-relaxed text-blue-100 lg:mb-6 lg:[font-size:clamp(0.92rem,1.15vw,1.03rem)]"
+            className="mb-10 leading-relaxed text-blue-100 lg:mb-6 lg:[font-size:clamp(1rem,1.22vw,1.15rem)]"
             style={{
               fontFamily: "'DM Sans', sans-serif",
               fontSize: "clamp(0.95rem, 1.4vw, 1.1rem)",
@@ -193,7 +193,7 @@ export default function HeroSection() {
           <div className="flex flex-wrap gap-4 lg:gap-3">
             <a
               href="/admissions/" onClick={(event) => handleHeroNavClick(event, "/admissions/")}
-              className="flex items-center gap-2 rounded-full px-7 py-3 font-medium text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(30,100,220,0.45)] lg:px-6 lg:py-2.5 lg:[font-size:0.92rem]"
+              className="flex items-center gap-2 rounded-full px-7 py-3 font-medium text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(30,100,220,0.45)] lg:px-6 lg:py-2.5 lg:[font-size:1rem]"
               style={{
                 background: "linear-gradient(135deg, #2563eb, #1d4ed8)",
                 fontSize: "0.95rem",
@@ -213,7 +213,7 @@ export default function HeroSection() {
 
             <a
               href="/about/" onClick={(event) => handleHeroNavClick(event, "/about/")}
-              className="flex items-center gap-2 rounded-full px-7 py-3 font-medium text-white transition-all duration-300 hover:-translate-y-1 hover:bg-white/10 lg:px-6 lg:py-2.5 lg:[font-size:0.92rem]"
+              className="flex items-center gap-2 rounded-full px-7 py-3 font-medium text-white transition-all duration-300 hover:-translate-y-1 hover:bg-white/10 lg:px-6 lg:py-2.5 lg:[font-size:1rem]"
               style={{
                 border: "1.5px solid rgba(255,255,255,0.55)",
                 fontSize: "0.95rem",

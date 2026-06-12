@@ -359,6 +359,51 @@ export default function AboutPage() {
         </div>
       </section>
 
+      <section className="bg-[#fffefa] px-5 py-16 sm:px-8 lg:px-20 lg:py-20">
+        <div className="mx-auto grid max-w-[1180px] gap-10 border border-[#e7dfcf] bg-[#f8f4ea] p-6 shadow-[0_24px_70px_rgba(67,56,37,0.07)] sm:p-9 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
+          <MotionText amount={0.45} className="mx-auto max-w-[340px]">
+            <div className="relative aspect-square overflow-hidden rounded-full border-4 border-white bg-white shadow-[0_24px_70px_rgba(38,28,12,0.16)]">
+              <img
+                src={Images.founderImage}
+                alt="Mrs. Elizabeth Ahenkorah, founder of Accra Grammar School"
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </MotionText>
+
+          <div>
+            <SectionLabel>Our Founder</SectionLabel>
+            <MotionText
+              as="h2"
+              delay={0.08}
+              className="mt-7 max-w-[680px] text-[2rem] font-bold leading-[1.08] text-[#171727] sm:text-[2.55rem]"
+              style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+            >
+              Mrs. Elizabeth Ahenkorah believed in the power of education to
+              change lives.
+            </MotionText>
+            <div className="mt-7 space-y-5 text-base leading-8 text-[#555568]">
+              <MotionText as="p" delay={0.14}>
+                In 1996, Mrs. Elizabeth Ahenkorah conceived the idea of AGS, a
+                school established to give students a unique American
+                international school experience that would prepare them for
+                admission to schools and colleges worldwide.
+              </MotionText>
+              <MotionText as="p" delay={0.2}>
+                Years later, our founding values of knowledge, discipline, and
+                access to all remain the hallmarks of an AGS education. AGS is
+                proud of its community-school feel and the shared sense of
+                belonging among students, teachers, and parents.
+              </MotionText>
+              <MotionText as="p" delay={0.26}>
+                In addition to our rigorous academic program, we know our strong
+                sense of family is important to prospective parents.
+              </MotionText>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="discover" className="relative isolate overflow-hidden px-5 py-20 text-white sm:px-8 lg:px-20 lg:py-24">
         <img
           src={Images.heroImg1}
