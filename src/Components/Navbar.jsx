@@ -41,7 +41,7 @@ const navLinks = [
       { label: "Transport", href: "/community/#transport" },
       { label: "Cafeteria", href: "/community/#cafeteria" },
       { label: "Events", href: "/community/#events" },
-      { label: "News", href: "/community/#news" },
+      { label: "News", href: "/news/" },
       {
         label: "Janet C Rickert Library",
         href: "/community/#janet-c-rickert-library",

@@ -23,7 +23,7 @@ const footerLinks = [
     links: [
       { label: "Student Life", href: "/community/#events" },
       { label: "Alumni", href: "/community/#ags-alumni" },
-      { label: "News", href: "/community/#news" },
+      { label: "News", href: "/news/" },
       { label: "Contacts", href: "/contacts/" },
     ],
   },

@@ -78,6 +78,7 @@ function AcademicMotionStyles() {
     </style>
   );
 }
+
 function AcademicCardRow() {
   return (
     <div className="mx-auto mt-12 w-full max-w-[1180px] py-5 sm:mt-14 lg:mt-16">

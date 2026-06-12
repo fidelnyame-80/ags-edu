@@ -7,58 +7,30 @@ import {
   Umbrella,
 } from "lucide-react";
 import MotionText from "./MotionText";
+import { fallbackBriefs, fallbackNewsItems } from "../data/newsContent";
 
-const featuredStory = {
-  category: "BECE Update",
-  title: "BECE 2026 wraps up with calm confidence",
-  date: "May 12, 2026",
-  dateTime: "2026-05-12",
-  body:
-    "Our final-year JHS candidates completed the 2026 Basic Education Certificate Examination on Monday, May 11, after papers began on May 4. Management congratulates the candidates, teachers, and families for the steady preparation that carried the class through the examination week.",
-};
+const featuredStory = fallbackNewsItems.find((item) => item.featured) || fallbackNewsItems[0];
 
-const newsItems = [
-  {
+const newsItemStyles = {
+  Vacation: {
     icon: Umbrella,
-    category: "Vacation",
-    title: "End-of-term vacation arrangements",
-    date: "May 12, 2026",
-    dateTime: "2026-05-12",
-    body:
-      "Class teachers will share pickup notes, assessment folders, and holiday reading packs ahead of the next vacation window.",
     color: "text-[#d99b1d]",
     bg: "bg-[#fff3cc]",
   },
-  {
+  Excursion: {
     icon: MapPinned,
-    category: "Excursion",
-    title: "Learning trips return this term",
-    date: "May 9, 2026",
-    dateTime: "2026-05-09",
-    body:
-      "Parents will receive consent forms for planned educational visits, including heritage, science, and campus-life learning experiences.",
     color: "text-[#43a966]",
     bg: "bg-[#e2f6e8]",
   },
-  {
+  Reopening: {
     icon: School,
-    category: "Reopening",
-    title: "2026/2027 reopening guide",
-    date: "May 8, 2026",
-    dateTime: "2026-05-08",
-    body:
-      "Families should note the national basic-school reopening date of Tuesday, September 8, 2026, as planning begins for the new academic year.",
     color: "text-[#5c98d6]",
     bg: "bg-[#e4f2ff]",
   },
-];
+};
 
-const briefs = [
-  "BECE candidate wellness notes published for parents",
-  "Vacation reading packs prepared by department",
-  "Excursion safety checklist now at the front desk",
-  "Admissions desk opens extra enquiry hours this week",
-];
+const newsItems = fallbackNewsItems.filter((item) => !item.featured).slice(0, 3);
+const briefs = fallbackBriefs;
 
 function SpiderNewsMark() {
   return (
@@ -159,10 +131,10 @@ export default function SchoolNews() {
               {featuredStory.body}
             </MotionText>
             <a
-              href="/contacts/"
+              href="/news/"
               className="mt-7 inline-flex min-h-11 items-center gap-2 rounded-full bg-[#7b70cc] px-5 text-sm font-bold text-white shadow-[0_16px_36px_rgba(123,112,204,0.22)] transition hover:-translate-y-0.5 hover:bg-[#6657c8]"
             >
-              Contact the school office
+              Read Spider News
               <ArrowRight size={16} strokeWidth={2.4} />
             </a>
           </article>
@@ -185,14 +157,19 @@ export default function SchoolNews() {
 
         <div className="mt-5 grid gap-5 md:grid-cols-3">
           {newsItems.map((item) => {
-            const Icon = item.icon;
+            const style = newsItemStyles[item.category] || {
+              icon: Newspaper,
+              color: "text-[#7b70cc]",
+              bg: "bg-[#eeeaff]",
+            };
+            const Icon = style.icon;
 
             return (
               <article
                 key={item.title}
                 className="rounded-lg border border-[#e4dfd2] bg-white p-6 transition hover:-translate-y-1 hover:border-[#c7bff1] hover:shadow-[0_20px_52px_rgba(86,72,150,0.1)]"
               >
-                <div className={`flex h-11 w-11 items-center justify-center rounded-md ${item.bg} ${item.color}`}>
+                <div className={`flex h-11 w-11 items-center justify-center rounded-md ${style.bg} ${style.color}`}>
                   <Icon size={22} strokeWidth={2.2} />
                 </div>
                 <p className="mt-5 text-xs font-extrabold uppercase tracking-[0.2em] text-[#7b70cc]">

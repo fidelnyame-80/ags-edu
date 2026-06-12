@@ -82,7 +82,7 @@ const discoveryLinks = [
     title: "School Broadsheet",
     image: Images.schoolBroadsheet,
     body: "News, notices, and school highlights for parents, students, alumni, and friends of AGS.",
-    href: "/#news",
+    href: "/news/",
   },
 ];
 

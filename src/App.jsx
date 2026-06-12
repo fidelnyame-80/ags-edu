@@ -10,6 +10,7 @@ import ContactsPage from './Components/ContactsPage';
 import Footer from './Components/Footer';
 import Intro from './Components/Intro';
 import Navbar from './Components/Navbar';
+import NewsPage from './Components/NewsPage';
 import SchoolNews from './Components/SchoolNews';
 import Testimonials from './Components/Testimonials';
 
@@ -39,6 +40,7 @@ const getCurrentRoute = () => {
     };
   }
   if (section === 'admissions') return { page: 'admissions', academicDivision: null };
+  if (section === 'news') return { page: 'news', academicDivision: null };
   if (section === 'community' || window.location.hash === '#community') {
     return { page: 'community', academicDivision: null };
   }
@@ -101,6 +103,7 @@ const App = () => {
       {currentPage === 'admissions' && <AdmissionsPage />}
       {currentPage === 'community' && <CommunityPage />}
       {currentPage === 'contacts' && <ContactsPage />}
+      {currentPage === 'news' && <NewsPage />}
       {currentPage === 'home' && <HomePage />}
       <Footer />
     </div>
