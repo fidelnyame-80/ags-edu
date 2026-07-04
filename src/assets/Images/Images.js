@@ -16,6 +16,13 @@ import learningExcellence from "./learningExcellence.webp";
 import playground from "./playground.webp";
 import playground2 from "./playground2.webp";
 import playground3 from "./playground3.webp";
+import preschool1 from "./preschool1.webp";
+import preschool2 from "./preschool2.webp";
+import preschool3 from "./preschool3.webp";
+import preschool4 from "./preschool4.webp";
+import kiddafest1 from "./kiddafest1.webp";
+import kiddafest2 from "./kiddafest2.webp";
+import kiddafest3 from "./kiddafest3.webp";
 import regionalQualifiers from "./regionalQualifiers.webp";
 import schoolCompound from "./schoolCompound.webp";
 import schoolCompound2 from "./schoolCompound2.webp";
@@ -46,6 +53,13 @@ export const Images = {
   playground,
   playground2,
   playground3,
+  preschool1,
+  preschool2,
+  preschool3,
+  preschool4,
+  kiddafest1,
+  kiddafest2,
+  kiddafest3,
   regionalQualifiers,
   schoolCompound,
   schoolCompound2,
@@ -63,6 +77,7 @@ export const ImageCollections = {
   community: [familyDay, familyday2, familyday3, familyday4, familyday5, familyday6],
   graduation: [graduation1, graduation2, graduation3, learningExcellence],
   playground: [playground, playground2, playground3],
+  preschool: [preschool1, preschool2, preschool3, preschool4, kiddafest1, kiddafest2, kiddafest3],
   sports: [sports, sports2],
   awards: [regionalQualifiers, bestStudent, smartGovernance],
 };

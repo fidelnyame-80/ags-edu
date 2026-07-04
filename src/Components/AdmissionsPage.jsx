@@ -10,6 +10,11 @@ import {
 import { Images } from "../assets/Images/Images";
 import MotionText from "./MotionText";
 
+const DASHBOARD_API_URL =
+  import.meta.env.VITE_DASHBOARD_API_URL ||
+  import.meta.env.VITE_CMS_API_URL ||
+  "https://ags-dashboard.vercel.app/api";
+
 const admissionsCards = [
   {
     icon: ClipboardList,
@@ -44,11 +49,8 @@ const entryLevels = [
   "Not sure yet",
 ];
 
-// Placeholder function for form submission handling
 const handleSubmit = async (e) => {
   e.preventDefault();
-  
-
   const formdata = new FormData(e.target);
 
   const data = {
@@ -60,19 +62,17 @@ const handleSubmit = async (e) => {
     entryLevel: formdata.get("entryLevel"),
   }
 
-  console.log("Form Data:", data);
-
-  const response = await fetch("http://localhost:5000/admissions",{
+  const response = await fetch(`${DASHBOARD_API_URL.replace(/\/$/, "")}/admissions`, {
     method: "POST",
-    headers:{
-      "Content-Type": "application/json"
+    headers: {
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(data)
-  })
+    body: JSON.stringify(data),
+  });
 
-  const result = await response.json();
-  console.log(result);
+  if (response.ok) {
     e.target.reset();
+  }
 };
 
 
@@ -158,12 +158,14 @@ export default function AdmissionsPage() {
           </div>
 
           <div className="mt-10 grid gap-5 lg:grid-cols-3">
-            {admissionsCards.map((card) => {
+            {admissionsCards.map((card, index) => {
               const Icon = card.icon;
 
               return (
-                <article
+                <MotionText
+                  as="article"
                   key={card.title}
+                  delay={index * 0.08}
                   className="group relative isolate min-h-[480px] overflow-hidden bg-[#061a34] text-white shadow-[0_24px_70px_rgba(1,8,20,0.14)]"
                 >
                   <img
@@ -198,7 +200,7 @@ export default function AdmissionsPage() {
                       ))}
                     </div>
                   </div>
-                </article>
+                </MotionText>
               );
             })}
           </div>
@@ -231,24 +233,26 @@ export default function AdmissionsPage() {
             </MotionText>
 
             <div className="mt-8 grid gap-4">
-              <div className="flex items-center gap-3 text-sm font-bold text-[#171727]">
+              <MotionText as="div" delay={0.18} className="flex items-center gap-3 text-sm font-bold text-[#171727]">
                 <span className="flex h-11 w-11 items-center justify-center bg-[#e8f1ff] text-[#2563eb]">
                   <Phone size={18} strokeWidth={2.2} />
                 </span>
                 +233 (0)27-700-0034
-              </div>
-              <div className="flex items-center gap-3 text-sm font-bold text-[#171727]">
+              </MotionText>
+              <MotionText as="div" delay={0.24} className="flex items-center gap-3 text-sm font-bold text-[#171727]">
                 <span className="flex h-11 w-11 items-center justify-center bg-[#eeeaff] text-[#6657c8]">
                   <Mail size={18} strokeWidth={2.2} />
                 </span>
                 admin@agsedu.org
-              </div>
+              </MotionText>
             </div>
           </div>
 
-          <form
+          <MotionText
+            as="form"
             className="border border-[#ded8ef] bg-white p-6 shadow-[0_24px_70px_rgba(86,72,150,0.08)] sm:p-8"
             onSubmit={handleSubmit}
+            delay={0.12}
           >
             <div className="grid gap-5 md:grid-cols-2">
               <label className="grid gap-2 text-sm font-bold text-[#171727]">
@@ -323,7 +327,7 @@ export default function AdmissionsPage() {
               Send Enquiry
               <Send size={16} strokeWidth={2.3} />
             </button>
-          </form>
+          </MotionText>
         </div>
       </section>
 
@@ -346,13 +350,15 @@ export default function AdmissionsPage() {
               Schedule a conversation with the school office.
             </MotionText>
           </div>
-          <a
+          <MotionText
+            as="a"
             href="tel:+233277000034"
+            delay={0.16}
             className="inline-flex min-h-12 items-center justify-center gap-2 bg-white px-6 text-sm font-extrabold text-[#061a34] transition hover:-translate-y-1 hover:bg-blue-50"
           >
             Call Admissions
             <ArrowRight size={17} strokeWidth={2.4} />
-          </a>
+          </MotionText>
         </div>
       </section>
     </main>

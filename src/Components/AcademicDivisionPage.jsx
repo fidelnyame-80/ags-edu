@@ -119,6 +119,65 @@ const preschoolPrograms = [
   },
 ];
 
+const preschoolGallery = [
+  {
+    image: Images.preschool1,
+    alt: "Preschool learner exploring an early years activity",
+    label: "Morning discovery",
+    className: "sm:col-span-2 lg:col-span-3 lg:row-span-2",
+    imageClassName: "object-[46%_50%]",
+    badgeClassName: "bg-[#fff3cc] text-[#856012]",
+  },
+  {
+    image: Images.kiddafest1,
+    alt: "AGS preschool children enjoying Kiddafest",
+    label: "Kiddafest colours",
+    className: "lg:col-span-2",
+    imageClassName: "object-center",
+    badgeClassName: "bg-[#e8ddff] text-[#6657c8]",
+  },
+  {
+    image: Images.preschool2,
+    alt: "Preschool children learning together at AGS",
+    label: "Classroom joy",
+    className: "lg:col-span-2",
+    imageClassName: "object-center",
+    badgeClassName: "bg-[#dff7e8] text-[#2f8a52]",
+  },
+  {
+    image: Images.kiddafest2,
+    alt: "Young AGS learners taking part in a festive school activity",
+    label: "Big smiles",
+    className: "lg:col-span-2",
+    imageClassName: "object-center",
+    badgeClassName: "bg-[#e4f2ff] text-[#2563eb]",
+  },
+  {
+    image: Images.preschool3,
+    alt: "Early years learner participating in preschool activities",
+    label: "Tiny steps",
+    className: "lg:col-span-2",
+    imageClassName: "object-center",
+    badgeClassName: "bg-[#ffe7df] text-[#b65338]",
+  },
+  {
+    image: Images.kiddafest3,
+    alt: "AGS children celebrating at Kiddafest",
+    label: "Celebration day",
+    className: "lg:col-span-2",
+    imageClassName: "object-center",
+    badgeClassName: "bg-[#eef5ff] text-[#2563eb]",
+  },
+  {
+    image: Images.preschool4,
+    alt: "AGS preschool child during a playful learning moment",
+    label: "Playful focus",
+    className: "sm:col-span-2 lg:col-span-3",
+    imageClassName: "object-center",
+    badgeClassName: "bg-white text-[#171727]",
+  },
+];
+
 const primaryCoreStudies = [
   {
     label: "English Language",
@@ -503,6 +562,85 @@ function PreschoolPathwaySection() {
   );
 }
 
+function PreschoolGallerySection() {
+  return (
+    <section className="relative isolate px-5 pb-10 sm:px-8 lg:px-20">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+        <div className="absolute right-[7%] bottom-12 h-28 w-28 rounded-[36px] bg-[#dff7e8]/80 rotate-12" />
+        <svg
+          className="absolute left-[5%] top-10 h-24 w-24 text-[#ffd166]/55"
+          viewBox="0 0 96 96"
+          fill="none"
+        >
+          <path
+            d="M48 11 58 37l28 2-22 17 7 27-23-15-24 15 8-27-22-17 28-2 10-26Z"
+            stroke="currentColor"
+            strokeWidth="5"
+            strokeLinejoin="round"
+          />
+        </svg>
+        <svg
+          className="absolute right-[18%] top-0 h-20 w-32 text-[#6657c8]/24"
+          viewBox="0 0 128 80"
+          fill="none"
+        >
+          <path
+            d="M7 48c20-23 37-25 51-6 12 16 27 17 47 1 7-6 13-9 18-9"
+            stroke="currentColor"
+            strokeWidth="5"
+            strokeLinecap="round"
+          />
+        </svg>
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-[1180px]">
+        <div className="grid gap-6 lg:grid-cols-[0.72fr_1.28fr] lg:items-end">
+          <div>
+            <p className="text-[0.7rem] font-extrabold uppercase tracking-[0.28em] text-[#6657c8]">
+              Preschool Moments
+            </p>
+            <h2
+              className="mt-4 max-w-[520px] text-[2rem] font-black leading-[1.04] text-[#171727] sm:text-[2.55rem]"
+              style={{ fontFamily: "Montserrat, var(--font-sans)" }}
+            >
+              A bright little world of play, friends, and discovery.
+            </h2>
+          </div>
+          <p className="max-w-[600px] text-sm leading-7 text-[#555568]">
+            From everyday classroom curiosity to Kiddafest celebration, these
+            moments show how early learners build confidence through colour,
+            movement, friendship, and guided exploration.
+          </p>
+        </div>
+
+        <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-7 lg:auto-rows-[172px] lg:gap-4">
+          {preschoolGallery.map((item) => (
+            <figure
+              key={item.label}
+              className={`group relative h-[230px] overflow-hidden border border-white bg-white shadow-[0_22px_62px_rgba(78,68,132,0.11)] sm:h-[260px] lg:h-full ${item.className}`}
+            >
+              <img
+                src={item.image}
+                alt={item.alt}
+                className={`h-full w-full object-cover transition duration-500 group-hover:scale-105 ${item.imageClassName}`}
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-3">
+                <span
+                  className={`max-w-full px-3 py-2 text-[0.68rem] font-extrabold uppercase tracking-[0.14em] shadow-[0_12px_30px_rgba(23,23,39,0.12)] ${item.badgeClassName}`}
+                >
+                  {item.label}
+                </span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function PrimaryCoreStudiesSection() {
   return (
     <section className="relative isolate px-5 pb-10 sm:px-8 lg:px-20">
@@ -644,13 +782,13 @@ function PreschoolPage({ division }) {
           <div className="relative min-h-[320px] sm:min-h-[380px]">
             <div className="absolute right-0 top-0 h-[190px] w-[64%] max-w-[310px] bg-[#2563eb]" />
             <img
-              src={Images.playground3}
+              src={Images.preschool1}
               alt="Pre School learners enjoying guided play"
               className="absolute right-5 top-5 h-[190px] w-[64%] max-w-[310px] object-cover shadow-[0_24px_70px_rgba(1,8,20,0.16)]"
             />
             <div className="absolute bottom-2 left-0 h-[215px] w-[66%] max-w-[320px] bg-[#e9e3ff]" />
             <img
-              src={Images.playground}
+              src={Images.kiddafest1}
               alt="Young AGS learners at play"
               className="absolute bottom-7 left-5 h-[215px] w-[66%] max-w-[320px] object-cover object-[10%_50%] shadow-[0_24px_70px_rgba(86,72,150,0.16)]"
             />
@@ -663,6 +801,8 @@ function PreschoolPage({ division }) {
           </div>
         </div>
       </section>
+
+      <PreschoolGallerySection />
 
       <PreschoolPathwaySection />
 

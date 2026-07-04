@@ -1,11 +1,20 @@
 import { motion, useReducedMotion } from "motion/react";
 
 const motionElements = {
+  a: motion.a,
+  article: motion.article,
+  aside: motion.aside,
   div: motion.div,
+  figure: motion.figure,
+  form: motion.form,
   p: motion.p,
   h1: motion.h1,
   h2: motion.h2,
   h3: motion.h3,
+  iframe: motion.iframe,
+  img: motion.img,
+  li: motion.li,
+  section: motion.section,
   span: motion.span,
   blockquote: motion.blockquote,
 };

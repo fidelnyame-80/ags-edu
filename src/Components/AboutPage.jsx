@@ -137,7 +137,7 @@ export default function AboutPage() {
         <img
           src={Images.schoolCompound}
           alt="Accra Grammar School campus grounds"
-          className="absolute inset-0 h-full w-full object-cover object-center"
+          className="absolute inset-0 h-full w-full object-cover object-[68%_center]"
         />
         <div
           className="absolute inset-0"
@@ -228,18 +228,22 @@ export default function AboutPage() {
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
-            <img
+            <MotionText
+              as="img"
               src={Images.compoundImg}
               alt="Accra Grammar School campus buildings"
-              className="h-[360px] w-full object-cover sm:translate-y-8"
+              delay={0.12}
+              className="h-[385px] w-full object-cover sm:translate-y-8 lg:h-[395px]"
             />
             <div className="grid gap-4">
-              <img
+              <MotionText
+                as="img"
                 src={Images.familyDay}
                 alt="AGS family day community gathering"
-                className="h-[172px] w-full object-cover"
+                delay={0.2}
+                className="h-[188px] w-full object-cover"
               />
-              <div className="bg-[#f4f1fb] p-6">
+              <MotionText as="div" delay={0.26} className="bg-[#f4f1fb] p-6">
                 <Compass className="text-[#6657c8]" size={30} strokeWidth={2.2} />
                 <p className="mt-5 text-sm font-extrabold uppercase tracking-[0.18em] text-[#6657c8]">
                   Our Approach
@@ -248,7 +252,7 @@ export default function AboutPage() {
                   Structured learning, caring guidance, and practical
                   opportunities help students discover what they can become.
                 </p>
-              </div>
+              </MotionText>
             </div>
           </div>
         </div>
@@ -257,32 +261,34 @@ export default function AboutPage() {
       <section id="mission" className="bg-[#f7f4ed] px-5 py-16 sm:px-8 lg:px-20">
         <div className="mx-auto max-w-[1180px]">
           <div className="grid gap-5 lg:grid-cols-2">
-            <article className="border border-[#e4dfd2] bg-white p-7 shadow-[0_24px_70px_rgba(67,56,37,0.07)] sm:p-9">
+            <MotionText as="article" className="border border-[#e4dfd2] bg-white p-7 shadow-[0_24px_70px_rgba(67,56,37,0.07)] sm:p-9">
               <SectionLabel>Our Mission</SectionLabel>
               <MotionText as="p" className="mt-7 text-lg leading-9 text-[#4f4f62]">
                 To nurture inquiring, knowledgeable, and compassionate young
                 people who embrace Africa's rich heritage while engaging the
                 world with respect, confidence, and a lifelong love of learning.
               </MotionText>
-            </article>
+            </MotionText>
 
-            <article id="vision" className="border border-[#dcd6f3] bg-[#f4f1fb] p-7 shadow-[0_24px_70px_rgba(86,72,150,0.08)] sm:p-9">
+            <MotionText as="article" id="vision" delay={0.1} className="border border-[#dcd6f3] bg-[#f4f1fb] p-7 shadow-[0_24px_70px_rgba(86,72,150,0.08)] sm:p-9">
               <SectionLabel>Our Vision</SectionLabel>
               <MotionText as="p" className="mt-7 text-lg leading-9 text-[#4f4f62]">
                 To inspire principled learners who think clearly, act with
                 integrity, and grow into innovative leaders able to contribute
                 meaningfully to Ghana, Africa, and the wider world.
               </MotionText>
-            </article>
+            </MotionText>
           </div>
 
           <div className="mt-5 grid gap-5 md:grid-cols-3">
-            {values.map((value) => {
+            {values.map((value, index) => {
               const Icon = value.icon;
 
               return (
-                <article
+                <MotionText
+                  as="article"
                   key={value.title}
+                  delay={index * 0.08}
                   className="border border-[#e8e5f0] bg-white p-6"
                 >
                   <span className="flex h-12 w-12 items-center justify-center bg-[#e8f1ff] text-[#2563eb]">
@@ -294,7 +300,7 @@ export default function AboutPage() {
                   <p className="mt-3 text-sm leading-7 text-[#555568]">
                     {value.body}
                   </p>
-                </article>
+                </MotionText>
               );
             })}
           </div>
@@ -324,8 +330,10 @@ export default function AboutPage() {
 
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {awards.map((award, index) => (
-              <article
+              <MotionText
+                as="article"
                 key={award.title}
+                delay={index * 0.08}
                 className="overflow-hidden border border-[#ded8ef] bg-white shadow-[0_20px_52px_rgba(86,72,150,0.08)] transition hover:-translate-y-1 hover:border-[#bfb6ec]"
               >
                 <img
@@ -353,7 +361,7 @@ export default function AboutPage() {
                     {award.body}
                   </p>
                 </div>
-              </article>
+              </MotionText>
             ))}
           </div>
         </div>
@@ -435,9 +443,11 @@ export default function AboutPage() {
 
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {discoveryLinks.map((item) => (
-              <a
+              <MotionText
+                as="a"
                 key={item.title}
                 href={item.href}
+                delay={discoveryLinks.indexOf(item) * 0.08}
                 className="group overflow-hidden bg-white text-left text-[#171727] shadow-[0_26px_70px_rgba(1,8,20,0.22)] transition hover:-translate-y-1"
               >
                 <img
@@ -460,7 +470,7 @@ export default function AboutPage() {
                   </p>
                   <div className="mt-6 h-1 w-full bg-[#49bd7a]" />
                 </div>
-              </a>
+              </MotionText>
             ))}
           </div>
         </div>

@@ -97,6 +97,14 @@ export default function NewsPage() {
 
           {featuredStory && (
             <article className="mt-10 overflow-hidden rounded-lg border border-[#e4dfd2] bg-white p-6 shadow-[0_24px_70px_rgba(67,56,37,0.08)] sm:p-8 lg:p-10">
+              {featuredStory.image && (
+                <img
+                  src={featuredStory.image}
+                  alt=""
+                  className="mb-7 aspect-[16/7] w-full rounded-md object-cover"
+                  loading="lazy"
+                />
+              )}
               <div className="inline-flex items-center gap-2 rounded-full bg-[#fff3cc] px-4 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-[#a56f00]">
                 <Sparkles size={15} strokeWidth={2.3} />
                 Featured Update
@@ -135,6 +143,14 @@ export default function NewsPage() {
                   key={item.slug}
                   className="rounded-lg border border-[#e4dfd2] bg-white p-6 transition hover:-translate-y-1 hover:border-[#c7bff1] hover:shadow-[0_20px_52px_rgba(86,72,150,0.1)]"
                 >
+                  {item.image && (
+                    <img
+                      src={item.image}
+                      alt=""
+                      className="mb-5 aspect-[16/10] w-full rounded-md object-cover"
+                      loading="lazy"
+                    />
+                  )}
                   <div className="flex flex-wrap items-center gap-3">
                     <span className="inline-flex items-center rounded-full bg-[#eeeaff] px-3 py-1.5 text-xs font-extrabold uppercase tracking-[0.16em] text-[#7b70cc]">
                       {item.category}

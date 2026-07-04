@@ -6,10 +6,9 @@ import {
   School,
   Umbrella,
 } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import MotionText from "./MotionText";
-import { fallbackBriefs, fallbackNewsItems } from "../data/newsContent";
-
-const featuredStory = fallbackNewsItems.find((item) => item.featured) || fallbackNewsItems[0];
+import { fetchNewsFeed, getFallbackNewsFeed } from "../lib/newsApi";
 
 const newsItemStyles = {
   Vacation: {
@@ -29,9 +28,6 @@ const newsItemStyles = {
   },
 };
 
-const newsItems = fallbackNewsItems.filter((item) => !item.featured).slice(0, 3);
-const briefs = fallbackBriefs;
-
 function SpiderNewsMark() {
   return (
     <svg
@@ -49,6 +45,30 @@ function SpiderNewsMark() {
 }
 
 export default function SchoolNews() {
+  const [feed, setFeed] = useState(() => getFallbackNewsFeed());
+
+  useEffect(() => {
+    let isMounted = true;
+
+    fetchNewsFeed().then((nextFeed) => {
+      if (isMounted) setFeed(nextFeed);
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const featuredStory = useMemo(
+    () => feed.items.find((item) => item.featured) || feed.items[0],
+    [feed.items]
+  );
+  const newsItems = useMemo(
+    () => feed.items.filter((item) => item.slug !== featuredStory?.slug).slice(0, 3),
+    [featuredStory?.slug, feed.items]
+  );
+  const briefs = feed.briefs;
+
   return (
     <section id="news" className="relative overflow-hidden bg-[#fffefa] px-5 py-16 text-[#171727] sm:px-8 lg:px-20 lg:py-20">
       <style>
@@ -101,6 +121,14 @@ export default function SchoolNews() {
 
         <div className="mt-10 grid gap-5 lg:grid-cols-[1.35fr_0.65fr]">
           <article className="rounded-lg border border-[#e4dfd2] bg-white p-6 shadow-[0_24px_70px_rgba(67,56,37,0.08)] sm:p-8">
+            {featuredStory.image && (
+              <img
+                src={featuredStory.image}
+                alt=""
+                className="mb-6 aspect-[16/8] w-full rounded-md object-cover"
+                loading="lazy"
+              />
+            )}
             <div className="flex flex-wrap items-center gap-3">
               <span className="inline-flex items-center gap-2 rounded-full bg-[#eeeaff] px-3 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-[#7b70cc]">
                 <Newspaper size={15} strokeWidth={2.3} />
@@ -169,6 +197,14 @@ export default function SchoolNews() {
                 key={item.title}
                 className="rounded-lg border border-[#e4dfd2] bg-white p-6 transition hover:-translate-y-1 hover:border-[#c7bff1] hover:shadow-[0_20px_52px_rgba(86,72,150,0.1)]"
               >
+                {item.image && (
+                  <img
+                    src={item.image}
+                    alt=""
+                    className="mb-5 aspect-[16/10] w-full rounded-md object-cover"
+                    loading="lazy"
+                  />
+                )}
                 <div className={`flex h-11 w-11 items-center justify-center rounded-md ${style.bg} ${style.color}`}>
                   <Icon size={22} strokeWidth={2.2} />
                 </div>

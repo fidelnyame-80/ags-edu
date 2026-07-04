@@ -14,6 +14,7 @@ const handleHeroNavClick = (event, href) => {
 };
 
 const SCHOOL_BG = Images.heroImg1;
+const HERO_VIDEO_SRC = "/videos/Ags%20Droneview.optimized.mp4";
 const WELCOME_TEXT = "Welcome to Accra Grammar School";
 const TAGLINE_TEXT = "Shaping leaders, building futures";
 const PASSPORT_TEXT = "Academic passport to the world";
@@ -82,12 +83,29 @@ export default function HeroSection() {
     <section
       className="relative h-[100vh] max-h-[650px] min-h-[620px] overflow-hidden lg:h-[52vh] lg:max-h-[620px] lg:min-h-[560px]"
     >
-      {/* Background image */}
+      {/* Background media */}
       <img
         src={SCHOOL_BG}
-        alt="Accra Grammar School campus"
+        alt=""
         className="absolute inset-0 w-full h-full object-cover object-center"
+        aria-hidden="true"
+        decoding="async"
       />
+      <video
+        className="absolute inset-0 h-full w-full object-cover object-center"
+        style={{ transform: "translateZ(0)" }}
+        autoPlay
+        muted
+        playsInline
+        loop
+        preload="auto"
+        poster={SCHOOL_BG}
+        aria-hidden="true"
+        tabIndex={-1}
+        disablePictureInPicture
+      >
+        <source src={HERO_VIDEO_SRC} type="video/mp4" />
+      </video>
 
       {/* Dark gradient overlay */}
       <div
@@ -127,7 +145,7 @@ export default function HeroSection() {
             as="h1"
             amount={0.6}
             delay={0.08}
-            className="mb-1 font-bold leading-tight text-white lg:[font-size:clamp(2.15rem,3.4vw,4.55rem)] lg:[min-height:clamp(4.8rem,7.4vw,9.8rem)]"
+            className="mb-1 font-extrabold leading-tight text-white lg:[font-size:clamp(2.15rem,3.4vw,4.55rem)] lg:[min-height:clamp(4.8rem,7.4vw,9.8rem)]"
             style={{
               fontFamily: "Georgia, 'Times New Roman', serif",
               fontSize: "clamp(2rem, 4.5vw, 5rem)",
