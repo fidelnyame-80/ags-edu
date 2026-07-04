@@ -788,7 +788,7 @@ function PreschoolPage({ division }) {
             />
             <div className="absolute bottom-2 left-0 h-[215px] w-[66%] max-w-[320px] bg-[#e9e3ff]" />
             <img
-              src={Images.learningExcellence}
+              src={Images.playground}
               alt="Young AGS learners at play"
               className="absolute bottom-7 left-5 h-[215px] w-[66%] max-w-[320px] object-cover object-[10%_50%] shadow-[0_24px_70px_rgba(86,72,150,0.16)]"
             />
