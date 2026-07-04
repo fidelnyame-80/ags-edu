@@ -626,13 +626,7 @@ function PreschoolGallerySection() {
                 loading="lazy"
                 decoding="async"
               />
-              <figcaption className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-3">
-                <span
-                  className={`max-w-full px-3 py-2 text-[0.68rem] font-extrabold uppercase tracking-[0.14em] shadow-[0_12px_30px_rgba(23,23,39,0.12)] ${item.badgeClassName}`}
-                >
-                  {item.label}
-                </span>
-              </figcaption>
+
             </figure>
           ))}
         </div>
