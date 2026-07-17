@@ -10,6 +10,8 @@ import {
   Users,
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import AcademicImageMask from "./AcademicImageMask";
 import { Images } from "../assets/Images/Images";
 
 //function to handle hero nav link clicks, preventing default and using history API for smooth navigation and scroll to top
@@ -21,6 +23,26 @@ const handleHeroNavClick = (event, href) => {
   window.dispatchEvent(new Event("ags:navigate"));
 
   window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+const promiseContainerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.15 } },
+};
+
+const promiseItemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
+};
+
+const promiseSlideLeft = {
+  hidden: { opacity: 0, x: -24 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
+};
+
+const promiseScaleIn = {
+  hidden: { opacity: 0, scale: 0.85 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
 };
 
 const promiseStats = [
@@ -412,48 +434,56 @@ export default function Intro() {
     <section
       id="about"
       ref={introRef}
-      className="relative isolate overflow-hidden bg-[#fffefa] px-5 py-14 text-[#171727] sm:px-8 lg:h-[620px] lg:px-0 lg:py-0"
+      className="relative isolate overflow-hidden bg-[#fffefa] px-[clamp(1rem,5vw,1.5rem)] py-14 text-[#171727] sm:px-8 lg:h-[620px] lg:px-0 lg:py-0"
     >
       <IntroMotionStyles />
       <IntroBackgroundArtwork isVisible={isArtworkVisible} />
       <div className="pointer-events-none absolute inset-0 z-[1] bg-[#fffaf1]/38" aria-hidden="true" />
 
       <div className="relative z-10 mx-auto grid max-w-[1020px] items-start gap-10 lg:h-full lg:grid-cols-none lg:gap-0">
-        <div className="max-w-[430px] pt-16 lg:absolute lg:left-[92px] lg:top-[68px] lg:w-[330px] lg:pt-0">
-          <p
-            className={`text-[1.2rem] font-bold uppercase tracking-[0.34em] text-[#7b70cc] ${glideClass(isArtworkVisible, "down")}`}
+        <motion.div
+          className="w-full max-w-[clamp(18rem,90vw,30rem)] pt-16 lg:absolute lg:left-[clamp(4rem,7vw,7rem)] lg:top-[3.2rem] lg:w-[clamp(24rem,31vw,33rem)] lg:pt-0"
+          variants={promiseContainerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.3 }}
+        >
+          <motion.p
+            className="text-[1.2rem] font-bold uppercase tracking-[0.34em] text-[#7b70cc]"
+            variants={promiseItemVariants}
           >
             Our Promise
-          </p>
-          <div
-            className={`mt-3 h-0.5 w-14 bg-[#7b70cc] ${glideClass(isArtworkVisible, "left")}`}
-            style={{ transitionDelay: "80ms" }}
+          </motion.p>
+          <motion.div
+            className="mt-3 h-0.5 w-14 bg-[#7b70cc]"
+            variants={promiseSlideLeft}
           />
 
-          <h2
-            className={`mt-5 text-[2.45rem] font-bold leading-[1.04] text-[#171727] sm:text-[3rem] lg:mt-6 lg:text-[2.1rem] ${glideClass(isArtworkVisible, "up")}`}
+          <motion.h2
+            className="mt-5 text-[clamp(2.25rem,5vw,3.3rem)] font-bold leading-[1.05] text-[#171727] lg:mt-6"
             style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+            variants={promiseItemVariants}
           >
             Where character meets{" "}
             <span className="italic text-[#6657c8]">curiosity.</span>
-          </h2>
+          </motion.h2>
 
-          <p
-            className={`mt-6 max-w-[390px] text-[0.95rem] leading-7 text-[#555568] lg:mt-5 lg:max-w-[335px] lg:text-[0.92rem] lg:leading-6 ${glideClass(isArtworkVisible, "up")}`}
-            style={{ transitionDelay: "140ms" }}
+          <motion.p
+            className="mt-[30px] max-w-[390px] text-[0.95rem] leading-7 text-[#555568] lg:mt-[30px] lg:max-w-[clamp(22rem,27vw,30rem)] lg:text-[0.92rem] lg:leading-6"
+            variants={promiseItemVariants}
           >
             We believe great schools do not simply teach. They shape minds
             capable of independent thought and hearts grounded in service. Every
             classroom, lab, and stage at AGS is designed around that conviction.
-          </p>
+          </motion.p>
 
-          <div
-            className={`mt-8 flex flex-wrap gap-4 lg:mt-6 ${glideClass(isArtworkVisible, "up")}`}
-            style={{ transitionDelay: "220ms" }}
+          <motion.div
+            className="mt-8 flex flex-wrap gap-4 lg:mt-6"
+            variants={promiseItemVariants}
           >
             <a
               href="#about" onClick={(event) => handleHeroNavClick(event, "/about/")}
-              className="inline-flex min-h-11 items-center gap-2 rounded-md bg-[#5f54bf] px-5 text-sm font-bold text-white shadow-[0_16px_30px_rgba(95,84,191,0.2)] transition hover:-translate-y-0.5 hover:bg-[#7164d2] lg:min-h-10 lg:px-4 lg:text-[0.82rem]"
+              className="inline-flex min-h-11 items-center gap-2 rounded-md bg-[#5f54bf] px-[clamp(1rem,2vw,1.5rem)] text-[clamp(.82rem,.9vw,.95rem)] font-bold text-white shadow-[0_16px_30px_rgba(95,84,191,0.2)] transition hover:-translate-y-0.5 hover:bg-[#7164d2] lg:min-h-10 lg:px-4 lg:text-[0.82rem]"
             >
               Learn More About Us
               <ArrowRight size={15} strokeWidth={2.4} />
@@ -461,61 +491,75 @@ export default function Intro() {
 
             <a
               href="#values" onClick={(event) => handleHeroNavClick(event, "/about/")}
-              className="inline-flex min-h-11 items-center gap-3 rounded-md border border-[#7468d0] bg-white px-5 text-sm font-bold text-[#6657c8] transition hover:-translate-y-0.5 hover:bg-[#f4f1ff] lg:min-h-10 lg:px-4 lg:text-[0.82rem]"
+              className="inline-flex min-h-11 items-center gap-3 rounded-md border border-[#7468d0] bg-white px-[clamp(1rem,2vw,1.5rem)] text-[clamp(.82rem,.9vw,.95rem)] font-bold text-[#6657c8] transition hover:-translate-y-0.5 hover:bg-[#f4f1ff] lg:min-h-10 lg:px-4 lg:text-[0.82rem]"
             >
               Our Values
               <Heart size={17} strokeWidth={2.3} />
             </a>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        <div className="relative min-h-[380px] lg:absolute lg:right-[76px] lg:top-[130px] lg:min-h-0 lg:w-[470px]">
-          <div className="absolute right-0 top-1/2 hidden -translate-y-1/2 lg:block lg:top-[82px]">
-            <BookStackIllustration />
-          </div>
+        <motion.div
+          className="relative lg:absolute lg:right-[clamp(-10rem,-10vw,7rem)] lg:top-[2rem] lg:w-[clamp(43rem,50vw,48rem)]"
+          variants={promiseScaleIn}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.3 }}
+        >
+          <div className="relative h-[500px]">
+            <motion.div
+              className="absolute lg:left-[clamp(5rem,2vw,2.5rem)] top-[1rem] z-[2] lg:w-[clamp(27rem,30vw,30rem)] w-[clamp(23rem,28vw,30rem)] lg:h-[clamp(28rem,35vw,34rem)] h-[clamp(24rem,34vw,35rem)]  overflow-visible"
+              initial={{ scale: 0.6, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              viewport={{ once: false, amount: 0.3 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <AcademicImageMask
+                src={Images.ourPromiseSectionImg}
+                alt="Our Promise Section"
+                objectPosition="50% 50%"
+                className="h-full w-full transition-all duration-[0.6s] ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-[1.03] hover:saturate-[1.06]"
+              />
+            </motion.div>
 
-          <article
-            className={`group relative mx-auto mt-2 max-w-[430px] rounded-lg border border-[#e8e5f0] bg-white p-6 shadow-[0_24px_70px_rgba(78,68,132,0.1)] transition-all duration-500 ease-out hover:z-20 hover:-translate-y-4 hover:scale-[1.055] hover:rotate-[-0.45deg] hover:border-[#cfc5f0] hover:shadow-[0_38px_100px_rgba(78,68,132,0.24)] sm:p-7 lg:mx-0 lg:mt-0 lg:w-[500px] lg:max-w-none lg:p-6 ${glideClass(isArtworkVisible, "right")}`}
-            style={{
-              transitionDelay: "260ms",
-              transformOrigin: "center center",
-            }}
-          >
-            <div className="pointer-events-none absolute inset-0 rounded-lg opacity-0 ring-2 ring-[#7b70cc]/0 transition duration-500 group-hover:opacity-100 group-hover:ring-[#7b70cc]/18" />
-            <div className="grid gap-5 sm:grid-cols-[1.75fr_0.85fr] lg:grid-cols-[2fr_0.85fr] lg:gap-5">
-              <div className="min-h-[230px] overflow-hidden rounded-md border border-[#ece8f6] bg-[#f7f3ff] lg:min-h-[210px]">
-                <img
-                  src={Images.academicExcellence}
-                  alt="Academic excellence classroom"
-                  className="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-110 group-hover:saturate-[1.08]"
-                />
-              </div>
-
-              <div className="min-w-0">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[#eeeaff] text-[#5f54bf] lg:h-10 lg:w-10">
-                  <BookOpen size={25} strokeWidth={2.1} />
-                </div>
-                <h3
-                  className="mt-4 text-xl font-bold leading-tight text-[#171727] lg:mt-3 lg:text-[1.12rem]"
-                  style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
-                >
-                  Academic Excellence
-                </h3>
-                <p className="mt-3 text-sm leading-6 text-[#626277] lg:text-[0.84rem] lg:leading-[1.35rem]">
-                  Rigorous instruction and guided inquiry help students build
-                  lasting mastery.
-                </p>
-                <a
-                  href="/academics/"
-                  className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#5f54bf] transition hover:text-[#7164d2] lg:mt-4 lg:text-[0.84rem]"
-                >
-                  Explore Academics
-                  <ArrowRight size={15} strokeWidth={2.4} />
-                </a>
-              </div>
+            <div className="absolute z-0 scale-[0.42] opacity-[0.18]" style={{ top: '-12px', right: '42px' }}>
+              <BookStackIllustration />
             </div>
 
-            <div className="mt-5 flex items-center justify-between lg:mt-4">
+            <div
+              className="absolute z-[4] w-[228px] rounded-[16px] border bg-white p-[14px]"
+              style={{
+                right: "clamp(2rem,7vw,6rem)",
+                bottom: "clamp(2rem,6vw,5rem)",
+                borderColor: '#ECE9F4',
+                boxShadow: '0 18px 40px rgba(24,24,34,.08)',
+              }}
+            >
+              <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#eeeaff] text-[#5f54bf]">
+                <BookOpen size={14} strokeWidth={2.1} />
+              </div>
+              <h3
+                className="mt-0.5 text-[13px] font-bold leading-tight text-[#171727]"
+                style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+              >
+                Academic Excellence
+              </h3>
+              <p className="mt-[2px] text-[10px] leading-[16px] text-[#626277]">
+                Rigorous instruction and guided inquiry help students build
+                lasting mastery.
+              </p>
+              <a
+                href="/academics/"
+                className="mt-[4px] inline-flex items-center gap-1 text-[10px] font-semibold text-[#5f54bf] transition hover:text-[#7164d2]"
+              >
+                Explore Academics
+                <ArrowRight size={10} strokeWidth={2.4} />
+              </a>
+            </div>
+          </div>
+
+          <div className="flex justify-center" style={{ width: "clamp(22rem,28vw,28rem)", marginLeft: "clamp(1rem,2vw,2.5rem)", marginTop: '20px' }}>
+            <div className="flex items-center gap-3 lg:gap-2.5">
               <button
                 type="button"
                 aria-label="Previous promise"
@@ -541,22 +585,25 @@ export default function Intro() {
                 <ChevronRight size={16} />
               </button>
             </div>
-          </article>
-
-          <div className="mt-1 flex justify-center sm:mt-8 lg:absolute lg:right-0 lg:top-24 lg:mt-0 lg:hidden">
-            <BookStackIllustration />
           </div>
-        </div>
+        </motion.div>
       </div>
 
-      <div className="relative z-10 mx-auto mt-12 hidden max-w-[900px] rounded-lg bg-white/82 px-5 py-4 shadow-[0_18px_60px_rgba(92,80,150,0.08)] ring-1 ring-[#eeeaf6] backdrop-blur sm:block sm:px-7 lg:absolute lg:bottom-12 lg:left-1/2 lg:mt-0 lg:w-[700px] lg:-translate-x-1/2 lg:px-5 lg:py-2.5">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0">
+      <motion.div
+        className="relative z-10 mx-auto mt-12 hidden max-w-[900px] rounded-lg bg-white/82 px-5 py-4 shadow-[0_18px_60px_rgba(92,80,150,0.08)] ring-1 ring-[#eeeaf6] backdrop-blur sm:block sm:px-7 lg:absolute lg:bottom-12 lg:left-1/2 lg:mt-0 lg:w-[700px] lg:-translate-x-1/2 lg:transform lg:translate-y-10 lg:px-5 lg:py-2.5"
+        variants={promiseContainerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.3 }}
+      >
+        <div className="grid gap-4 sm:grid-cols-2  lg:grid-cols-4 lg:gap-0">
           {promiseStats.map((stat, index) => {
             const Icon = stat.icon;
 
             return (
-              <div
+              <motion.div
                 key={stat.value}
+                variants={promiseItemVariants}
                  className={`flex items-center gap-4 py-2 lg:gap-3 lg:px-5 ${
                   index > 0 ? "lg:border-l lg:border-[#ded9eb]" : ""
                 }`}
@@ -568,11 +615,11 @@ export default function Intro() {
                   <p className="text-sm font-extrabold text-[#171727] lg:text-[0.86rem]">{stat.value}</p>
                   <p className="mt-1 text-xs leading-4 text-[#4d4d61] lg:text-[0.76rem] lg:leading-4">{stat.label}</p>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

@@ -9,6 +9,7 @@ import CommunityPage from './Components/CommunityPage';
 import ContactsPage from './Components/ContactsPage';
 import Footer from './Components/Footer';
 import Intro from './Components/Intro';
+import LearningEnvironment from './Components/LearningEnvironment';
 import Navbar from './Components/Navbar';
 import NewsPage from './Components/NewsPage';
 import SchoolNews from './Components/SchoolNews';
@@ -56,6 +57,7 @@ function HomePage() {
     <>
       <HeroSection/>
       <Intro />
+      <LearningEnvironment />
       <AcademicFlip />
       <SchoolNews />
       <Testimonials />

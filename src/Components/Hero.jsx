@@ -81,7 +81,8 @@ export default function HeroSection() {
 
   return (
     <section
-      className="relative h-[100vh] max-h-[650px] min-h-[620px] overflow-hidden lg:h-[52vh] lg:max-h-[620px] lg:min-h-[560px]"
+      className="relative overflow-hidden"
+      style={{ height: "clamp(36rem, 60vw, 42rem)" }}
     >
       {/* Background media */}
       <img
@@ -126,14 +127,20 @@ export default function HeroSection() {
 
       {/* Content */}
       <div
-        className="relative z-10 mx-auto flex h-full items-center px-10 md:px-20 lg:items-start lg:pt-16 lg:pb-32"
-        style={{ maxWidth: "1400px" }}
+        className="relative z-10 mx-auto flex h-full items-center lg:items-start"
+        style={{
+          paddingInline: "clamp(1.5rem, 6vw, 5rem)",
+          paddingTop: "clamp(4rem, 8vw, 7rem)",
+          paddingBottom: "clamp(2rem, 6vw, 6rem)",
+          maxWidth: "clamp(75rem,92vw,90rem)",
+        }}
       >
         {/* Left: Text */}
-        <div className="flex-1 max-w-xl">
+        <div className="flex-1" style={{ maxWidth: "clamp(24rem,40vw,42rem)" }}>
           <MotionText
             amount={0.6}
-            className="mb-5 flex items-center gap-4 text-blue-100/72"
+            className="flex items-center text-blue-100/72"
+            style={{ marginBottom: "clamp(.8rem,2vw,1.5rem)", gap: "clamp(.8rem,1.6vw,1.3rem)" }}
           >
             <span className="h-px w-11 bg-current" aria-hidden="true" />
               <p className="text-sm font-semibold uppercase tracking-[0.34em]">
@@ -145,7 +152,7 @@ export default function HeroSection() {
             as="h1"
             amount={0.6}
             delay={0.08}
-            className="mb-1 font-extrabold leading-tight text-white lg:[font-size:clamp(2.15rem,3.4vw,4.55rem)] lg:[min-height:clamp(4.8rem,7.4vw,9.8rem)]"
+            className="mb-1 font-extrabold leading-tight text-white"
             style={{
               fontFamily: "Georgia, 'Times New Roman', serif",
               fontSize: "clamp(2rem, 4.5vw, 5rem)",
@@ -157,7 +164,8 @@ export default function HeroSection() {
             {typedText}
             {typedText !== WELCOME_TEXT && (
               <span
-                className="ml-1 inline-block h-[0.8em] w-[3px] animate-pulse rounded-full bg-white align-[-0.08em]"
+                className="ml-1 inline-block h-[0.8em] animate-pulse rounded-full bg-white align-[-0.08em]"
+                style={{ width: "clamp(2px,.25vw,4px)" }}
                 aria-hidden="true"
               />
             )}
@@ -165,10 +173,10 @@ export default function HeroSection() {
 
           <div className="mb-4 lg:mb-3" style={{ minHeight: "2.25rem" }}>
             <p
-              className="text-blue-200 lg:[font-size:clamp(1.05rem,1.45vw,1.38rem)] lg:[min-height:1.7em]"
+              className="text-blue-200"
               style={{
                 fontFamily: "Georgia, 'Times New Roman', serif",
-                fontSize: "clamp(1rem, 1.6vw, 1.45rem)",
+                fontSize: "clamp(1rem,1.3vw,1.3rem)",
                 fontWeight: 700,
                 letterSpacing: "0",
                 minHeight: "1.8em",
@@ -188,33 +196,36 @@ export default function HeroSection() {
 
           <div
             className="mb-6 rounded-full lg:mb-4"
-            style={{ height: "4px", width: "56px", background: "#3b82f6" }}
+            style={{ height: "4px", width: "clamp(3rem,4vw,5rem)", background: "#3b82f6" }}
           />
 
           <MotionText
             as="p"
             amount={0.6}
             delay={0.16}
-            className="mb-10 leading-relaxed text-blue-100 lg:mb-6 lg:[font-size:clamp(1rem,1.22vw,1.15rem)]"
+            className="leading-relaxed text-blue-100"
             style={{
               fontFamily: "'DM Sans', sans-serif",
-              fontSize: "clamp(0.95rem, 1.4vw, 1.1rem)",
+              fontSize: "clamp(.95rem,1.1vw,1.08rem)",
               fontWeight: 300,
-              maxWidth: "400px",
+              maxWidth: "clamp(20rem,30vw,28rem)",
               opacity: 0.92,
+              marginBottom: "clamp(1.5rem,3vw,3rem)",
             }}
           >
             Accra Grammar School is committed to academic excellence, character
             development, and leadership in a supportive community.
           </MotionText>
 
-          <div className="flex flex-wrap gap-4 lg:gap-3">
+          <div className="flex flex-wrap" style={{ gap: "clamp(.8rem,1.6vw,1.3rem)" }}>
             <a
               href="/admissions/" onClick={(event) => handleHeroNavClick(event, "/admissions/")}
-              className="flex items-center gap-2 rounded-full px-7 py-3 font-medium text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(30,100,220,0.45)] lg:px-6 lg:py-2.5 lg:[font-size:1rem]"
+              className="flex items-center gap-2 rounded-full font-medium text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(30,100,220,0.45)]"
               style={{
                 background: "linear-gradient(135deg, #2563eb, #1d4ed8)",
-                fontSize: "0.95rem",
+                fontSize: "clamp(.88rem,.9vw,1rem)",
+                paddingInline: "clamp(1.25rem,2vw,2rem)",
+                paddingBlock: "clamp(.7rem,1vw,.95rem)",
               }}
             >
               Apply Now
@@ -231,12 +242,13 @@ export default function HeroSection() {
 
             <a
               href="/about/" onClick={(event) => handleHeroNavClick(event, "/about/")}
-              className="flex items-center gap-2 rounded-full px-7 py-3 font-medium text-white transition-all duration-300 hover:-translate-y-1 hover:bg-white/10 lg:px-6 lg:py-2.5 lg:[font-size:1rem]"
+              className="flex items-center gap-2 rounded-full font-medium text-white transition-all duration-300 hover:-translate-y-1 hover:bg-white/10"
               style={{
                 border: "1.5px solid rgba(255,255,255,0.55)",
-                fontSize: "0.95rem",
+                fontSize: "clamp(.88rem,.9vw,1rem)",
+                paddingInline: "clamp(1.25rem,2vw,2rem)",
+                paddingBlock: "clamp(.7rem,1vw,.95rem)",
                 background: "rgba(255,255,255,0.06)",
-                
               }}
             >
               Learn More

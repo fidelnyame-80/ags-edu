@@ -12,6 +12,7 @@ import founderImage from "./founderImage.webp";
 import graduation1 from "./graduation1.webp";
 import graduation2 from "./graduation2.webp";
 import graduation3 from "./graduation3.webp";
+import graduands from "./graduands.webp";
 import learningExcellence from "./learningExcellence.webp";
 import playground from "./playground.webp";
 import playground2 from "./playground2.webp";
@@ -21,6 +22,7 @@ import preschool2 from "./preschool2.webp";
 import preschool3 from "./preschool3.webp";
 import preschool4 from "./preschool4.webp";
 import kiddafest1 from "./kiddafest1.webp";
+import learningEnvironment from "./LearningEnvironment.webp";
 import kiddafest2 from "./kiddafest2.webp";
 import kiddafest3 from "./kiddafest3.webp";
 import regionalQualifiers from "./regionalQualifiers.webp";
@@ -33,6 +35,7 @@ import heroImg1 from "./ags-compound.webp";
 import schoolProspectus from "./schoolProspectus.webp";
 import schoolBroadsheet from "./schoolBroadsheet.webp";
 import principal from "./principalImage.webp";
+import ourPromiseSectionImg from "./ourPromiseSectionImg.jpeg";
 
 export const Images = {
   agsLogo,
@@ -49,6 +52,7 @@ export const Images = {
   graduation1,
   graduation2,
   graduation3,
+  graduands,
   learningExcellence,
   playground,
   playground2,
@@ -58,6 +62,7 @@ export const Images = {
   preschool3,
   preschool4,
   kiddafest1,
+  learningEnvironment,
   kiddafest2,
   kiddafest3,
   regionalQualifiers,
@@ -70,6 +75,7 @@ export const Images = {
   schoolProspectus,
   schoolBroadsheet,
   principal,
+  ourPromiseSectionImg,
 };
 
 export const ImageCollections = {
