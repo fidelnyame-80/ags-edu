@@ -120,42 +120,31 @@ const leadPath =
 
 const cardShapes = [discoverPath, growPath, leadPath];
 
+const cardBBoxes = [
+  { x: 223, y: 0, width: 226, height: 178 },
+  { x: 421, y: 0, width: 182, height: 178 },
+  { x: 618, y: 0, width: 173, height: 182 },
+];
+
 const flyFrom = [
   { x: -120, y: 100 },
   { x: 80, y: -120 },
   { x: 140, y: 80 },
 ];
 
-const imageAlign = [
-  { tx: -45.08, ty: -0.15 },
-  { tx: -0.12, ty: -0.08 },
-  { tx: -0.06, ty: -0.18 },
-];
-
 const AcademicSVG = React.memo(function AcademicSVG() {
   return (
     <svg
-      viewBox="222.9 -0.098 567.5 178.8"
-      className="w-full"
+      viewBox="215 -5 590 190"
+      className="w-full h-auto"
       preserveAspectRatio="xMidYMid meet"
+      style={{ overflow: "visible" }}
     >
       <defs>
         {pathwayCards.map((card, i) => (
-          <pattern
-            key={card.title}
-            id={`card-img-${i}`}
-            patternUnits="objectBoundingBox"
-            width="1"
-            height="1"
-            patternTransform={`translate(${imageAlign[i].tx}, ${imageAlign[i].ty})`}
-          >
-            <image
-              href={card.src}
-              width="100%"
-              height="100%"
-              preserveAspectRatio="xMidYMid slice"
-            />
-          </pattern>
+          <clipPath key={card.title} id={`card-clip-${i}`}>
+            <path d={cardShapes[i]} />
+          </clipPath>
         ))}
       </defs>
       {pathwayCards.map((card, i) => (
@@ -170,9 +159,19 @@ const AcademicSVG = React.memo(function AcademicSVG() {
             ease: [0.22, 1, 0.36, 1],
           }}
         >
+          <g clipPath={`url(#card-clip-${i})`}>
+            <image
+              href={card.src}
+              x={cardBBoxes[i].x}
+              y={cardBBoxes[i].y}
+              width={cardBBoxes[i].width}
+              height={cardBBoxes[i].height}
+              preserveAspectRatio="xMidYMid slice"
+            />
+          </g>
           <path
             d={cardShapes[i]}
-            fill={`url(#card-img-${i})`}
+            fill="none"
             stroke="#000"
             strokeWidth="0.1"
           />
@@ -356,7 +355,7 @@ export default function AcademicFlip() {
       <div className="relative z-10 mx-auto max-w-[1760px] px-5 sm:px-8 lg:px-14">
         <div className="grid items-center gap-10 lg:grid-cols-[2fr_1fr]">
           <div className={`academic-glide-up ${isHeadingVisible ? "is-visible" : ""}`}>
-            <div className="sm:scale-110 md:scale-[1.25] lg:scale-[1.35] origin-left overflow-visible" style={{ width: "clamp(300px, 55vw, 780px)" }}>
+            <div className="mx-auto" style={{ width: "100%", maxWidth: "780px" }}>
               <AcademicSVG />
             </div>
           </div>
