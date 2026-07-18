@@ -112,6 +112,7 @@ export default function AcademicsPage() {
           src={Images.academicExcellence}
           alt="AGS student during a focused classroom session"
           className="absolute inset-0 h-full w-full object-cover object-center"
+          loading="lazy"
         />
         <div
           className="absolute inset-0"
@@ -203,6 +204,7 @@ export default function AcademicsPage() {
                       alt=""
                       className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                       aria-hidden="true"
+                      loading="lazy"
                     />
                   </div>
                   <div className="p-6">
@@ -325,6 +327,7 @@ export default function AcademicsPage() {
           src={Images.schoolCompound2}
           alt="AGS campus walkway"
           className="absolute inset-0 h-full w-full object-cover object-center"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-[#061a34]/82" />
         <div className="relative z-10 mx-auto grid max-w-[1180px] gap-8 lg:grid-cols-[1fr_0.7fr] lg:items-center">

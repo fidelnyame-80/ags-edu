@@ -11,6 +11,7 @@ export default function AcademicImageMask({ src, alt, objectPosition = "50% 50%"
       <img
         src={src}
         alt={alt || ""}
+        loading="lazy"
         style={{ clipPath: "url(#academic-mask-clip)", objectPosition, width: "100%", height: "100%", objectFit: "cover" }}
       />
     </div>

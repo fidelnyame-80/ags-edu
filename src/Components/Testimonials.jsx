@@ -75,6 +75,7 @@ export default function Testimonials() {
         alt=""
         className="absolute inset-0 h-full w-full object-cover object-center"
         aria-hidden="true"
+        loading="lazy"
       />
       <div
         className="absolute inset-0"

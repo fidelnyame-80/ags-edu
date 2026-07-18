@@ -515,12 +515,14 @@ function PreschoolPathwaySection() {
               src={Images.playground}
               alt="AGS preschool children learning through play"
               className="absolute right-8 top-6 h-48 w-[68%] rounded-[54px_54px_14px_54px] object-cover object-[12%_50%] shadow-[0_18px_46px_rgba(31,66,115,0.16)]"
+              loading="lazy"
             />
             <div className="absolute bottom-10 left-2 h-40 w-[60%] rounded-[18px_58px_58px_58px] bg-[#e8ddff]" />
             <img
               src={Images.familyDay}
               alt="Young learners sharing a school moment"
               className="absolute bottom-14 left-6 h-40 w-[60%] rounded-[18px_58px_58px_58px] object-cover shadow-[0_18px_46px_rgba(86,72,150,0.14)]"
+              loading="lazy"
             />
             <div className="absolute bottom-5 right-4 rounded-[28px_28px_8px_28px] border border-[#dcd6f3] bg-white px-5 py-4 shadow-[0_18px_46px_rgba(86,72,150,0.12)]">
               <p className="text-2xl font-black text-[#2563eb]">3</p>
@@ -779,12 +781,14 @@ function PreschoolPage({ division }) {
               src={Images.preschool1}
               alt="Pre School learners enjoying guided play"
               className="absolute right-5 top-5 h-[190px] w-[64%] max-w-[310px] object-cover shadow-[0_24px_70px_rgba(1,8,20,0.16)]"
+              loading="lazy"
             />
             <div className="absolute bottom-2 left-0 h-[215px] w-[66%] max-w-[320px] bg-[#e9e3ff]" />
             <img
               src={Images.playground}
               alt="Young AGS learners at play"
               className="absolute bottom-7 left-5 h-[215px] w-[66%] max-w-[320px] object-cover object-[10%_50%] shadow-[0_24px_70px_rgba(86,72,150,0.16)]"
+              loading="lazy"
             />
             <div className="absolute bottom-0 right-4 border border-[#ded8ef] bg-white px-4 py-3 shadow-[0_18px_42px_rgba(86,72,150,0.12)]">
               <p className="text-2xl font-black text-[#2563eb]">3+</p>
@@ -852,12 +856,14 @@ function PrimaryPage({ division }) {
               src={Images.academicExcellence}
               alt="Primary learners in a classroom activity"
               className="absolute left-7 top-5 h-[220px] w-[68%] max-w-[360px] rounded-[58px_58px_16px_58px] object-cover shadow-[0_24px_70px_rgba(31,66,115,0.16)]"
+              loading="lazy"
             />
             <div className="absolute bottom-2 right-0 h-[210px] w-[64%] max-w-[340px] rounded-[18px_64px_64px_64px] bg-[#e8ddff]" />
             <img
               src={Images.learningExcellence}
               alt="AGS pupils learning together"
               className="absolute bottom-7 right-5 h-[210px] w-[64%] max-w-[340px] rounded-[18px_64px_64px_64px] object-cover shadow-[0_24px_70px_rgba(86,72,150,0.16)]"
+              loading="lazy"
             />
             <div className="absolute bottom-0 left-5 rounded-[28px_28px_28px_8px] border border-[#ded8ef] bg-white px-4 py-3 shadow-[0_18px_42px_rgba(86,72,150,0.12)]">
               <p className="text-2xl font-black text-[#2563eb]">4</p>
@@ -1188,12 +1194,14 @@ function JuniorHighPage({ division }) {
               src={Images.learningExcellence}
               alt="Junior High learners in focused academic preparation"
               className="absolute right-7 top-5 h-[220px] w-[68%] max-w-[360px] rounded-[58px_58px_58px_16px] object-cover shadow-[0_24px_70px_rgba(31,66,115,0.16)]"
+              loading="lazy"
             />
             <div className="absolute bottom-2 left-0 h-[210px] w-[64%] max-w-[340px] rounded-[64px_18px_64px_64px] bg-[#dbeafe]" />
             <img
               src={Images.regionalQualifiers}
               alt="AGS students representing school excellence"
               className="absolute bottom-7 left-5 h-[210px] w-[64%] max-w-[340px] rounded-[64px_18px_64px_64px] object-cover shadow-[0_24px_70px_rgba(86,72,150,0.16)]"
+              loading="lazy"
             />
             <div className="absolute bottom-0 right-5 rounded-[28px_28px_8px_28px] border border-[#ded8ef] bg-white px-4 py-3 shadow-[0_18px_42px_rgba(86,72,150,0.12)]">
               <p className="text-2xl font-black text-[#2563eb]">BECE</p>
@@ -1300,6 +1308,7 @@ export default function AcademicDivisionPage({ slug }) {
           alt=""
           className="absolute inset-0 h-full w-full object-cover object-center"
           aria-hidden="true"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-[#061a34]/82" />
 

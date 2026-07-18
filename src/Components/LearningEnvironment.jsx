@@ -246,6 +246,7 @@ export default function LearningEnvironment() {
                 src={Images.graduands}
                 alt="Graduating students"
                 className="h-full w-full object-cover"
+                loading="lazy"
               />
             </motion.div>
 
@@ -270,6 +271,7 @@ export default function LearningEnvironment() {
                 src={Images.graduation2}
                 alt="Student wearing glasses"
                 className="h-full w-full object-cover"
+                loading="lazy"
               />
             </motion.div>
 
@@ -284,6 +286,7 @@ export default function LearningEnvironment() {
                 src={Images.learningEnvironment}
                 alt="Student speaking through a megaphone"
                 className="h-full w-full object-cover"
+                loading="lazy"
               />
             </motion.div>
 

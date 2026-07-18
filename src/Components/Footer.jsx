@@ -1,3 +1,4 @@
+import React from "react";
 import {
   ArrowUpRight,
   BookOpen,
@@ -44,7 +45,7 @@ const contactItems = [
   },
 ];
 
-function FooterMotionStyles() {
+const FooterMotionStyles = React.memo(function FooterMotionStyles() {
   return (
     <style>
       {`
@@ -90,9 +91,9 @@ function FooterMotionStyles() {
       `}
     </style>
   );
-}
+});
 
-function FooterArtwork() {
+const FooterArtwork = React.memo(function FooterArtwork() {
   return (
     <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden text-[#6657c8]" aria-hidden="true">
       <svg
@@ -171,7 +172,7 @@ function FooterArtwork() {
       </svg>
     </div>
   );
-}
+});
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -188,6 +189,7 @@ export default function Footer() {
                 src={Images.agsLogo}
                 alt="Accra Grammar School Logo"
                 className="h-14 w-14 object-contain"
+                loading="lazy"
               />
               <div>
                 <h2 className="text-lg font-extrabold tracking-wide">

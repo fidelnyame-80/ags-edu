@@ -138,6 +138,7 @@ export default function AboutPage() {
           src={Images.schoolCompound}
           alt="Accra Grammar School campus grounds"
           className="absolute inset-0 h-full w-full object-cover object-[68%_center]"
+          loading="lazy"
         />
         <div
           className="absolute inset-0"
@@ -228,19 +229,21 @@ export default function AboutPage() {
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
-            <MotionText
-              as="img"
-              src={Images.compoundImg}
-              alt="Accra Grammar School campus buildings"
-              delay={0.12}
-              className="h-[385px] w-full object-cover sm:translate-y-8 lg:h-[395px]"
-            />
+              <MotionText
+                as="img"
+                src={Images.compoundImg}
+                alt="Accra Grammar School campus buildings"
+                delay={0.12}
+                loading="lazy"
+                className="h-[385px] w-full object-cover sm:translate-y-8 lg:h-[395px]"
+              />
             <div className="grid gap-4">
               <MotionText
                 as="img"
                 src={Images.familyDay}
                 alt="AGS family day community gathering"
                 delay={0.2}
+                loading="lazy"
                 className="h-[188px] w-full object-cover"
               />
               <MotionText as="div" delay={0.26} className="bg-[#f4f1fb] p-6">
@@ -340,6 +343,7 @@ export default function AboutPage() {
                   src={award.image}
                   alt={award.title}
                   className="h-44 w-full object-cover"
+                  loading="lazy"
                 />
                 <div className="p-6">
                   <div className="flex items-center justify-between gap-4">
@@ -375,6 +379,7 @@ export default function AboutPage() {
                 src={Images.founderImage}
                 alt="Mrs. Elizabeth Ahenkorah, founder of Accra Grammar School"
                 className="h-full w-full object-cover"
+                loading="lazy"
               />
             </div>
           </MotionText>
@@ -417,6 +422,7 @@ export default function AboutPage() {
           src={Images.heroImg1}
           alt="AGS school grounds"
           className="absolute inset-0 h-full w-full object-cover object-center"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-[#061a34]/78" />
         <div className="relative z-10 mx-auto max-w-[1180px] text-center">
@@ -455,6 +461,7 @@ export default function AboutPage() {
                   alt=""
                   className="h-40 w-full object-cover"
                   aria-hidden="true"
+                  loading="lazy"
                 />
                 <div className="p-6">
                   <div className="flex items-center justify-between gap-4">

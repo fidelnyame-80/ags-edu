@@ -103,6 +103,7 @@ export default function AdmissionsPage() {
           src={Images.graduation1}
           alt="AGS student receiving recognition"
           className="absolute inset-0 h-full w-full object-cover object-center"
+          loading="lazy"
         />
         <div
           className="absolute inset-0"
@@ -173,6 +174,7 @@ export default function AdmissionsPage() {
                     alt=""
                     className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
                     aria-hidden="true"
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#061a34] via-[#061a34]/72 to-[#061a34]/20" />
                   <div className="relative z-10 flex min-h-[480px] flex-col justify-end p-6">
@@ -336,6 +338,7 @@ export default function AdmissionsPage() {
           src={Images.schoolCompound}
           alt="AGS campus"
           className="absolute inset-0 h-full w-full object-cover object-center"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-[#061a34]/84" />
         <div className="relative z-10 mx-auto flex max-w-[1180px] flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">

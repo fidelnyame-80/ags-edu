@@ -128,6 +128,7 @@ export default function CommunityPage() {
           src={Images.familyday2}
           alt="AGS campus community space"
           className="absolute inset-0 h-full w-full object-cover object-center"
+          loading="lazy"
         />
         <div
           className="absolute inset-0"
@@ -213,6 +214,7 @@ export default function CommunityPage() {
                       alt=""
                       className="h-64 w-full object-cover lg:h-full"
                       aria-hidden="true"
+                      loading="lazy"
                     />
                     <div className="flex flex-col justify-center p-6 sm:p-8">
                       <span
@@ -243,6 +245,7 @@ export default function CommunityPage() {
           src={Images.graduation3}
           alt="AGS school celebration"
           className="absolute inset-0 h-full w-full object-cover object-center"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-[#061a34]/84" />
         <div className="relative z-10 mx-auto grid max-w-[1180px] gap-8 lg:grid-cols-[1fr_0.72fr] lg:items-center">

@@ -151,6 +151,7 @@ export default function Navbar({ currentPage = "home" }) {
                   src={Images.agsLogo}
                   alt="Accra Grammar School Logo"
                   className="h-full w-full object-contain"
+                  loading="lazy"
                 />
               </div>
               <span className="whitespace-nowrap text-xs font-extrabold uppercase tracking-[0.07em] text-white sm:text-sm lg:text-xs xl:text-sm">

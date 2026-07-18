@@ -79,6 +79,7 @@ export default function ContactsPage() {
           src={Images.schoolCompound}
           alt="Accra Grammar School campus"
           className="absolute inset-0 h-full w-full object-cover object-center"
+          loading="lazy"
         />
         <div
           className="absolute inset-0"
@@ -288,6 +289,7 @@ export default function ContactsPage() {
           src={Images.compoundImg}
           alt="AGS community moment"
           className="absolute inset-0 h-full w-full object-cover object-center"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-[#061a34]/84" />
         <div className="relative z-10 mx-auto grid max-w-[1180px] gap-8 lg:grid-cols-[1fr_0.72fr] lg:items-center">
