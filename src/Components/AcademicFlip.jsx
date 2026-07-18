@@ -163,7 +163,7 @@ const AcademicSVG = React.memo(function AcademicSVG() {
           key={card.title}
           initial={{ x: flyFrom[i].x, y: flyFrom[i].y, opacity: 0, scale: 0.85 }}
           whileInView={{ x: 0, y: 0, opacity: 1, scale: 1 }}
-          viewport={{ once: true, margin: "-40px" }}
+          viewport={{ once: false, margin: "-40px" }}
           transition={{
             duration: 0.5,
             delay: i * 0.15,
