@@ -518,7 +518,7 @@ export default function Intro() {
                 src={Images.ourPromiseSectionImg}
                 alt="Our Promise Section"
                 objectPosition="50% 50%"
-                className="h-full w-full transition-all duration-[0.6s] ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-[1.03] hover:saturate-[1.06]"
+                className="h-full w-full transform lg:translate-x-[] -translate-x-3 transition-all duration-[0.6s] ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-[1.03] hover:saturate-[1.06]"
               />
             </motion.div>
 
