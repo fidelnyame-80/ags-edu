@@ -353,10 +353,10 @@ export default function AcademicFlip() {
         </p>
       </div>
 
-      <div className="relative z-10 mx-auto max-w-[1760px] px-5 sm:px-8 lg:px-14">
+      <div className="relative z-10 mx-auto max-w-[1760px]  px-8 lg:px-14">
         <div className="grid items-center gap-10 lg:grid-cols-[2fr_1fr]">
           <div className={`academic-glide-up ${isHeadingVisible ? "is-visible" : ""}`}>
-            <div className="sm:scale-110 md:scale-[1.25] lg:scale-[1.35] origin-left overflow-visible" style={{ width: "clamp(300px, 55vw, 780px)" }}>
+            <div className="sm:scale-110 md:scale-[1.25] transform lg:translate-x-[] translate-x-[-1.5rem] lg:scale-[1.35] origin-left overflow-visible" style={{ width: "clamp(300px, 55vw, 780px)" }}>
               <AcademicSVG />
             </div>
           </div>
