@@ -231,20 +231,20 @@ export default function AboutPage() {
           <div className="grid gap-4 sm:grid-cols-2">
               <MotionText
                 as="img"
-                src={Images.compoundImg}
-                alt="Accra Grammar School campus buildings"
+                src={Images.agsCompoundDroneview1}
+                alt="Accra Grammar School campus aerial view"
                 delay={0.12}
                 loading="lazy"
-                className="h-[385px] w-full object-cover sm:translate-y-8 lg:h-[395px]"
+                className="h-[400px] w-full object-cover sm:translate-y-8 lg:h-[410px]"
               />
             <div className="grid gap-4">
               <MotionText
                 as="img"
-                src={Images.familyDay}
-                alt="AGS family day community gathering"
+                src={Images.agsCompoundDroneview2}
+                alt="AGS campus grounds drone view"
                 delay={0.2}
                 loading="lazy"
-                className="h-[188px] w-full object-cover"
+                className="h-[200px] w-full object-cover"
               />
               <MotionText as="div" delay={0.26} className="bg-[#f4f1fb] p-6">
                 <Compass className="text-[#6657c8]" size={30} strokeWidth={2.2} />
@@ -263,23 +263,75 @@ export default function AboutPage() {
 
       <section id="mission" className="bg-[#f7f4ed] px-5 py-16 sm:px-8 lg:px-20">
         <div className="mx-auto max-w-[1180px]">
-          <div className="grid gap-5 lg:grid-cols-2">
-            <MotionText as="article" className="border border-[#e4dfd2] bg-white p-7 shadow-[0_24px_70px_rgba(67,56,37,0.07)] sm:p-9">
-              <SectionLabel>Our Mission</SectionLabel>
-              <MotionText as="p" className="mt-7 text-lg leading-9 text-[#4f4f62]">
-                To nurture inquiring, knowledgeable, and compassionate young
-                people who embrace Africa's rich heritage while engaging the
-                world with respect, confidence, and a lifelong love of learning.
+          <div className="grid gap-12 lg:grid-cols-[1.02fr_0.98fr] lg:items-start">
+            <div>
+              <MotionText as="article" className="border border-[#e4dfd2] bg-white p-7 shadow-[0_24px_70px_rgba(67,56,37,0.07)] sm:p-9">
+                <SectionLabel>Our Mission</SectionLabel>
+                <MotionText as="p" className="mt-7 text-lg leading-9 text-[#4f4f62]">
+                  To nurture inquiring, knowledgeable, and compassionate young
+                  people who embrace Africa's rich heritage while engaging the
+                  world with respect, confidence, and a lifelong love of learning.
+                </MotionText>
               </MotionText>
-            </MotionText>
 
-            <MotionText as="article" id="vision" delay={0.1} className="border border-[#dcd6f3] bg-[#f4f1fb] p-7 shadow-[0_24px_70px_rgba(86,72,150,0.08)] sm:p-9">
-              <SectionLabel>Our Vision</SectionLabel>
-              <MotionText as="p" className="mt-7 text-lg leading-9 text-[#4f4f62]">
-                To inspire principled learners who think clearly, act with
-                integrity, and grow into innovative leaders able to contribute
-                meaningfully to Ghana, Africa, and the wider world.
+              <MotionText as="article" id="vision" delay={0.1} className="mt-5 border border-[#dcd6f3] bg-[#f4f1fb] p-7 shadow-[0_24px_70px_rgba(86,72,150,0.08)] sm:p-9">
+                <SectionLabel>Our Vision</SectionLabel>
+                <MotionText as="p" className="mt-7 text-lg leading-9 text-[#4f4f62]">
+                  To inspire principled learners who think clearly, act with
+                  integrity, and grow into innovative leaders able to contribute
+                  meaningfully to Ghana, Africa, and the wider world.
+                </MotionText>
               </MotionText>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <MotionText
+                as="img"
+                src={Images.visaday3}
+                alt="AGS vision day celebration"
+                delay={0.12}
+                loading="lazy"
+                className="h-[400px] w-full object-cover sm:translate-y-8 lg:h-[410px]"
+              />
+              <div className="grid gap-4">
+                <MotionText
+                  as="img"
+                  src={Images.agsVisaday2}
+                  alt="AGS vision day activities"
+                  delay={0.2}
+                  loading="lazy"
+                  className="h-[200px] w-full object-cover"
+                />
+                <MotionText as="div" delay={0.26} className="bg-[#e8f1ff] p-6">
+                  <BookOpen className="text-[#6657c8]" size={30} strokeWidth={2.2} />
+                  <p className="mt-5 text-sm font-extrabold uppercase tracking-[0.18em] text-[#6657c8]">
+                    Our Commitment
+                  </p>
+                  <p className="mt-3 text-sm leading-7 text-[#555568]">
+                    We build character alongside academics, creating well-rounded
+                    individuals ready for the future.
+                  </p>
+                </MotionText>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-10 grid gap-5 lg:grid-cols-2">
+            <MotionText
+              as="img"
+              src={Images.agsSciencelab1}
+              alt="AGS science laboratory"
+              delay={0.12}
+              loading="lazy"
+              className="h-full w-full object-cover"
+            />
+            <MotionText as="div" delay={0.18} className="flex flex-col justify-center bg-white p-7 sm:p-9">
+              <SectionLabel>Our Values</SectionLabel>
+              <p className="mt-6 text-lg leading-9 text-[#4f4f62]">
+                Every part of school life at AGS is shaped by the values we
+                teach — integrity in actions, leadership through service, and
+                excellence in all we do.
+              </p>
             </MotionText>
           </div>
 
@@ -459,7 +511,7 @@ export default function AboutPage() {
                 <img
                   src={item.image}
                   alt=""
-                  className="h-40 w-full object-cover"
+                  className="h-44 w-full object-cover"
                   aria-hidden="true"
                   loading="lazy"
                 />

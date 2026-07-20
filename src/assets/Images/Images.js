@@ -36,6 +36,14 @@ import schoolProspectus from "./schoolProspectus.webp";
 import schoolBroadsheet from "./schoolBroadsheet.webp";
 import principal from "./principalImage.webp";
 import ourPromiseSectionImg from "./ourPromiseSectionImg.jpeg";
+import agsCompoundDroneview1 from "./ags_compound_droneview1.webp";
+import agsCompoundDroneview2 from "./ags_compound_droneview2.webp";
+import agsCompoundDroneview3 from "./ags_compound_droneview3.webp";
+import agsSciencelab1 from "./ags_sciencelab1.webp";
+import agsSciencelab2 from "./ags_sciencelab2.webp";
+import agsVisaday1 from "./ags_visaday1.webp";
+import agsVisaday2 from "./ags_visaday2.webp";
+import visaday3 from "./visaday3.webp";
 
 export const Images = {
   agsLogo,
@@ -76,10 +84,18 @@ export const Images = {
   schoolBroadsheet,
   principal,
   ourPromiseSectionImg,
+  agsCompoundDroneview1,
+  agsCompoundDroneview2,
+  agsCompoundDroneview3,
+  agsSciencelab1,
+  agsSciencelab2,
+  agsVisaday1,
+  agsVisaday2,
+  visaday3,
 };
 
 export const ImageCollections = {
-  campus: [schoolCompound, schoolCompound2, compoundImg, heroImg1],
+  campus: [schoolCompound, schoolCompound2, compoundImg, heroImg1, agsCompoundDroneview1, agsCompoundDroneview2, agsCompoundDroneview3],
   community: [familyDay, familyday2, familyday3, familyday4, familyday5, familyday6],
   graduation: [graduation1, graduation2, graduation3, learningExcellence],
   playground: [playground, playground2, playground3],

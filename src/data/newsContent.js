@@ -1,14 +1,17 @@
+import visaday3 from "../assets/Images/visaday3.webp";
+
 export const fallbackNewsItems = [
   {
-    slug: "bece-2026-calm-confidence",
-    category: "BECE Update",
-    title: "BECE 2026 wraps up with calm confidence",
-    date: "May 12, 2026",
-    dateTime: "2026-05-12",
+    slug: "visaday-2026",
+    category: "Ceremony",
+    title: "You're invited to the AGS VISA Day 2026",
+    date: "July 18, 2026",
+    dateTime: "2026-07-18",
+    image: visaday3,
     summary:
-      "Our final-year JHS candidates completed the 2026 Basic Education Certificate Examination after a steady week of preparation and support.",
+      "AGS warmly invites parents, guardians, and families to this year's VISA Day — a celebration of our learners' achievements, growth, and community spirit.",
     body:
-      "Our final-year JHS candidates completed the 2026 Basic Education Certificate Examination on Monday, May 11, after papers began on May 4. Management congratulates the candidates, teachers, and families for the steady preparation that carried the class through the examination week.",
+      "Accra Grammar School proudly invites you to the 2026 VISA Day ceremony — a cherished school tradition where learners are celebrated for their achievements, character, and progress across the academic year. The event brings together students, teachers, parents, and special guests for a morning of acknowledgement, performances, and community pride.\n\nVISA Day at AGS is more than a ceremony; it is a moment for the entire school family to reflect on the term gone by and to honour the effort, discipline, and curiosity that define an AGS education. From classroom milestones to co-curricular accomplishments, every learner has a story worth celebrating.\n\nThis year's programme will feature keynote addresses, merit presentations, cultural performances, and a special recognition of our graduating JHS class. Parents are encouraged to arrive early, as seating will be arranged by division.\n\nWe look forward to welcoming you to campus as we celebrate another successful term and the bright future ahead for every AGS learner.",
     featured: true,
   },
   {
@@ -50,7 +53,7 @@ export const fallbackNewsItems = [
 ];
 
 export const fallbackBriefs = [
-  "BECE candidate wellness notes published for parents",
+  "VISA Day 2026 ceremony details now available",
   "Vacation reading packs prepared by department",
   "Excursion safety checklist now at the front desk",
   "Admissions desk opens extra enquiry hours this week",

@@ -1,7 +1,6 @@
 import {
   ArrowRight,
   CalendarDays,
-  Clock,
   GraduationCap,
   MapPinned,
   School,
@@ -11,10 +10,10 @@ import {
 } from "lucide-react";
 import React, { useEffect, useMemo, useState } from "react";
 import MotionText from "./MotionText";
+import { Images } from "../assets/Images/Images";
 import {
   fetchEvents,
   getFallbackEventsFeed,
-  getCurrentEvent,
   getNextFeaturedEvent,
   getUpcomingEvents,
   getEventCards,
@@ -64,7 +63,6 @@ export default function SchoolNews() {
     return () => { isMounted = false; };
   }, []);
 
-  const currentEvent = useMemo(() => getCurrentEvent(events), [events]);
   const featuredEvent = useMemo(() => getNextFeaturedEvent(events), [events]);
   const upcomingEvents = useMemo(() => getUpcomingEvents(events, 4), [events]);
   const eventCards = useMemo(() => getEventCards(events, featuredEvent, 3), [events, featuredEvent]);
@@ -103,24 +101,39 @@ export default function SchoolNews() {
           Fresh updates from the AGS web.
         </MotionText>
 
-        {/* Currently Happening banner */}
-        {currentEvent && (
-          <div className="mt-6 rounded-lg border border-[#c7bff1] bg-[#f6f3ff] p-4 sm:flex sm:items-center sm:justify-between sm:gap-4">
-            <div className="flex items-center gap-3">
-              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#7b70cc] text-white">
-                <Clock size={18} strokeWidth={2.4} />
-              </span>
-              <div>
-                <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#7b70cc]">Currently Happening</p>
-                <p className="mt-0.5 text-lg font-bold text-[#171727]">{currentEvent.title}</p>
-              </div>
-            </div>
-            <p className="mt-2 text-sm font-bold text-[#555568] sm:mt-0 sm:text-right">
-              {formatDateShort(currentEvent.startDate)}
-              {currentEvent.startDate !== currentEvent.endDate && ` – ${formatDateShort(currentEvent.endDate)}`}
+        {/* VISA Day invitation */}
+        <div className="mt-8 grid gap-5 overflow-hidden rounded-lg border border-[#e4dfd2] bg-white shadow-[0_24px_70px_rgba(67,56,37,0.08)] sm:grid-cols-[1fr_1.2fr]">
+          <MotionText
+            as="img"
+            src={Images.agsVisaday2}
+            alt="AGS VISA Day"
+            delay={0.08}
+            loading="lazy"
+            className="h-full w-full object-cover"
+          />
+          <MotionText as="div" delay={0.12} className="flex flex-col justify-center p-6 sm:p-8">
+            <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#7b70cc]">
+              You're Invited
             </p>
-          </div>
-        )}
+            <h3
+              className="mt-4 text-[1.8rem] font-bold leading-tight text-[#171727] sm:text-[2.1rem]"
+              style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+            >
+              YOU'RE INVITED TO THE AGS VISADAY 2026
+            </h3>
+            <p className="mt-4 text-base leading-7 text-[#555568]">
+              Join us as we celebrate our learners at this year's VISA Day —
+              a showcase of achievement, culture, and community spirit.
+            </p>
+            <a
+              href="/news/"
+              className="mt-6 inline-flex self-start rounded-full bg-[#7b70cc] px-5 py-2.5 text-sm font-bold text-white shadow-[0_16px_36px_rgba(123,112,204,0.22)] transition hover:-translate-y-0.5 hover:bg-[#6657c8]"
+            >
+              Learn More
+              <ArrowRight size={16} strokeWidth={2.4} className="ml-2" />
+            </a>
+          </MotionText>
+        </div>
 
         {/* Featured + Upcoming sidebar */}
         {featuredEvent && (
