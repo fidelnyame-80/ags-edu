@@ -170,7 +170,7 @@ export default function AboutPage() {
             for purposeful lives.
           </MotionText>
 
-          <div className="mt-10 grid max-w-[820px] gap-3 sm:grid-cols-3">
+          <div className="mt-10 grid max-w-[820px] gap-3 sm:grid-cols-3 max-sm:hidden">
             {schoolStats.map((stat) => (
               <div
                 key={stat.value}

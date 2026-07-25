@@ -290,20 +290,7 @@ export default function LearningEnvironment() {
               />
             </motion.div>
 
-            <motion.div
-              className="absolute bottom-20 right-0 flex h-14 w-32 items-center justify-center gap-1 rounded-full bg-[#B7A7F0] "
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false }}
-              transition={{ duration: 0.5, delay: 0.65, ease: [0.22, 1, 0.36, 1] }}
-            >
-              {[0, 1, 2].map((i) => (
-                <span
-                  key={i}
-                  className="h-6 w-6 rounded-full border-2 border-white"
-                />
-              ))}
-            </motion.div>
+
           </motion.div>
         </div>
       </motion.div>
