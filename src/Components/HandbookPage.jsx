@@ -1,4 +1,4 @@
-import { FileDown } from "lucide-react";
+import PdfResourceCard from "./PdfResourceCard";
 
 function SectionLabel({ children }) {
   return (
@@ -29,42 +29,23 @@ export default function HandbookPage() {
       </section>
 
       <section className="px-5 pb-20 sm:px-8 lg:px-20">
-        <div className="mx-auto max-w-[860px]">
-          <div className="divide-y divide-[#e8e5f0] rounded-[30px] border border-[#e8e5f0] bg-white shadow-[0_18px_50px_rgba(86,72,150,0.07)]">
-            <a
-              href="/handbook.pdf"
-              download
-              className="flex items-center justify-between gap-4 px-6 py-5 transition hover:bg-[#f4f1fb] sm:px-8 sm:py-6"
-            >
-              <div>
-                <p className="text-base font-extrabold text-[#171727] sm:text-lg">
-                  Handbook
-                </p>
-                <p className="mt-1 text-sm text-[#555568]">
-                  Adobe Acrobat file, 123 KB
-                </p>
-              </div>
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#f2edff]">
-                <FileDown size={18} strokeWidth={2} className="text-[#6657c8]" />
-              </span>
-            </a>
-            <a
-              href="/enrollment-contract.pdf"
-              download
-              className="flex items-center justify-between gap-4 px-6 py-5 transition hover:bg-[#f4f1fb] sm:px-8 sm:py-6"
-            >
-              <div>
-                <p className="text-base font-extrabold text-[#171727] sm:text-lg">
-                  Accra Grammar School Enrollment Contract
-                </p>
-                <p className="mt-1 text-sm text-[#555568]">
-                  Adobe Acrobat file
-                </p>
-              </div>
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#f2edff]">
-                <FileDown size={18} strokeWidth={2} className="text-[#6657c8]" />
-              </span>
-            </a>
+        <div className="mx-auto max-w-[1180px]">
+          <SectionLabel>Resources</SectionLabel>
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <PdfResourceCard
+              title="Student Handbook 2026"
+              description="Rules, policies, academic calendar, and student guide for the 2026 academic year."
+              pdfFile="/HandbookMain.pdf"
+              fileSize="2.3 MB"
+              updated="Jul 2026"
+            />
+            <PdfResourceCard
+              title="Enrollment Contract 2026"
+              description="Official enrollment agreement outlining terms, fees, and policies for the 2026 academic year."
+              pdfFile="/enrollmentcontract.pdf"
+              fileSize="1.1 MB"
+              updated="Jul 2026"
+            />
           </div>
         </div>
       </section>

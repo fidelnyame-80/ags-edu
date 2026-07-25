@@ -1,4 +1,5 @@
 import { Images } from "../assets/Images/Images";
+import PdfResourceCard from "./PdfResourceCard";
 
 const DASHBOARD_API_URL =
   import.meta.env.VITE_DASHBOARD_API_URL ||
@@ -285,6 +286,32 @@ export default function OnlineApplicationPage() {
             </button>
           </div>
         </form>
+      </section>
+
+      <section className="bg-[#f7f4ed] px-5 py-16 sm:px-8 lg:px-20">
+        <div className="mx-auto max-w-[1180px]">
+          <p className="text-xs font-extrabold uppercase tracking-[0.28em] text-[#6657c8]">
+            Resources
+          </p>
+          <h2
+            className="mt-4 text-[2rem] font-bold leading-[1.06] text-[#171727] sm:text-[2.5rem]"
+            style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+          >
+            Enrollment Contract
+          </h2>
+          <p className="mt-3 max-w-[600px] text-base leading-8 text-[#555568]">
+            Download and review the official enrollment contract before submitting your application.
+          </p>
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <PdfResourceCard
+              title="Enrollment Contract 2026"
+              description="Official enrollment agreement outlining terms, fees, and policies for the 2026 academic year."
+              pdfFile="/enrollmentcontract.pdf"
+              fileSize="1.1 MB"
+              updated="Jul 2026"
+            />
+          </div>
+        </div>
       </section>
     </main>
   );
