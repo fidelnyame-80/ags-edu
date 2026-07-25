@@ -70,13 +70,13 @@ const discoveryLinks = [
     title: "Extra Curricular",
     image: Images.extracurricular,
     body: "Clubs, creative work, service, and competitions that help students explore their strengths.",
-    href: "/#community",
+    href: "/co-curricular/",
   },
   {
     title: "School Prospectus",
     image: Images.schoolProspectus,
     body: "A clear guide to admissions, academics, routines, expectations, and student support.",
-    href: "/admissions/",
+    href: "/admissions/handbook/",
   },
   {
     title: "Campus Tour",

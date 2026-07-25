@@ -22,6 +22,7 @@ import CafeteriaPage from './Components/CafeteriaPage';
 import EventsPage from './Components/EventsPage';
 import LibraryPage from './Components/LibraryPage';
 import StudentLoginPage from './Components/StudentLoginPage';
+import CampusTourPage from './Components/CampusTourPage';
 import Footer from './Components/Footer';
 import Intro from './Components/Intro';
 import LearningEnvironment from './Components/LearningEnvironment';
@@ -82,6 +83,7 @@ const getCurrentRoute = () => {
     return { page: 'contacts', academicDivision: null };
   }
   if (section === 'student-login') return { page: 'student-login', academicDivision: null };
+  if (section === 'campus-tour') return { page: 'campus-tour', academicDivision: null };
 
   return { page: 'home', academicDivision: null };
 };
@@ -153,6 +155,7 @@ const App = () => {
       {currentPage === 'events' && <EventsPage />}
       {currentPage === 'library' && <LibraryPage />}
       {currentPage === 'student-login' && <StudentLoginPage />}
+      {currentPage === 'campus-tour' && <CampusTourPage />}
       {currentPage === 'contacts' && <ContactsPage />}
       {currentPage === 'news' && <NewsPage />}
       {currentPage === 'home' && <HomePage />}
