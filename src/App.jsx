@@ -16,6 +16,11 @@ import CommunityPage from './Components/CommunityPage';
 import ContactsPage from './Components/ContactsPage';
 import CounsellingPage from './Components/CounsellingPage';
 import CoCurricularPage from './Components/CoCurricularPage';
+import SportsPage from './Components/SportsPage';
+import TransportPage from './Components/TransportPage';
+import CafeteriaPage from './Components/CafeteriaPage';
+import EventsPage from './Components/EventsPage';
+import LibraryPage from './Components/LibraryPage';
 import Footer from './Components/Footer';
 import Intro from './Components/Intro';
 import LearningEnvironment from './Components/LearningEnvironment';
@@ -63,6 +68,11 @@ const getCurrentRoute = () => {
     const subPage = academicDivision;
     if (subPage === 'parent-teacher-association') return { page: 'parent-teacher-association', academicDivision: null };
     if (subPage === 'ags-alumni') return { page: 'ags-alumni', academicDivision: null };
+    if (subPage === 'sports') return { page: 'sports', academicDivision: null };
+    if (subPage === 'transport') return { page: 'transport', academicDivision: null };
+    if (subPage === 'cafeteria') return { page: 'cafeteria', academicDivision: null };
+    if (subPage === 'events') return { page: 'events', academicDivision: null };
+    if (subPage === 'janet-c-rickert-library') return { page: 'library', academicDivision: null };
     return { page: 'community', academicDivision: null };
   }
   if (section === 'counselling') return { page: 'counselling', academicDivision: null };
@@ -135,6 +145,11 @@ const App = () => {
       {currentPage === 'community' && <CommunityPage />}
       {currentPage === 'counselling' && <CounsellingPage />}
       {currentPage === 'co-curricular' && <CoCurricularPage />}
+      {currentPage === 'sports' && <SportsPage />}
+      {currentPage === 'transport' && <TransportPage />}
+      {currentPage === 'cafeteria' && <CafeteriaPage />}
+      {currentPage === 'events' && <EventsPage />}
+      {currentPage === 'library' && <LibraryPage />}
       {currentPage === 'contacts' && <ContactsPage />}
       {currentPage === 'news' && <NewsPage />}
       {currentPage === 'home' && <HomePage />}

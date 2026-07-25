@@ -45,6 +45,7 @@ import agsVisaday1 from "./ags_visaday1.webp";
 import agsVisaday2 from "./ags_visaday2.webp";
 import visaday3 from "./visaday3.webp";
 import extracurricular from "./extracurricular.webp";
+import agsBus from "./agsbus.webp";
 import campusTour from "./campusTour.webp";
 import primarySchool from "./primarySchool.webp";
 import primarySchool2 from "./primarySchool2.webp";
@@ -120,6 +121,7 @@ export const Images = {
   agsVisaday2,
   visaday3,
   extracurricular,
+  agsBus,
   campusTour,
   primarySchool,
   primarySchool2,

@@ -37,18 +37,27 @@ const navLinks = [
     dropdown: [
       { label: "Parents Forum", href: "/community/parent-teacher-association/" },
       { label: "AGS Alumni", href: "/community/ags-alumni/" },
-      { label: "Sports", href: "/community/#sports" },
-      { label: "Transport", href: "/community/#transport" },
-      { label: "Cafeteria", href: "/community/#cafeteria" },
-      { label: "Events", href: "/community/#events" },
+      { label: "Sports", href: "/community/sports/" },
+      { label: "Transport", href: "/community/transport/" },
+      { label: "Cafeteria", href: "/community/cafeteria/" },
+      { label: "Events", href: "/community/events/" },
       { label: "News", href: "/news/" },
       {
         label: "Janet C Rickert Library",
-        href: "/community/#janet-c-rickert-library",
+        href: "/community/janet-c-rickert-library/",
       },
     ],
   },
   { label: "Contacts", href: "/contacts/", page: "contacts" },
+  {
+    label: "Login",
+    href: "#",
+    page: null,
+    dropdown: [
+      { label: "Library Portal", href: "/community/janet-c-rickert-library/" },
+      { label: "Student Portal", href: "/student-login/" },
+    ],
+  },
 ];
 
 const navigate = (href) => {
@@ -160,7 +169,7 @@ export default function Navbar({ currentPage = "home" }) {
             </a>
           </div>
 
-          {/* Navigation Links */}
+          {/* Login in nav */}
           <div className="hidden items-center gap-6 xl:gap-9 lg:flex">
             {navLinks.map((link) => {
               const isActive = link.page === currentPage;
@@ -211,11 +220,7 @@ export default function Navbar({ currentPage = "home" }) {
             })}
           </div>
 
-          {/* Login Button */}
-          <button className="hidden items-center gap-2 rounded-full bg-blue-600 px-5 py-2.5 text-base font-semibold text-white shadow-lg shadow-blue-900/30 transition hover:bg-blue-500 lg:flex">
-            <User size={20} fill="white" />
-            Login
-          </button>
+          {/* Login in nav */}
 
           {/* Mobile Menu Toggle */}
           <button
@@ -297,14 +302,6 @@ export default function Navbar({ currentPage = "home" }) {
                 );
               })}
             </div>
-
-            <button
-              type="button"
-              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-blue-600 px-4 py-3 text-base font-semibold text-white shadow-lg shadow-blue-900/30 transition hover:bg-blue-500"
-            >
-              <User size={18} fill="white" />
-              Login
-            </button>
           </div>
         </div>
       </div>
