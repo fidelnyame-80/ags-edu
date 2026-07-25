@@ -68,7 +68,7 @@ const awards = [
 const discoveryLinks = [
   {
     title: "Extra Curricular",
-    image: Images.sports,
+    image: Images.extracurricular,
     body: "Clubs, creative work, service, and competitions that help students explore their strengths.",
     href: "/#community",
   },
@@ -79,10 +79,10 @@ const discoveryLinks = [
     href: "/admissions/",
   },
   {
-    title: "School Broadsheet",
-    image: Images.schoolBroadsheet,
-    body: "News, notices, and school highlights for parents, students, alumni, and friends of AGS.",
-    href: "/news/",
+    title: "Campus Tour",
+    image: Images.campusTour,
+    body: "Explore our classrooms, science labs, sports facilities, boarding houses, and learning spaces.",
+    href: "/campus-tour/",
   },
 ];
 
@@ -268,9 +268,14 @@ export default function AboutPage() {
               <MotionText as="article" className="border border-[#e4dfd2] bg-white p-7 shadow-[0_24px_70px_rgba(67,56,37,0.07)] sm:p-9">
                 <SectionLabel>Our Mission</SectionLabel>
                 <MotionText as="p" className="mt-7 text-lg leading-9 text-[#4f4f62]">
-                  To nurture inquiring, knowledgeable, and compassionate young
-                  people who embrace Africa's rich heritage while engaging the
-                  world with respect, confidence, and a lifelong love of learning.
+                  Our mission is to nurture inquiring, knowledgeable, and
+                  compassionate young people who embrace Africa's rich heritage
+                  while engaging with the world through intercultural
+                  understanding and respect. Rooted in a collaborative
+                  international philosophy, we strive to create a learning
+                  environment that inspires curiosity, critical thinking, and a
+                  deep sense of responsibility toward both local and global
+                  communities.
                 </MotionText>
               </MotionText>
 
@@ -572,7 +577,7 @@ export default function AboutPage() {
                 Motto
               </p>
               <p className="mt-1 text-sm font-bold text-[#171727]">
-                Integrity. Leadership. Excellence.
+                Discipline. Leadership. Excellence.
               </p>
             </div>
           </div>

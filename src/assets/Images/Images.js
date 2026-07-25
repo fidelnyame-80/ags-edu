@@ -44,6 +44,33 @@ import agsSciencelab2 from "./ags_sciencelab2.webp";
 import agsVisaday1 from "./ags_visaday1.webp";
 import agsVisaday2 from "./ags_visaday2.webp";
 import visaday3 from "./visaday3.webp";
+import extracurricular from "./extracurricular.webp";
+import campusTour from "./campusTour.webp";
+import primarySchool from "./primarySchool.webp";
+import primarySchool2 from "./primarySchool2.webp";
+import primarySchool3 from "./primarySchool3.webp";
+import grade9 from "./grade9.webp";
+import grade9_2 from "./grade9-2.webp";
+import counsellorImg from "./counsellorImg.webp";
+import administration from "./administration.webp";
+import PTA from "./PTA.webp";
+import alumni2011 from "./alumni2011.webp";
+import alumni2012DavidAnyomi from "./alumni2012-davidAnyomi.webp";
+import alumni2012DrJoseph from "./alumni2012-drJoseph.webp";
+import alumni2012Paa from "./alumni2012-paa.webp";
+import alumni2012ThomasThompson from "./alumni2012-thomasThompson.webp";
+import alumni2013Caleb from "./alumni2013-caleb.png";
+import alumni2013Kaisah from "./alumni2013-kaisah.webp";
+import alumni2013Prince from "./alumni2013-prince.webp";
+import alumni2013QuayeCaleb from "./alumni2013-quayeCaleb.webp";
+import alumni2013Vida from "./alumni2013-vida.webp";
+import alumni2015Heartwill from "./alumni2015-heartwill.webp";
+import alumni2015Vanessa from "./alumni2015-vanessa.webp";
+import alumni2016Berfi from "./alumni2016-berfi.webp";
+import alumni2016CelestineEsq from "./alumni2016-celestineesq.webp";
+import alumni2016DrSoloAnyomi from "./alumni2016-drsoloanyomi.webp";
+import alumni2017Abenabarfi from "./alumni2017-abenabarfi.webp";
+import alumni2017Audrey from "./alumni2017-audrey.webp";
 
 export const Images = {
   agsLogo,
@@ -92,6 +119,33 @@ export const Images = {
   agsVisaday1,
   agsVisaday2,
   visaday3,
+  extracurricular,
+  campusTour,
+  primarySchool,
+  primarySchool2,
+  primarySchool3,
+  grade9,
+  grade9_2,
+  counsellorImg,
+  administration,
+  PTA,
+  alumni2011,
+  alumni2012DavidAnyomi,
+  alumni2012DrJoseph,
+  alumni2012Paa,
+  alumni2012ThomasThompson,
+  alumni2013Caleb,
+  alumni2013Kaisah,
+  alumni2013Prince,
+  alumni2013QuayeCaleb,
+  alumni2013Vida,
+  alumni2015Heartwill,
+  alumni2015Vanessa,
+  alumni2016Berfi,
+  alumni2016CelestineEsq,
+  alumni2016DrSoloAnyomi,
+  alumni2017Abenabarfi,
+  alumni2017Audrey,
 };
 
 export const ImageCollections = {

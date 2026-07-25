@@ -15,6 +15,14 @@ const DASHBOARD_API_URL =
   import.meta.env.VITE_CMS_API_URL ||
   "https://ags-dashboard.vercel.app/api";
 
+const handleCardNav = (event, href) => {
+  event.preventDefault();
+  const targetUrl = new URL(href, window.location.origin);
+  window.history.pushState({}, "", `${targetUrl.pathname}${targetUrl.hash}`);
+  window.dispatchEvent(new Event("ags:navigate"));
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
 const admissionsCards = [
   {
     icon: ClipboardList,
@@ -23,6 +31,7 @@ const admissionsCards = [
     body:
       "Start by contacting the admissions office, choosing the intended class level, and submitting the learner's basic details for review.",
     steps: ["Request an enquiry form", "Share learner records", "Book an assessment"],
+    href: "/admissions/how-to-apply/",
   },
   {
     icon: FileCheck2,
@@ -31,6 +40,7 @@ const admissionsCards = [
     body:
       "After a successful review, families complete enrollment forms, confirm placement, and receive orientation notes for the new learner.",
     steps: ["Confirm admission offer", "Complete required forms", "Attend orientation"],
+    href: "/admissions/how-to-enroll/",
   },
   {
     icon: ReceiptText,
@@ -39,6 +49,7 @@ const admissionsCards = [
     body:
       "Fee information is shared by the admissions team based on the learner's division, class level, and current academic year.",
     steps: ["Request fee schedule", "Review payment plan", "Confirm start date"],
+    href: "/admissions/tuition-and-fees/",
   },
 ];
 
@@ -163,11 +174,11 @@ export default function AdmissionsPage() {
               const Icon = card.icon;
 
               return (
-                <MotionText
-                  as="article"
+                <a
                   key={card.title}
-                  delay={index * 0.08}
-                  className="group relative isolate min-h-[480px] overflow-hidden bg-[#061a34] text-white shadow-[0_24px_70px_rgba(1,8,20,0.14)]"
+                  href={card.href}
+                  onClick={(event) => handleCardNav(event, card.href)}
+                  className="group relative isolate block min-h-[480px] overflow-hidden bg-[#061a34] text-white shadow-[0_24px_70px_rgba(1,8,20,0.14)] transition hover:-translate-y-1"
                 >
                   <img
                     src={card.image}
@@ -202,7 +213,7 @@ export default function AdmissionsPage() {
                       ))}
                     </div>
                   </div>
-                </MotionText>
+                </a>
               );
             })}
           </div>

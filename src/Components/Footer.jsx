@@ -196,7 +196,7 @@ export default function Footer() {
                   ACCRA GRAMMAR SCHOOL
                 </h2>
                 <p className="mt-1 text-sm text-[#555568]">
-                  Integrity. Leadership. Excellence.
+                  Discipline. Leadership. Excellence.
                 </p>
               </div>
             </div>

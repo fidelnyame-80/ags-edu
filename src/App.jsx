@@ -5,8 +5,17 @@ import AcademicDivisionPage from './Components/AcademicDivisionPage';
 import AcademicsPage from './Components/AcademicsPage';
 import AboutPage from './Components/AboutPage';
 import AdmissionsPage from './Components/AdmissionsPage';
+import HowToApplyPage from './Components/HowToApplyPage';
+import HowToEnrollPage from './Components/HowToEnrollPage';
+import TuitionAndFeesPage from './Components/TuitionAndFeesPage';
+import OnlineApplicationPage from './Components/OnlineApplicationPage';
+import HandbookPage from './Components/HandbookPage';
+import ParentTeacherAssociationPage from './Components/ParentTeacherAssociationPage';
+import AlumniPage from './Components/AlumniPage';
 import CommunityPage from './Components/CommunityPage';
 import ContactsPage from './Components/ContactsPage';
+import CounsellingPage from './Components/CounsellingPage';
+import CoCurricularPage from './Components/CoCurricularPage';
 import Footer from './Components/Footer';
 import Intro from './Components/Intro';
 import LearningEnvironment from './Components/LearningEnvironment';
@@ -40,11 +49,24 @@ const getCurrentRoute = () => {
       academicDivision: isAcademicDivision ? normalizedDivision : null,
     };
   }
-  if (section === 'admissions') return { page: 'admissions', academicDivision: null };
+  if (section === 'admissions') {
+    const subPage = academicDivision;
+    if (subPage === 'how-to-apply') return { page: 'how-to-apply', academicDivision: null };
+    if (subPage === 'how-to-enroll') return { page: 'how-to-enroll', academicDivision: null };
+    if (subPage === 'tuition-and-fees') return { page: 'tuition-and-fees', academicDivision: null };
+    if (subPage === 'apply') return { page: 'online-application', academicDivision: null };
+    if (subPage === 'handbook') return { page: 'handbook', academicDivision: null };
+    return { page: 'admissions', academicDivision: null };
+  }
   if (section === 'news') return { page: 'news', academicDivision: null };
   if (section === 'community' || window.location.hash === '#community') {
+    const subPage = academicDivision;
+    if (subPage === 'parent-teacher-association') return { page: 'parent-teacher-association', academicDivision: null };
+    if (subPage === 'ags-alumni') return { page: 'ags-alumni', academicDivision: null };
     return { page: 'community', academicDivision: null };
   }
+  if (section === 'counselling') return { page: 'counselling', academicDivision: null };
+  if (section === 'co-curricular') return { page: 'co-curricular', academicDivision: null };
   if (section === 'contacts' || window.location.hash === '#contacts') {
     return { page: 'contacts', academicDivision: null };
   }
@@ -103,7 +125,16 @@ const App = () => {
         <AcademicDivisionPage slug={academicDivision} />
       )}
       {currentPage === 'admissions' && <AdmissionsPage />}
+      {currentPage === 'how-to-apply' && <HowToApplyPage />}
+      {currentPage === 'how-to-enroll' && <HowToEnrollPage />}
+      {currentPage === 'tuition-and-fees' && <TuitionAndFeesPage />}
+      {currentPage === 'online-application' && <OnlineApplicationPage />}
+      {currentPage === 'handbook' && <HandbookPage />}
+      {currentPage === 'parent-teacher-association' && <ParentTeacherAssociationPage />}
+      {currentPage === 'ags-alumni' && <AlumniPage />}
       {currentPage === 'community' && <CommunityPage />}
+      {currentPage === 'counselling' && <CounsellingPage />}
+      {currentPage === 'co-curricular' && <CoCurricularPage />}
       {currentPage === 'contacts' && <ContactsPage />}
       {currentPage === 'news' && <NewsPage />}
       {currentPage === 'home' && <HomePage />}

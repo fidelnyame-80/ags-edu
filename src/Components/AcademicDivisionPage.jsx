@@ -1,8 +1,10 @@
+import { useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
   BookOpen,
   CheckCircle2,
+  ChevronDown,
   GraduationCap,
   School,
 } from "lucide-react";
@@ -229,16 +231,61 @@ const juniorProgramPoints = [
   },
 ];
 
-const juniorGradeRows2023 = [
-  { subject: "English", grade1: 41, grade2: 6, grade3: 0, pass: "100.00%" },
-  { subject: "Social Studies", grade1: 18, grade2: 15, grade3: 12, pass: "95.74%" },
-  { subject: "RME", grade1: 16, grade2: 20, grade3: 10, pass: "97.87%" },
-  { subject: "Mathematics", grade1: 5, grade2: 9, grade3: 8, pass: "46.81%" },
-  { subject: "Science", grade1: 28, grade2: 15, grade3: 4, pass: "100.00%" },
-  { subject: "ICT", grade1: 34, grade2: 3, grade3: 9, pass: "97.87%" },
-  { subject: "French", grade1: 13, grade2: 26, grade3: 5, pass: "93.62%" },
-  { subject: "Ghanaian Language", grade1: 6, grade2: 15, grade3: 17, pass: "80.85%" },
-  { subject: "Design Technologies", grade1: 39, grade2: 8, grade3: 0, pass: "100.00%" },
+const secondCycleSchools = [
+  { count: 29, school: "Achimota School" },
+  { count: 29, school: "Presbyterian Boys SHS (Presec)" },
+  { count: 24, school: "Aburi Girls Senior High School" },
+  { count: 15, school: "Methodist Girls SHS, Mamfe" },
+  { count: 14, school: "Krobo Girls SHS" },
+  { count: 14, school: "Pope John SHS, Koforidua" },
+  { count: 11, school: "Mawuli SHS, Ho" },
+  { count: 10, school: "Ghanata SHS, Dodowa" },
+  { count: 9, school: "Labone SHS, Accra" },
+  { count: 9, school: "Okuapeman SHS" },
+  { count: 8, school: "Wesley Grammar SHS, Accra" },
+  { count: 7, school: "Akosombo International School" },
+  { count: 7, school: "West African Senior High" },
+  { count: 6, school: "Ghana National School SHS, Cape Coast" },
+  { count: 6, school: "New Juabeng SHS, Koforidua" },
+  { count: 6, school: "St. Peters Boys SHS (Persco), Nkwatia" },
+  { count: 5, school: "Archbishop Porter Girls SHS, Takoradi" },
+  { count: 5, school: "Benkum SHS" },
+  { count: 5, school: "Holy Child SHS, Cape Coast" },
+  { count: 5, school: "H'Mount Sinai Senior High School" },
+  { count: 5, school: "Mfantsiman Girls SHS" },
+  { count: 5, school: "St. John's Grammar Senior High" },
+  { count: 5, school: "Wesley Girls School, Cape Coast" },
+  { count: 4, school: "Adisadel College" },
+  { count: 4, school: "Ghana Christian International School" },
+  { count: 4, school: "Ghana Secondary Technical School (GSTS), Takoradi" },
+  { count: 4, school: "OLA Girls SHS, Ho" },
+  { count: 4, school: "Ofori Panin Senior High School" },
+  { count: 3, school: "Accra Academy" },
+  { count: 3, school: "Bishop Herman College" },
+  { count: 3, school: "Keta Senior High School" },
+  { count: 3, school: "Legacy Girls" },
+  { count: 3, school: "St. Roses SHS, Akwatia" },
+  { count: 3, school: "St. Augustine's College, Cape Coast" },
+  { count: 2, school: "Mawuko Girls Senior High School, Ho" },
+  { count: 2, school: "St. Mary's Senior High School, Accra" },
+  { count: 2, school: "Tema Technical" },
+  { count: 1, school: "Aggrey Memorial" },
+  { count: 1, school: "St. Augustine College" },
+  { count: 1, school: "KNUST Senior High School" },
+  { count: 1, school: "Koforidua Secondary Technical SHS, Koforidua" },
+  { count: 1, school: "Kumasi Academy Senior High School" },
+  { count: 1, school: "Kumasi Senior High School" },
+  { count: 1, school: "Nifa Senior High School" },
+  { count: 1, school: "Odorgono Senior High School" },
+  { count: 1, school: "Opoku Ware School" },
+  { count: 1, school: "Seventh Day Adventist SHS, Bekwai" },
+  { count: 1, school: "St. Andrews Senior High School" },
+  { count: 1, school: "St. Martin's Senior High School" },
+  { count: 1, school: "T.I. Ahmadiyya Girls' Senior High School, Asokore" },
+  { count: 1, school: "Tema International School, Tema" },
+  { count: 1, school: "Tema Senior High School, Tema" },
+  { count: 1, school: "West African Senior High School, Accra" },
+  { count: 1, school: "Winneba Senior High School" },
 ];
 
 const juniorPassRates2020To2023 = [
@@ -853,14 +900,14 @@ function PrimaryPage({ division }) {
           <div className="relative min-h-[340px] sm:min-h-[420px]">
             <div className="absolute left-2 top-0 h-[220px] w-[68%] max-w-[360px] rounded-[58px_58px_16px_58px] bg-[#2563eb]" />
             <img
-              src={Images.academicExcellence}
+              src={Images.primarySchool}
               alt="Primary learners in a classroom activity"
               className="absolute left-7 top-5 h-[220px] w-[68%] max-w-[360px] rounded-[58px_58px_16px_58px] object-cover shadow-[0_24px_70px_rgba(31,66,115,0.16)]"
               loading="lazy"
             />
             <div className="absolute bottom-2 right-0 h-[210px] w-[64%] max-w-[340px] rounded-[18px_64px_64px_64px] bg-[#e8ddff]" />
             <img
-              src={Images.learningExcellence}
+              src={Images.primarySchool2}
               alt="AGS pupils learning together"
               className="absolute bottom-7 right-5 h-[210px] w-[64%] max-w-[340px] rounded-[18px_64px_64px_64px] object-cover shadow-[0_24px_70px_rgba(86,72,150,0.16)]"
               loading="lazy"
@@ -1054,55 +1101,6 @@ function JuniorProgramSection() {
 
         <div className="lg:col-span-2">
           <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
-            <div className="rounded-[30px] border border-[#e8e5f0] bg-white p-5 shadow-[0_18px_50px_rgba(86,72,150,0.07)]">
-              <div className="flex flex-wrap items-end justify-between gap-3">
-                <div>
-                  <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#6657c8]">
-                    2023 BECE
-                  </p>
-                  <h3 className="mt-2 text-xl font-black text-[#171727]">
-                    Aggregated Grades
-                  </h3>
-                </div>
-                <span className="rounded-full bg-[#eef5ff] px-4 py-2 text-xs font-extrabold text-[#2563eb]">
-                  Grade 1-3 + pass rate
-                </span>
-              </div>
-
-              <div className="mt-5 overflow-hidden rounded-[22px] border border-[#e8e5f0] bg-[#fffefa]">
-                <div className="grid grid-cols-[1.35fr_0.5fr_0.5fr_0.5fr_0.85fr] items-center border-b border-[#e8e5f0] bg-[#f7f4ed] px-4 py-3 text-[0.68rem] font-black uppercase tracking-[0.14em] text-[#6657c8]">
-                  <span>Subject</span>
-                  <span className="text-center">G1</span>
-                  <span className="text-center">G2</span>
-                  <span className="text-center">G3</span>
-                  <span className="text-right">Pass</span>
-                </div>
-
-                {juniorGradeRows2023.map((row) => (
-                  <div
-                    key={row.subject}
-                    className="grid grid-cols-[1.35fr_0.5fr_0.5fr_0.5fr_0.85fr] items-center border-b border-[#eeeaf6] px-4 py-3 last:border-b-0"
-                  >
-                    <p className="text-sm font-bold text-[#171727]">
-                      {row.subject}
-                    </p>
-                    <p className="text-center text-sm font-black text-[#171727]">
-                      {row.grade1}
-                    </p>
-                    <p className="text-center text-sm font-black text-[#171727]">
-                      {row.grade2}
-                    </p>
-                    <p className="text-center text-sm font-black text-[#171727]">
-                      {row.grade3}
-                    </p>
-                    <p className="text-right text-sm font-black text-[#2f8a52]">
-                      {row.pass}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
             <div className="rounded-[30px] border border-[#dcd6f3] bg-[#f2edff] p-5">
               <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#6657c8]">
                 2020-2023
@@ -1129,6 +1127,58 @@ function JuniorProgramSection() {
                     </div>
                   </div>
                 ))}
+              </div>
+            </div>
+
+            <div className="rounded-[30px] border border-[#e8e5f0] bg-white p-5 shadow-[0_18px_50px_rgba(86,72,150,0.07)]">
+              <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#6657c8]">
+                Second Cycle
+              </p>
+              <h3 className="mt-2 text-xl font-black text-[#171727]">
+                Schools Attended
+              </h3>
+              <p className="mt-1 text-[0.65rem] leading-4 text-[#555568]">
+                *Data is a snapshot from 2011-2023 and may not account for all
+                students. Updated regularly.
+              </p>
+
+              <div className="mt-4 space-y-0.5">
+                {(() => {
+                  const [showAll, setShowAll] = useState(false);
+                  const visible = showAll ? secondCycleSchools : secondCycleSchools.slice(0, 9);
+                  return (
+                    <>
+                      {visible.map((row) => (
+                        <div
+                          key={row.school}
+                          className="flex items-center justify-between gap-3 border-b border-[#eeeaf6] py-2 last:border-b-0"
+                        >
+                          <p className="text-xs leading-5 text-[#555568]">
+                            {row.school}
+                          </p>
+                          <span className="shrink-0 rounded-full bg-[#eef5ff] px-2.5 py-0.5 text-xs font-black text-[#2563eb]">
+                            {row.count}
+                          </span>
+                        </div>
+                      ))}
+                      {secondCycleSchools.length > 9 && (
+                        <button
+                          onClick={() => setShowAll(!showAll)}
+                          className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-full border border-[#dcd6f3] py-2 text-xs font-extrabold text-[#6657c8] transition hover:bg-[#f4f1fb]"
+                        >
+                          {showAll ? (
+                            <>Show less</>
+                          ) : (
+                            <>
+                              Show all {secondCycleSchools.length} schools
+                              <ChevronDown size={14} strokeWidth={2.5} />
+                            </>
+                          )}
+                        </button>
+                      )}
+                    </>
+                  );
+                })()}
               </div>
             </div>
           </div>
@@ -1188,19 +1238,19 @@ function JuniorHighPage({ division }) {
             </div>
           </div>
 
-          <div className="relative min-h-[340px] sm:min-h-[420px]">
-            <div className="absolute right-2 top-0 h-[220px] w-[68%] max-w-[360px] rounded-[58px_58px_58px_16px] bg-[#fff3cc]" />
+          <div className="relative min-h-[580px] sm:min-h-[650px]">
+            <div className="absolute right-2 top-0 h-[330px] w-[80%] max-w-[540px] rounded-[58px_58px_58px_16px] bg-[#fff3cc]" />
             <img
-              src={Images.learningExcellence}
+              src={Images.grade9}
               alt="Junior High learners in focused academic preparation"
-              className="absolute right-7 top-5 h-[220px] w-[68%] max-w-[360px] rounded-[58px_58px_58px_16px] object-cover shadow-[0_24px_70px_rgba(31,66,115,0.16)]"
+              className="absolute right-7 top-5 h-[330px] w-[80%] max-w-[540px] rounded-[58px_58px_58px_16px] object-cover shadow-[0_24px_70px_rgba(31,66,115,0.16)]"
               loading="lazy"
             />
-            <div className="absolute bottom-2 left-0 h-[210px] w-[64%] max-w-[340px] rounded-[64px_18px_64px_64px] bg-[#dbeafe]" />
+            <div className="absolute bottom-0 left-0 h-[315px] w-[78%] max-w-[510px] rounded-[64px_18px_64px_64px] bg-[#dbeafe]" />
             <img
-              src={Images.regionalQualifiers}
+              src={Images.grade9_2}
               alt="AGS students representing school excellence"
-              className="absolute bottom-7 left-5 h-[210px] w-[64%] max-w-[340px] rounded-[64px_18px_64px_64px] object-cover shadow-[0_24px_70px_rgba(86,72,150,0.16)]"
+              className="absolute -bottom-6 left-5 h-[315px] w-[78%] max-w-[510px] rounded-[64px_18px_64px_64px] object-cover object-[0%18%] shadow-[0_24px_70px_rgba(86,72,150,0.16)]"
               loading="lazy"
             />
             <div className="absolute bottom-0 right-5 rounded-[28px_28px_8px_28px] border border-[#ded8ef] bg-white px-4 py-3 shadow-[0_18px_42px_rgba(86,72,150,0.12)]">
