@@ -1,41 +1,17 @@
-import { CalendarDays, Clock, MapPin } from "lucide-react";
+import { useEffect, useState } from "react";
+import { CalendarDays, GraduationCap, MapPin, School, Trophy, Umbrella, Users } from "lucide-react";
 import { Images } from "../assets/Images/Images";
+import { fetchEvents, getFallbackEventsFeed, getTermCalendar, formatDateShort } from "../lib/eventsApi";
 import MotionText from "./MotionText";
 
-const events = [
-  {
-    date: { day: 16, month: "March", year: 2026 },
-    time: "8:00 am to 9:00 pm",
-    location: "Accra, IL85976, Ghana",
-    title: "Community Event: Cook Ghana",
-    description:
-      "The school invites you all to see the range of dishes available to Ghanaians.",
-  },
-  {
-    date: { day: 5, month: "February", year: 2026 },
-    time: "All day",
-    location: "Accra Grammar School",
-    title: "Parent Involvement Day",
-    description:
-      "Our school celebrating Parent Involvement Day on a date suitable to parents and the school.",
-  },
-  {
-    date: { day: 15, month: "April", year: 2026 },
-    time: "4:30 pm",
-    location: "Undecided",
-    title: "Excursions",
-    description:
-      "Discussion and community dialogue with school staff, parents and community members.",
-  },
-  {
-    date: { day: 13, month: "May", year: 2026 },
-    time: "6 Weeks",
-    location: "Accra Grammar School, Oyibi",
-    title: "BECE Boot Camp",
-    description:
-      "Year 9 pupils can accompany parents but will not be permitted in the meetings.",
-  },
-];
+const categoryIcons = {
+  Exam: GraduationCap,
+  Ceremony: Trophy,
+  Sports: Trophy,
+  Academic: School,
+  Vacation: Umbrella,
+  Admissions: Users,
+};
 
 function SectionLabel({ children }) {
   return (
@@ -49,6 +25,14 @@ function SectionLabel({ children }) {
 }
 
 export default function EventsPage() {
+  const [events, setEvents] = useState(() => getFallbackEventsFeed());
+
+  useEffect(() => {
+    fetchEvents().then(setEvents);
+  }, []);
+
+  const termCalendar = getTermCalendar(events);
+
   return (
     <main className="bg-[#fffefa] text-[#171727]">
       <section className="relative overflow-hidden">
@@ -98,42 +82,46 @@ export default function EventsPage() {
             </h2>
           </MotionText>
 
-          <div className="mt-10 space-y-6">
-            {events.map((event, i) => (
-              <MotionText
-                key={event.title}
-                as="article"
-                delay={i * 0.06}
-                className="flex gap-5 rounded-2xl border border-[#e8e5f0] bg-white p-6 shadow-[0_4px_24px_rgba(67,56,37,0.05)] transition hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(67,56,37,0.1)] sm:gap-8 sm:p-8"
-              >
-                <div className="flex shrink-0 flex-col items-center">
-                  <span className="text-[1.8rem] font-black leading-none text-[#6657c8] sm:text-[2.2rem]">
-                    {event.date.day}
-                  </span>
-                  <span className="mt-1 text-xs font-extrabold uppercase tracking-[0.1em] text-[#555568]">
-                    {event.date.month}
-                  </span>
-                </div>
-                <div className="min-w-0 flex-1">
-                  <h3 className="text-xl font-bold text-[#171727] sm:text-2xl">
-                    {event.title}
-                  </h3>
-                  <p className="mt-3 text-base leading-7 text-[#555568]">
-                    {event.description}
-                  </p>
-                  <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-bold text-[#6657c8]">
-                    <span className="inline-flex items-center gap-1.5">
-                      <Clock size={13} strokeWidth={2.4} />
-                      {event.time}
-                    </span>
-                    <span className="inline-flex items-center gap-1.5">
-                      <MapPin size={13} strokeWidth={2.4} />
-                      {event.location}
-                    </span>
+          <div className="mt-10 rounded-2xl border border-[#e8e5f0] bg-white p-6 shadow-[0_4px_24px_rgba(67,56,37,0.05)] sm:p-8">
+            <div className="divide-y divide-[#e4dfd2]">
+              {termCalendar.map((ev) => {
+                const Icon = categoryIcons[ev.category] || CalendarDays;
+                const start = new Date(`${ev.startDate}T00:00:00`);
+                const end = new Date(`${ev.endDate}T00:00:00`);
+                const isMultiDay = ev.startDate !== ev.endDate;
+                return (
+                  <div key={`${ev.title}-${ev.startDate}`} className="flex items-center gap-5 py-5 first:pt-0 last:pb-0 sm:gap-8">
+                    <div className="flex shrink-0 flex-col items-center">
+                      <span className="text-lg font-extrabold leading-none text-[#6657c8]">
+                        {start.getDate()}
+                      </span>
+                      <span className="mt-1 text-xs font-bold uppercase text-[#555568]">
+                        {new Intl.DateTimeFormat("en", { month: "short" }).format(start)}
+                      </span>
+                    </div>
+                    <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${ev.featured ? "bg-[#6657c8] text-white" : "bg-[#f2edff] text-[#6657c8]"}`}>
+                      <Icon size={18} strokeWidth={2.3} />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-base font-bold leading-tight text-[#171727]">{ev.title}</p>
+                      {ev.description && (
+                        <p className="mt-1 text-sm leading-6 text-[#555568]">{ev.description}</p>
+                      )}
+                      {ev.location && (
+                        <p className="mt-1.5 text-xs font-semibold text-[#6657c8] inline-flex items-center gap-1">
+                          <MapPin size={11} />
+                          {ev.location}
+                        </p>
+                      )}
+                    </div>
+                    <p className="hidden shrink-0 text-right text-sm font-bold text-[#555568] sm:block">
+                      {formatDateShort(ev.startDate)}
+                      {isMultiDay && ` – ${formatDateShort(ev.endDate)}`}
+                    </p>
                   </div>
-                </div>
-              </MotionText>
-            ))}
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>

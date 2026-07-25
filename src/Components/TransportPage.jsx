@@ -56,59 +56,49 @@ function SectionLabel({ children, light = false }) {
 export default function TransportPage() {
   return (
     <main className="bg-[#fffefa] text-[#171727]">
-      <section className="px-5 pb-4 pt-24 sm:px-8 lg:px-20 lg:pt-32">
-        <div className="mx-auto max-w-[1180px]">
-          <MotionText as="p" className="text-xs font-extrabold uppercase tracking-[0.28em] text-[#6657c8]">
-            AGS / Transport
-          </MotionText>
-          <MotionText
-            as="h1"
-            delay={0.08}
-            className="mt-4 text-[2.35rem] font-bold leading-[1.04] text-[#171727] sm:text-[3.15rem] lg:text-[3.6rem]"
-            style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
-          >
-            Transport
-          </MotionText>
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0">
+          <img
+            src={Images.agsBus}
+            alt="AGS school bus"
+            className="h-full w-full object-cover"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#061a34]/90 via-[#061a34]/70 to-[#061a34]/50" />
+        </div>
+        <div className="relative px-5 pb-16 pt-24 sm:px-8 lg:px-20 lg:pt-32">
+          <div className="mx-auto max-w-[1180px]">
+            <MotionText as="p" className="text-xs font-extrabold uppercase tracking-[0.28em] text-blue-200">
+              AGS / Transport
+            </MotionText>
+            <MotionText
+              as="h1"
+              delay={0.08}
+              className="mt-4 text-[2.35rem] font-bold leading-[1.04] text-white sm:text-[3.15rem] lg:text-[3.6rem]"
+              style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+            >
+              Transport
+            </MotionText>
+            <MotionText
+              as="p"
+              delay={0.14}
+              className="mt-5 max-w-[640px] text-lg leading-8 text-blue-100"
+            >
+              Getting your child to and from school safely is our number one priority.
+            </MotionText>
+          </div>
         </div>
       </section>
 
-      <section className="px-5 pb-16 sm:px-8 lg:px-20">
-        <div className="mx-auto max-w-[1180px]">
-          <MotionText as="div" className="grid gap-8 lg:grid-cols-[1fr_1.2fr] lg:items-center">
-            <div>
-              <SectionLabel>Bus Routes</SectionLabel>
-              <h2
-                className="mt-5 text-[2rem] font-bold leading-[1.06] text-[#171727] sm:text-[2.5rem]"
-                style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
-              >
-                Getting your child to and from school safely is our number one priority.
-              </h2>
-              <p className="mt-5 text-base leading-8 text-[#555568]">
-                Students who are independent and confident, inquisitive and
-                enthusiastic, responsible and compassionate.
-              </p>
-            </div>
-            <div className="relative">
-              <img
-                src={Images.agsBus}
-                alt="AGS school bus"
-                className="w-full rounded-2xl object-cover shadow-[0_24px_70px_rgba(67,56,37,0.1)]"
-                loading="lazy"
-              />
-            </div>
-          </MotionText>
-        </div>
-      </section>
-
-      <section className="bg-[#f7f4ed] px-5 py-16 sm:px-8 lg:px-20">
+      <section className="px-5 py-16 sm:px-8 lg:px-20">
         <div className="mx-auto max-w-[1180px]">
           <MotionText className="text-center">
-            <SectionLabel>Routes</SectionLabel>
+            <SectionLabel>Bus Routes</SectionLabel>
             <h2
               className="mx-auto mt-5 max-w-[680px] text-[2rem] font-bold leading-[1.06] text-[#171727] sm:text-[2.5rem]"
               style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
             >
-              Our Bus Routes
+              Students who are independent and confident, inquisitive and enthusiastic, responsible and compassionate.
             </h2>
           </MotionText>
 

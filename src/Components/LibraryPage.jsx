@@ -1,33 +1,6 @@
-import { BookOpen, ChevronDown, Clock, MapPin, Search } from "lucide-react";
+import { BookOpen, ChevronDown, Search } from "lucide-react";
 import { Images } from "../assets/Images/Images";
 import MotionText from "./MotionText";
-
-const events = [
-  {
-    day: 16, month: "March", time: "8:00 am to 9:00 pm",
-    location: "Accra, IL85976, Ghana",
-    title: "Community Event: Cook Ghana",
-    description: "The school invites you all to see the range of dishes available to Ghanaians.",
-  },
-  {
-    day: 5, month: "February", time: "All day",
-    location: "Accra Grammar School",
-    title: "Parent Involvement Day",
-    description: "Our school celebrating Parent Involvement Day on a date suitable to parents and the school.",
-  },
-  {
-    day: 15, month: "April", time: "4:30 pm",
-    location: "Undecided",
-    title: "Excursions",
-    description: "Discussion and community dialogue with school staff, parents and community members.",
-  },
-  {
-    day: 13, month: "May", time: "6 Weeks",
-    location: "Accra Grammar School, Oyibi",
-    title: "BECE Boot Camp",
-    description: "Year 9 pupils can accompany parents but will not be permitted in the meetings.",
-  },
-];
 
 const menuItems = [
   "Home", "Library News", "Library Information",
@@ -143,48 +116,6 @@ export default function LibraryPage() {
                   >
                     Advanced Search
                   </a>
-                </div>
-              </div>
-
-              <div className="mt-6 rounded-2xl border border-[#e8e5f0] bg-white p-6 shadow-[0_4px_24px_rgba(67,56,37,0.05)] sm:p-8">
-                <h2
-                  className="text-xl font-bold text-[#171727]"
-                  style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
-                >
-                  Upcoming Events
-                </h2>
-                <div className="mt-6 space-y-4">
-                  {events.map((event) => (
-                    <div
-                      key={event.title}
-                      className="flex gap-4 rounded-xl border border-[#eeeaf6] bg-[#fffefa] p-5 transition hover:border-[#dcd6f3]"
-                    >
-                      <div className="flex shrink-0 flex-col items-center">
-                        <span className="text-xl font-black leading-none text-[#6657c8]">
-                          {event.day}
-                        </span>
-                        <span className="mt-1 text-[0.6rem] font-extrabold uppercase tracking-wider text-[#555568]">
-                          {event.month}
-                        </span>
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <h3 className="text-base font-bold text-[#171727]">{event.title}</h3>
-                        <p className="mt-1.5 text-sm leading-6 text-[#555568]">
-                          {event.description}
-                        </p>
-                        <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[0.65rem] font-bold text-[#6657c8]">
-                          <span className="inline-flex items-center gap-1">
-                            <Clock size={11} />
-                            {event.time}
-                          </span>
-                          <span className="inline-flex items-center gap-1">
-                            <MapPin size={11} />
-                            {event.location}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
                 </div>
               </div>
             </div>
