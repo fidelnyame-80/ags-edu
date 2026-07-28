@@ -37,6 +37,8 @@ import schoolBroadsheet from "./schoolBroadsheet.webp";
 import principal from "./principalImage.webp";
 import ourPromiseSectionImg from "./ourPromiseSectionImg.jpeg";
 import agsCompoundDroneview1 from "./ags_compound_droneview1.webp";
+import libraryImg1 from "./libraryImg1.webp";
+import libraryImg2 from "./LibraryImg2.webp";
 import agsCompoundDroneview2 from "./ags_compound_droneview2.webp";
 import agsCompoundDroneview3 from "./ags_compound_droneview3.webp";
 import agsSciencelab1 from "./ags_sciencelab1.webp";
@@ -46,7 +48,14 @@ import agsVisaday2 from "./ags_visaday2.webp";
 import visaday3 from "./visaday3.webp";
 import extracurricular from "./extracurricular.webp";
 import agsBus from "./agsbus.webp";
+import snackArea from "./SnackArea.webp";
+import snackArea2 from "./snackArea2.webp";
 import campusTour from "./campusTour.webp";
+import transport1 from "./transport1.webp";
+import transport2 from "./transport2.webp";
+import washroom from "./washroom.webp";
+import cafeteria1 from "./cafeteria1.webp";
+import cafeteria2 from "./cafeteria2.webp";
 import primarySchool from "./primarySchool.webp";
 import primarySchool2 from "./primarySchool2.webp";
 import primarySchool3 from "./primarySchool3.webp";
@@ -113,6 +122,8 @@ export const Images = {
   principal,
   ourPromiseSectionImg,
   agsCompoundDroneview1,
+  libraryImg1,
+  libraryImg2,
   agsCompoundDroneview2,
   agsCompoundDroneview3,
   agsSciencelab1,
@@ -122,7 +133,14 @@ export const Images = {
   visaday3,
   extracurricular,
   agsBus,
+  snackArea,
+  snackArea2,
   campusTour,
+  transport1,
+  transport2,
+  washroom,
+  cafeteria1,
+  cafeteria2,
   primarySchool,
   primarySchool2,
   primarySchool3,

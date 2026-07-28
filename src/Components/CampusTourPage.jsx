@@ -36,6 +36,29 @@ const categories = [
     label: "Transport & Facilities",
     images: [
       Images.agsBus,
+      Images.transport1,
+      Images.transport2,
+    ],
+  },
+  {
+    label: "Library",
+    images: [
+      Images.libraryImg1,
+      Images.libraryImg2,
+    ],
+  },
+  {
+    label: "Snack Shop",
+    images: [
+      Images.snackArea,
+      Images.snackArea2,
+    ],
+  },
+  {
+    label: "Cafeteria",
+    images: [
+      Images.cafeteria1,
+      Images.cafeteria2,
     ],
   },
 ];
@@ -71,6 +94,11 @@ export default function CampusTourPage() {
             >
               {category.label}
             </h2>
+            {category.text ? (
+              <p className="mt-6 max-w-[620px] text-base leading-8 text-[#555568]">
+                {category.text}
+              </p>
+            ) : (
             <div className="mt-6 columns-1 gap-5 sm:columns-2 lg:columns-3">
               {category.images.map((src, i) => (
                 <motion.div
@@ -90,6 +118,7 @@ export default function CampusTourPage() {
                 </motion.div>
               ))}
             </div>
+            )}
           </div>
         </section>
       ))}

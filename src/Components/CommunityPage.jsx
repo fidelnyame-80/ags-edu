@@ -92,7 +92,7 @@ const communityItems = [
   {
     id: "janet-c-rickert-library",
     icon: BookOpen,
-    label: "Janet C Rickert Library",
+    label: "Library",
     title: "A reading space for curiosity and discovery.",
     body:
       "The library supports reading culture, research habits, quiet study, and independent learning across the school.",

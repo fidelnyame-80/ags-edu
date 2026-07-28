@@ -12,6 +12,7 @@ const navLinks = [
       { label: "Welcome", href: "/about/#welcome" },
       { label: "Mission", href: "/about/#mission" },
       { label: "Vision", href: "/about/#vision" },
+      { label: "Facilities", href: "/campus-tour/" },
       { label: "Awards", href: "/about/#awards" },
       { label: "Discover", href: "/about/#discover" },
     ],
@@ -43,7 +44,7 @@ const navLinks = [
       { label: "Events", href: "/community/events/" },
       { label: "News", href: "/news/" },
       {
-        label: "Janet C Rickert Library",
+        label: "Library",
         href: "/community/janet-c-rickert-library/",
       },
     ],
@@ -54,8 +55,8 @@ const navLinks = [
     href: "#",
     page: null,
     dropdown: [
-      { label: "Library Portal", href: "/community/janet-c-rickert-library/" },
-      { label: "Student Portal", href: "/student-login/" },
+      { label: "Library Portal", href: "https://agsedu.org/library/" },
+      { label: "Student Portal", href: "https://agsedu.org/moodle/login/index.php" },
     ],
   },
 ];
