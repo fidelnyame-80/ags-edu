@@ -1,4 +1,11 @@
 {
+  "redirects": [
+    {
+      "source": "/moodle/:path*",
+      "destination": "https://lms.agsedu.org/:path*",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",

@@ -56,7 +56,7 @@ const navLinks = [
     page: null,
     dropdown: [
       { label: "Library Portal", href: "https://agsedu.org/library/" },
-      { label: "Student Portal", href: "https://agsedu.org/moodle/login/index.php" },
+      { label: "Student Portal", href: "https://lms.agsedu.org/login/index.php" },
     ],
   },
 ];
