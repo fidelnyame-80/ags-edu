@@ -219,7 +219,7 @@ export default function LibraryPage() {
             </MotionText>
           </div>
           <a
-            href="https://www.agsedu.org/library"
+            href="https://library.agsedu.org/"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex min-h-12 w-full items-center justify-center gap-2 bg-blue-600 px-6 text-sm font-extrabold text-white shadow-[0_20px_48px_rgba(37,99,235,0.26)] transition hover:-translate-y-1 hover:bg-blue-500"

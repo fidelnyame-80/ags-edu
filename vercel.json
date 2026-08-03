@@ -1,6 +1,11 @@
 {
   "redirects": [
     {
+      "source": "/library/:path*",
+      "destination": "https://library.agsedu.org/:path*",
+      "permanent": false
+    },
+    {
       "source": "/moodle/:path*",
       "destination": "https://lms.agsedu.org/:path*",
       "permanent": false
