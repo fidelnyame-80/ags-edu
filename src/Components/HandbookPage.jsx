@@ -46,6 +46,13 @@ export default function HandbookPage() {
               fileSize="1.1 MB"
               updated="Jul 2026"
             />
+            <PdfResourceCard
+              title="Health Information Forms"
+              description="Medical and health information forms required for student enrollment for the 2026 academic year."
+              pdfFile="/Health-Information-Forms-ags.pdf"
+              fileSize="0.8 MB"
+              updated="Jul 2026"
+            />
           </div>
         </div>
       </section>
