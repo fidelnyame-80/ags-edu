@@ -2,6 +2,11 @@ import { useState } from "react";
 import { submitWebsiteForm } from "../lib/formSubmission";
 import PdfResourceCard from "./PdfResourceCard";
 
+const birthYears = Array.from(
+  { length: 25 },
+  (_, index) => new Date().getFullYear() - index,
+);
+
 const handleSubmit = async (e, setFormStatus) => {
   e.preventDefault();
   const form = e.currentTarget;
@@ -113,8 +118,8 @@ export default function OnlineApplicationPage() {
                   </select>
                   <select name="dobYear" required defaultValue="" className="min-h-12 border border-[#d9d4e8] bg-[#fffefa] px-4 text-sm font-medium outline-none transition focus:border-[#6657c8]">
                     <option value="" disabled>YYYY</option>
-                    {Array.from({ length: 20 }, (_, i) => (
-                      <option key={i} value={2010 + i}>{2010 + i}</option>
+                    {birthYears.map((year) => (
+                      <option key={year} value={year}>{year}</option>
                     ))}
                   </select>
                 </div>
