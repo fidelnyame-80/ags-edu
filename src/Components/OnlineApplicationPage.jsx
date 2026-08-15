@@ -1,32 +1,18 @@
 import { useState } from "react";
+import { submitWebsiteForm } from "../lib/formSubmission";
 import PdfResourceCard from "./PdfResourceCard";
 
 const handleSubmit = async (e, setFormStatus) => {
   e.preventDefault();
-  const form = e.target;
-  const data = new FormData(form);
+  const form = e.currentTarget;
   setFormStatus({ state: "sending", message: "" });
 
   try {
-    const response = await fetch("/contact.php", { method: "POST", body: data });
-
-    let result = {};
-    try {
-      result = await response.json();
-    } catch {
-      result = {};
-    }
-
-    if (response.ok) {
-      setFormStatus({ state: "success", message: "Thank you! Your application has been sent to the admissions office." });
-      form.reset();
-    } else if (result && result.error) {
-      setFormStatus({ state: "error", message: result.error });
-    } else {
-      setFormStatus({ state: "error", message: "Your application could not be sent. Please try again or email admin@agsedu.org." });
-    }
-  } catch {
-    setFormStatus({ state: "error", message: "Your application could not be sent. Please try again or email admin@agsedu.org." });
+    await submitWebsiteForm(form, "application");
+    form.reset();
+    setFormStatus({ state: "success", message: "Thank you! Your application has been sent to the admissions office." });
+  } catch (error) {
+    setFormStatus({ state: "error", message: error.message });
   }
 };
 

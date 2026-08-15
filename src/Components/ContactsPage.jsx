@@ -9,9 +9,8 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { Images } from "../assets/Images/Images";
+import { submitWebsiteForm } from "../lib/formSubmission";
 import MotionText from "./MotionText";
-
-const CONTACT_EMAIL = "admin@agsedu.org";
 
 const contactPeople = [
   {
@@ -77,42 +76,17 @@ function SectionLabel({ children, light = false }) {
 export default function ContactsPage() {
   const [formStatus, setFormStatus] = useState({ state: "idle", message: "" });
 
-  const openMailClientFallback = (data) => {
-    const params = new URLSearchParams({
-      subject: `Website contact request from ${data.get("name") || "the website"}`,
-      body: `Name: ${data.get("name") || ""}\nEmail: ${data.get("email") || ""}\nPhone: ${data.get("phone") || ""}\n\n${data.get("message") || ""}`,
-    });
-    window.location.href = `mailto:${CONTACT_EMAIL}?${params.toString()}`;
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const form = event.target;
-    const data = new FormData(form);
+    const form = event.currentTarget;
     setFormStatus({ state: "sending", message: "" });
 
     try {
-      const response = await fetch("/contact.php", { method: "POST", body: data });
-
-      let result = {};
-      try {
-        result = await response.json();
-      } catch {
-        result = {};
-      }
-
-      if (response.ok) {
-        setFormStatus({ state: "success", message: "Thank you! Your message has been sent to the school office." });
-        form.reset();
-      } else if (result && result.error) {
-        setFormStatus({ state: "error", message: result.error });
-      } else {
-        openMailClientFallback(data);
-        setFormStatus({ state: "idle", message: "" });
-      }
-    } catch {
-      openMailClientFallback(data);
-      setFormStatus({ state: "idle", message: "" });
+      await submitWebsiteForm(form, "contact");
+      form.reset();
+      setFormStatus({ state: "success", message: "Thank you! Your message has been sent to the school office." });
+    } catch (error) {
+      setFormStatus({ state: "error", message: error.message });
     }
   };
 

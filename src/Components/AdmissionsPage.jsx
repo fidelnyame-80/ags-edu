@@ -9,9 +9,8 @@ import {
   Send,
 } from "lucide-react";
 import { Images } from "../assets/Images/Images";
+import { submitWebsiteForm } from "../lib/formSubmission";
 import MotionText from "./MotionText";
-
-const CONTACT_EMAIL = "admin@agsedu.org";
 
 const handleCardNav = (event, href) => {
   event.preventDefault();
@@ -58,14 +57,6 @@ const entryLevels = [
   "Not sure yet",
 ];
 
-const openMailClientFallback = (data) => {
-  const params = new URLSearchParams({
-    subject: `Admissions enquiry from ${data.get("guardian") || "the website"}`,
-    body: `Parent/guardian: ${data.get("guardian") || ""}\nEmail: ${data.get("email") || ""}\nPhone: ${data.get("phone") || ""}\nLearner's name: ${data.get("learner") || ""}\nEntry level: ${data.get("entryLevel") || ""}\n\n${data.get("message") || ""}`,
-  });
-  window.location.href = `mailto:${CONTACT_EMAIL}?${params.toString()}`;
-};
-
 function SectionLabel({ children, light = false }) {
   return (
     <MotionText amount={0.45}>
@@ -90,34 +81,15 @@ export default function AdmissionsPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formdata = new FormData(e.target);
+    const form = e.currentTarget;
     setFormStatus({ state: "sending", message: "" });
 
     try {
-      const response = await fetch("/contact.php", {
-        method: "POST",
-        body: formdata,
-      });
-
-      let result = {};
-      try {
-        result = await response.json();
-      } catch {
-        result = {};
-      }
-
-      if (response.ok) {
-        setFormStatus({ state: "success", message: "Thank you! Your enquiry has been sent to the admissions team." });
-        e.target.reset();
-      } else if (result && result.error) {
-        setFormStatus({ state: "error", message: result.error });
-      } else {
-        openMailClientFallback(formdata);
-        setFormStatus({ state: "idle", message: "" });
-      }
-    } catch {
-      openMailClientFallback(formdata);
-      setFormStatus({ state: "idle", message: "" });
+      await submitWebsiteForm(form, "admissions-enquiry");
+      form.reset();
+      setFormStatus({ state: "success", message: "Thank you! Your enquiry has been sent to the admissions team." });
+    } catch (error) {
+      setFormStatus({ state: "error", message: error.message });
     }
   };
 
