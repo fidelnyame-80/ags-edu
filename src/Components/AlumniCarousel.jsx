@@ -17,7 +17,7 @@ const carouselSlides = [
 const slideEase = [0.22, 1, 0.36, 1];
 const AUTOPLAY_MS = 5000;
 
-export default function AlumniCarousel({ className = "" }) {
+export default function AlumniCarousel({ className = "", compact = false }) {
   const [index, setIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const prefersReducedMotion = useReducedMotion();
@@ -55,7 +55,7 @@ export default function AlumniCarousel({ className = "" }) {
           transition={{ duration: 0.55, ease: slideEase }}
           className="m-0"
         >
-          <div className="relative h-[300px] w-full overflow-hidden sm:h-[320px]">
+          <div className={`relative w-full overflow-hidden ${compact ? "h-[230px] sm:h-[245px]" : "h-[300px] sm:h-[320px]"}`}>
             <img
               src={current.image}
               alt={`${current.name}, ${current.profession}`}
@@ -67,8 +67,8 @@ export default function AlumniCarousel({ className = "" }) {
               AGS Alumni
             </p>
           </div>
-          <figcaption className="p-6">
-            <h3 className="text-xl font-extrabold text-[#171727]">
+          <figcaption className={compact ? "p-5" : "p-6"}>
+            <h3 className={`${compact ? "text-lg" : "text-xl"} font-extrabold text-[#171727]`}>
               {current.name}
             </h3>
             <p className="mt-1 text-sm font-bold text-[#6657c8]">

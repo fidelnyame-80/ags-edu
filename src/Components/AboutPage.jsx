@@ -262,11 +262,11 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section id="mission" className="bg-[#f7f4ed] px-5 py-16 sm:px-8 lg:px-20">
+      <section id="mission" className="bg-[#f7f4ed] px-5 py-16 sm:px-8 lg:px-20 lg:py-20">
         <div className="mx-auto max-w-[1180px]">
-          <div className="grid gap-12 lg:grid-cols-[1.02fr_0.98fr] lg:items-start">
+          <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-stretch">
             <div>
-              <MotionText as="article" className="border border-[#e4dfd2] bg-white p-7 shadow-[0_24px_70px_rgba(67,56,37,0.07)] sm:p-9">
+              <MotionText as="article" className="border-l-4 border-[#6657c8] bg-white p-7 shadow-[0_20px_56px_rgba(67,56,37,0.08)] sm:p-9">
                 <SectionLabel>Our Mission</SectionLabel>
                 <MotionText as="p" className="mt-7 text-lg leading-9 text-[#4f4f62]">
                   Our mission is to nurture inquiring, knowledgeable, and
@@ -280,7 +280,7 @@ export default function AboutPage() {
                 </MotionText>
               </MotionText>
 
-              <MotionText as="article" id="vision" delay={0.1} className="mt-5 border border-[#dcd6f3] bg-[#f4f1fb] p-7 shadow-[0_24px_70px_rgba(86,72,150,0.08)] sm:p-9">
+              <MotionText as="article" id="vision" delay={0.1} className="mt-5 border-l-4 border-[#49bd7a] bg-[#edf8f1] p-7 shadow-[0_20px_56px_rgba(67,56,37,0.06)] sm:p-9">
                 <SectionLabel>Our Vision</SectionLabel>
                 <MotionText as="p" className="mt-7 text-lg leading-9 text-[#4f4f62]">
                   To inspire principled learners who think clearly, act with
@@ -290,17 +290,41 @@ export default function AboutPage() {
               </MotionText>
             </div>
 
-            <div className="grid gap-5">
-              <AlumniCarousel />
-              <MotionText
-                as="img"
-                src={Images.abstract}
-                alt="Abstract blueprint-style illustration representing the AGS vision"
-                delay={0.2}
-                loading="lazy"
-                className="h-[220px] w-full rounded-lg border border-[#dcd6f3] object-cover shadow-[0_24px_70px_rgba(86,72,150,0.08)] lg:h-[240px]"
-              />
-            </div>
+            <MotionText
+              as="aside"
+              delay={0.16}
+              className="overflow-hidden border border-[#e1dbee] bg-white shadow-[0_24px_70px_rgba(67,56,37,0.08)]"
+            >
+              <div className="bg-[#061a34] px-7 py-6 text-white sm:px-8">
+                <p className="text-xs font-extrabold uppercase tracking-[0.24em] text-blue-200">
+                  Alumni outcomes
+                </p>
+                <h3
+                  className="mt-2 text-[1.8rem] font-bold leading-tight"
+                  style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+                >
+                  Where an AGS education can lead.
+                </h3>
+              </div>
+              <AlumniCarousel compact className="rounded-none border-0 shadow-none" />
+              <figure className="relative m-0 h-[155px] overflow-hidden border-t border-[#e1dbee]">
+                <img
+                  src={Images.abstract}
+                  alt="Abstract academic illustration"
+                  loading="lazy"
+                  className="h-full w-full object-cover object-center"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#061a34]/84 via-[#061a34]/34 to-transparent" />
+                <figcaption className="absolute inset-y-0 left-0 flex max-w-[300px] flex-col justify-center px-7 text-white">
+                  <span className="text-xs font-extrabold uppercase tracking-[0.22em] text-blue-100">
+                    Curiosity in action
+                  </span>
+                  <span className="mt-2 text-sm leading-6 text-white/90">
+                    Asking better questions, finding stronger answers.
+                  </span>
+                </figcaption>
+              </figure>
+            </MotionText>
           </div>
 
           <div className="mt-10 grid gap-5 lg:grid-cols-2">
