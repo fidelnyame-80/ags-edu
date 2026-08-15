@@ -13,6 +13,7 @@ import { useEffect, useRef, useState } from "react";
 import { Images } from "../assets/Images/Images";
 import { IntroBackgroundArtwork, IntroMotionStyles } from "./Intro";
 import MotionText from "./MotionText";
+import AlumniCarousel from "./AlumniCarousel";
 
 const schoolStats = [
   { value: "1996", label: "Founded with a global outlook" },
@@ -289,35 +290,16 @@ export default function AboutPage() {
               </MotionText>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-5">
+              <AlumniCarousel />
               <MotionText
                 as="img"
-                src={Images.visaday3}
-                alt="AGS vision day celebration"
-                delay={0.12}
+                src={Images.abstract}
+                alt="Abstract blueprint-style illustration representing the AGS vision"
+                delay={0.2}
                 loading="lazy"
-                className="h-[400px] w-full object-cover sm:translate-y-8 lg:h-[410px]"
+                className="h-[220px] w-full rounded-lg border border-[#dcd6f3] object-cover shadow-[0_24px_70px_rgba(86,72,150,0.08)] lg:h-[240px]"
               />
-              <div className="grid gap-4">
-                <MotionText
-                  as="img"
-                  src={Images.agsVisaday2}
-                  alt="AGS vision day activities"
-                  delay={0.2}
-                  loading="lazy"
-                  className="h-[200px] w-full object-cover"
-                />
-                <MotionText as="div" delay={0.26} className="bg-[#e8f1ff] p-6">
-                  <BookOpen className="text-[#6657c8]" size={30} strokeWidth={2.2} />
-                  <p className="mt-5 text-sm font-extrabold uppercase tracking-[0.18em] text-[#6657c8]">
-                    Our Commitment
-                  </p>
-                  <p className="mt-3 text-sm leading-7 text-[#555568]">
-                    We build character alongside academics, creating well-rounded
-                    individuals ready for the future.
-                  </p>
-                </MotionText>
-              </div>
             </div>
           </div>
 
@@ -465,11 +447,17 @@ export default function AboutPage() {
                 proud of its community-school feel and the shared sense of
                 belonging among students, teachers, and parents.
               </MotionText>
-              <MotionText as="p" delay={0.26}>
+<MotionText as="p" delay={0.26}>
                 In addition to our rigorous academic program, we know our strong
                 sense of family is important to prospective parents.
               </MotionText>
             </div>
+            <MotionText as="a" href="/about/founder/" delay={0.3}>
+              <span className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#7b70cc] px-6 py-3 text-sm font-bold text-white shadow-[0_16px_36px_rgba(123,112,204,0.22)] transition hover:-translate-y-0.5 hover:bg-[#6657c8]">
+                Meet Our Founder
+                <ArrowRight size={16} strokeWidth={2.4} />
+              </span>
+            </MotionText>
           </div>
         </div>
       </section>

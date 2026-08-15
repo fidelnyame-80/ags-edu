@@ -14,6 +14,7 @@ const footerLinks = [
     title: "School",
     links: [
       { label: "About", href: "/about/" },
+      { label: "Our Founder", href: "/about/founder/" },
       { label: "Academics", href: "/academics/" },
       { label: "Admissions", href: "/admissions/" },
       { label: "Community", href: "/community/" },

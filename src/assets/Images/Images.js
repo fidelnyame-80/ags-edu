@@ -46,6 +46,28 @@ import agsSciencelab2 from "./ags_sciencelab2.webp";
 import agsVisaday1 from "./ags_visaday1.webp";
 import agsVisaday2 from "./ags_visaday2.webp";
 import visaday3 from "./visaday3.webp";
+import updates from "./updates.webp";
+import abstract from "./abstract.webp";
+import astroturf1 from "./astroturf1.webp";
+import astroturf2 from "./astroturf2.webp";
+import astroturf3 from "./astroturf3.webp";
+import astroturf4 from "./astroturf4.webp";
+import astroturf5 from "./astroturf5.webp";
+import astroturf6 from "./astroturf6.webp";
+import astroturf7 from "./astroturf7.webp";
+import astroturf8 from "./astroturf8.webp";
+import excursion1 from "./excursion1.jpg";
+import excursion2 from "./excursion2.webp";
+import excursion3 from "./excursion3.webp";
+import excursion4 from "./excursion4.webp";
+import excursion5 from "./excursion5.webp";
+import excursion6 from "./excursion6.webp";
+import excursion7 from "./excursion7.webp";
+import excursion8 from "./excursion8.webp";
+import excursion9 from "./excursion9.webp";
+import excursion10 from "./excursion10.webp";
+import excursion11 from "./excursion11.webp";
+import excursion12 from "./excursion12.webp";
 import extracurricular from "./extracurricular.webp";
 import agsBus from "./agsbus.webp";
 import snackArea from "./SnackArea.webp";
@@ -56,6 +78,7 @@ import transport2 from "./transport2.webp";
 import washroom from "./washroom.webp";
 import cafeteria1 from "./cafeteria1.webp";
 import cafeteria2 from "./cafeteria2.webp";
+import cafeteria from "./cafeteria.webp";
 import primarySchool from "./primarySchool.webp";
 import primarySchool2 from "./primarySchool2.webp";
 import primarySchool3 from "./primarySchool3.webp";
@@ -131,6 +154,28 @@ export const Images = {
   agsVisaday1,
   agsVisaday2,
   visaday3,
+  updates,
+  abstract,
+  astroturf1,
+  astroturf2,
+  astroturf3,
+  astroturf4,
+  astroturf5,
+  astroturf6,
+  astroturf7,
+  astroturf8,
+  excursion1,
+  excursion2,
+  excursion3,
+  excursion4,
+  excursion5,
+  excursion6,
+  excursion7,
+  excursion8,
+  excursion9,
+  excursion10,
+  excursion11,
+  excursion12,
   extracurricular,
   agsBus,
   snackArea,
@@ -141,6 +186,7 @@ export const Images = {
   washroom,
   cafeteria1,
   cafeteria2,
+  cafeteria,
   primarySchool,
   primarySchool2,
   primarySchool3,

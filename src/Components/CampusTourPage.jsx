@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Images, ImageCollections } from "../assets/Images/Images";
+import { Images } from "../assets/Images/Images";
 
 const categories = [
   {
@@ -25,11 +25,15 @@ const categories = [
   {
     label: "Sports & Recreation",
     images: [
-      Images.sports,
       Images.sports2,
-      Images.playground,
-      Images.playground2,
-      Images.playground3,
+      Images.astroturf1,
+      Images.astroturf2,
+      Images.astroturf3,
+      Images.astroturf4,
+      Images.astroturf5,
+      Images.astroturf6,
+      Images.astroturf7,
+      Images.astroturf8,
     ],
   },
   {
@@ -55,10 +59,37 @@ const categories = [
     ],
   },
   {
+    label: "Playground",
+    text: "Safe, open play spaces where young learners build confidence, friendships, and healthy habits.",
+    images: [
+      Images.playground,
+      Images.playground2,
+      Images.playground3,
+    ],
+  },
+  {
     label: "Cafeteria",
     images: [
       Images.cafeteria1,
       Images.cafeteria2,
+    ],
+  },
+  {
+    label: "Excursion",
+    text: "Learning beyond the classroom — AGS students explore new places, cultures, and experiences through organised school excursions.",
+    images: [
+      Images.excursion1,
+      Images.excursion2,
+      Images.excursion3,
+      Images.excursion4,
+      Images.excursion5,
+      Images.excursion6,
+      Images.excursion7,
+      Images.excursion8,
+      Images.excursion9,
+      Images.excursion10,
+      Images.excursion11,
+      Images.excursion12,
     ],
   },
 ];
@@ -94,11 +125,11 @@ export default function CampusTourPage() {
             >
               {category.label}
             </h2>
-            {category.text ? (
+            {category.text && (
               <p className="mt-6 max-w-[620px] text-base leading-8 text-[#555568]">
                 {category.text}
               </p>
-            ) : (
+            )}
             <div className="mt-6 columns-1 gap-5 sm:columns-2 lg:columns-3">
               {category.images.map((src, i) => (
                 <motion.div
@@ -118,7 +149,6 @@ export default function CampusTourPage() {
                 </motion.div>
               ))}
             </div>
-            )}
           </div>
         </section>
       ))}

@@ -1,21 +1,32 @@
-import { Images } from "../assets/Images/Images";
+import { useState } from "react";
 import PdfResourceCard from "./PdfResourceCard";
 
-const DASHBOARD_API_URL =
-  import.meta.env.VITE_DASHBOARD_API_URL ||
-  import.meta.env.VITE_CMS_API_URL ||
-  "https://ags-dashboard.vercel.app/api";
-
-const handleSubmit = async (e) => {
+const handleSubmit = async (e, setFormStatus) => {
   e.preventDefault();
   const form = e.target;
   const data = new FormData(form);
-  const response = await fetch(`${DASHBOARD_API_URL.replace(/\/$/, "")}/admissions/apply`, {
-    method: "POST",
-    body: data,
-  });
-  if (response.ok) {
-    form.reset();
+  setFormStatus({ state: "sending", message: "" });
+
+  try {
+    const response = await fetch("/contact.php", { method: "POST", body: data });
+
+    let result = {};
+    try {
+      result = await response.json();
+    } catch {
+      result = {};
+    }
+
+    if (response.ok) {
+      setFormStatus({ state: "success", message: "Thank you! Your application has been sent to the admissions office." });
+      form.reset();
+    } else if (result && result.error) {
+      setFormStatus({ state: "error", message: result.error });
+    } else {
+      setFormStatus({ state: "error", message: "Your application could not be sent. Please try again or email admin@agsedu.org." });
+    }
+  } catch {
+    setFormStatus({ state: "error", message: "Your application could not be sent. Please try again or email admin@agsedu.org." });
   }
 };
 
@@ -33,6 +44,8 @@ function Field({ label, required, children }) {
 }
 
 export default function OnlineApplicationPage() {
+  const [formStatus, setFormStatus] = useState({ state: "idle", message: "" });
+
   return (
     <main className="bg-[#fffefa] text-[#171727]">
       <section className="px-5 pb-4 pt-24 sm:px-8 lg:px-20 lg:pt-32">
@@ -52,7 +65,7 @@ export default function OnlineApplicationPage() {
 
       <section className="px-5 pb-20 sm:px-8 lg:px-20">
         <form
-          onSubmit={handleSubmit}
+          onSubmit={(e) => handleSubmit(e, setFormStatus)}
           className="mx-auto max-w-[860px] rounded-[30px] border border-[#ded8ef] bg-white p-6 shadow-[0_24px_70px_rgba(86,72,150,0.08)] sm:p-10"
         >
           <h2 className="text-lg font-extrabold text-[#171727]">Student Information</h2>
@@ -280,10 +293,20 @@ export default function OnlineApplicationPage() {
           <div className="mt-10 text-center">
             <button
               type="submit"
-              className="inline-flex min-h-12 items-center justify-center gap-2 bg-[#6657c8] px-8 text-sm font-extrabold text-white shadow-[0_18px_44px_rgba(102,87,200,0.24)] transition hover:-translate-y-1 hover:bg-[#5546b8]"
+              disabled={formStatus.state === "sending"}
+              className="inline-flex min-h-12 items-center justify-center gap-2 bg-[#6657c8] px-8 text-sm font-extrabold text-white shadow-[0_18px_44px_rgba(102,87,200,0.24)] transition hover:-translate-y-1 hover:bg-[#5546b8] disabled:cursor-not-allowed disabled:opacity-70"
             >
-              Submit
+              {formStatus.state === "sending" ? "Submitting..." : "Submit"}
             </button>
+            {formStatus.message && (
+              <p
+                className={`mt-4 text-sm font-semibold ${
+                  formStatus.state === "success" ? "text-[#2f8a52]" : "text-red-600"
+                }`}
+              >
+                {formStatus.message}
+              </p>
+            )}
           </div>
         </form>
       </section>

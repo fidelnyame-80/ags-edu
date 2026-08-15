@@ -50,6 +50,10 @@ const facilityItems = [
     description: "A standard multi-purpose field for football, athletics, and outdoor sports activities.",
   },
   {
+    name: "Astroturf Field",
+    description: "A premium artificial turf pitch that keeps football and multi-sport play going in every season.",
+  },
+  {
     name: "Basketball Court",
     description: "Full-sized outdoor basketball court with proper markings and hoops.",
   },
@@ -61,6 +65,17 @@ const facilityItems = [
     name: "Table Tennis Facility",
     description: "Indoor table tennis facility with regulation tables and equipment.",
   },
+];
+
+const astroturfImages = [
+  Images.astroturf1,
+  Images.astroturf2,
+  Images.astroturf3,
+  Images.astroturf4,
+  Images.astroturf5,
+  Images.astroturf6,
+  Images.astroturf7,
+  Images.astroturf8,
 ];
 
 function SectionLabel({ children }) {
@@ -279,6 +294,19 @@ export default function SportsPage() {
               className="w-full rounded-2xl object-cover shadow-[0_24px_70px_rgba(67,56,37,0.1)]"
               loading="lazy"
             />
+          </div>
+          <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {astroturfImages.map((src, i) => (
+              <MotionText
+                key={src}
+                as="img"
+                src={src}
+                alt="AGS astroturf pitch"
+                delay={(i % 3) * 0.06}
+                loading="lazy"
+                className="h-52 w-full rounded-2xl object-cover shadow-[0_16px_44px_rgba(67,56,37,0.08)]"
+              />
+            ))}
           </div>
         </div>
       </section>

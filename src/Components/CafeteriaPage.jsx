@@ -1,3 +1,4 @@
+import { Images } from "../assets/Images/Images";
 import MotionText from "./MotionText";
 
 function SectionLabel({ children, light = false }) {
@@ -40,7 +41,16 @@ export default function CafeteriaPage() {
 
       <section className="px-5 pb-16 sm:px-8 lg:px-20">
         <div className="mx-auto max-w-[1180px]">
-          <MotionText>
+          <MotionText
+            as="img"
+            src={Images.cafeteria}
+            alt="AGS cafeteria dining hall"
+            delay={0.08}
+            loading="lazy"
+            className="h-full w-full rounded-2xl object-cover shadow-[0_24px_70px_rgba(67,56,37,0.1)]"
+          />
+
+          <div className="mt-12">
             <SectionLabel>About Lunch</SectionLabel>
             <h2
               className="mt-5 max-w-[680px] text-[2rem] font-bold leading-[1.06] text-[#171727] sm:text-[2.5rem]"
@@ -48,7 +58,7 @@ export default function CafeteriaPage() {
             >
               Fresh. Healthy. Home-cooked.
             </h2>
-          </MotionText>
+          </div>
           <div className="mt-6 grid gap-8 lg:grid-cols-2">
             <MotionText as="p" delay={0.06} className="text-base leading-8 text-[#555568]">
               Full time Chef on site, is responsible for all catering and

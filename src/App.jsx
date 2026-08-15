@@ -4,6 +4,7 @@ import AcademicFlip from './Components/AcademicFlip';
 import AcademicDivisionPage from './Components/AcademicDivisionPage';
 import AcademicsPage from './Components/AcademicsPage';
 import AboutPage from './Components/AboutPage';
+import FounderPage from './Components/FounderPage';
 import AdmissionsPage from './Components/AdmissionsPage';
 import HowToApplyPage from './Components/HowToApplyPage';
 import HowToEnrollPage from './Components/HowToEnrollPage';
@@ -42,7 +43,10 @@ const getCurrentRoute = () => {
     .map((segment) => segment.toLowerCase());
   const [section, academicDivision] = pathSegments;
 
-  if (section === 'about') return { page: 'about', academicDivision: null };
+  if (section === 'about' || window.location.hash === '#about') {
+    if (academicDivision === 'founder') return { page: 'founder', academicDivision: null };
+    return { page: 'about', academicDivision: null };
+  }
   if (section === 'academics' || window.location.hash === '#academics') {
     const normalizedDivision = academicDivision === 'pre-school' ? 'preschool' : academicDivision;
     const isAcademicDivision = [
@@ -134,6 +138,7 @@ const App = () => {
     <div>
       <Navbar currentPage={navCurrentPage} />
       {currentPage === 'about' && <AboutPage />}
+      {currentPage === 'founder' && <FounderPage />}
       {currentPage === 'academics' && <AcademicsPage />}
       {currentPage === 'academicDivision' && (
         <AcademicDivisionPage slug={academicDivision} />

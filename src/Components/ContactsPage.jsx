@@ -7,8 +7,11 @@ import {
   Send,
   UserRound,
 } from "lucide-react";
+import { useState } from "react";
 import { Images } from "../assets/Images/Images";
 import MotionText from "./MotionText";
+
+const CONTACT_EMAIL = "admin@agsedu.org";
 
 const contactPeople = [
   {
@@ -72,6 +75,47 @@ function SectionLabel({ children, light = false }) {
 }
 
 export default function ContactsPage() {
+  const [formStatus, setFormStatus] = useState({ state: "idle", message: "" });
+
+  const openMailClientFallback = (data) => {
+    const params = new URLSearchParams({
+      subject: `Website contact request from ${data.get("name") || "the website"}`,
+      body: `Name: ${data.get("name") || ""}\nEmail: ${data.get("email") || ""}\nPhone: ${data.get("phone") || ""}\n\n${data.get("message") || ""}`,
+    });
+    window.location.href = `mailto:${CONTACT_EMAIL}?${params.toString()}`;
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const data = new FormData(form);
+    setFormStatus({ state: "sending", message: "" });
+
+    try {
+      const response = await fetch("/contact.php", { method: "POST", body: data });
+
+      let result = {};
+      try {
+        result = await response.json();
+      } catch {
+        result = {};
+      }
+
+      if (response.ok) {
+        setFormStatus({ state: "success", message: "Thank you! Your message has been sent to the school office." });
+        form.reset();
+      } else if (result && result.error) {
+        setFormStatus({ state: "error", message: result.error });
+      } else {
+        openMailClientFallback(data);
+        setFormStatus({ state: "idle", message: "" });
+      }
+    } catch {
+      openMailClientFallback(data);
+      setFormStatus({ state: "idle", message: "" });
+    }
+  };
+
   return (
     <main className="bg-[#fffefa] text-[#171727]">
       <section className="relative isolate min-h-[520px] overflow-hidden bg-[#061a34] px-5 py-20 text-white sm:px-8 lg:px-20">
@@ -181,7 +225,7 @@ export default function ContactsPage() {
             </MotionText>
             <form
               className="mt-8 border border-[#ded8ef] bg-white p-6 shadow-[0_24px_70px_rgba(86,72,150,0.08)] sm:p-8"
-              onSubmit={(event) => event.preventDefault()}
+              onSubmit={handleSubmit}
             >
               <div className="grid gap-5 md:grid-cols-2">
                 <label className="grid gap-2 text-sm font-bold text-[#171727]">
@@ -189,6 +233,7 @@ export default function ContactsPage() {
                   <input
                     type="text"
                     name="name"
+                    required
                     className="min-h-12 border border-[#d9d4e8] bg-[#fffefa] px-4 text-sm font-medium outline-none transition focus:border-[#6657c8]"
                   />
                 </label>
@@ -197,6 +242,7 @@ export default function ContactsPage() {
                   <input
                     type="email"
                     name="email"
+                    required
                     className="min-h-12 border border-[#d9d4e8] bg-[#fffefa] px-4 text-sm font-medium outline-none transition focus:border-[#6657c8]"
                   />
                 </label>
@@ -213,6 +259,7 @@ export default function ContactsPage() {
                   <textarea
                     name="message"
                     rows="6"
+                    required
                     className="resize-none border border-[#d9d4e8] bg-[#fffefa] px-4 py-3 text-sm font-medium outline-none transition focus:border-[#6657c8]"
                   />
                 </label>
@@ -220,11 +267,22 @@ export default function ContactsPage() {
 
               <button
                 type="submit"
-                className="mt-6 inline-flex min-h-12 items-center gap-2 bg-blue-600 px-6 text-sm font-extrabold text-white shadow-[0_18px_44px_rgba(37,99,235,0.24)] transition hover:-translate-y-1 hover:bg-blue-500"
+                disabled={formStatus.state === "sending"}
+                className="mt-6 inline-flex min-h-12 items-center gap-2 bg-blue-600 px-6 text-sm font-extrabold text-white shadow-[0_18px_44px_rgba(37,99,235,0.24)] transition hover:-translate-y-1 hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-70"
               >
-                Submit Feedback
+                {formStatus.state === "sending" ? "Sending..." : "Submit Feedback"}
                 <Send size={16} strokeWidth={2.3} />
               </button>
+
+              {formStatus.message && (
+                <p
+                  className={`mt-4 text-sm font-semibold ${
+                    formStatus.state === "success" ? "text-[#2f8a52]" : "text-red-600"
+                  }`}
+                >
+                  {formStatus.message}
+                </p>
+              )}
             </form>
           </div>
 
