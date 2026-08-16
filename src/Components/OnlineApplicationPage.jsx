@@ -3,7 +3,7 @@ import { submitWebsiteForm } from "../lib/formSubmission";
 import PdfResourceCard from "./PdfResourceCard";
 
 const birthYears = Array.from(
-  { length: 25 },
+  { length: 76 },
   (_, index) => new Date().getFullYear() - index,
 );
 
