@@ -4,8 +4,8 @@ export const fallbackNewsItems = [
   {
     slug: "resumption-2026-27",
     category: "Reopening",
-    title: "Resumption – 1st Quarter 2026/27 | New Academic Year Begins",
-    date: "September 15, 2026",
+    title: "1st Quarter 2026/27 | New Academic Year Begins",
+    date: "15th September 2026",
     dateTime: "2026-09-15",
     image: compoundImg,
     summary:

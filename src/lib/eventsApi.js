@@ -102,7 +102,7 @@ export const fallbackEvents = [
     featured: false,
   },
   {
-    title: "Resumption – 1st Quarter 2026/27 | New Academic Year Begins",
+    title: "1st Quarter 2026/27 | New Academic Year Begins",
     description: "First day of the 2026/2027 academic year.",
     startDate: "2026-09-15",
     endDate: "2026-09-15",
