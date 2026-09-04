@@ -1,0 +1,20 @@
+Options -MultiViews
+DirectoryIndex index.html
+
+RewriteEngine On
+
+# Preserve the redirects previously provided by Vercel.
+RewriteRule ^library/?(.*)$ https://library.agsedu.org/$1 [R=302,L,NE]
+RewriteRule ^moodle/?(.*)$ https://lms.agsedu.org/$1 [R=302,L,NE]
+
+# Let real files and the PHP form endpoint be served normally; route every
+# other request to the React single-page application.
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+RewriteRule ^ index.html [L]
+
+# The mail configuration must never be downloadable as a plain-text file.
+<FilesMatch "^(contact-config\.php|contact-config\.example\.php)$">
+  Require all denied
+</FilesMatch>

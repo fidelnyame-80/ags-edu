@@ -41,7 +41,8 @@ export async function submitWebsiteForm(form, formType) {
     })),
   );
 
-  const response = await fetch("/api/contact", {
+  // This endpoint is a PHP handler included in the cPanel deployment bundle.
+  const response = await fetch("/api/contact.php", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ formType, fields, attachments }),
