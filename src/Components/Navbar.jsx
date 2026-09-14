@@ -1,3 +1,5 @@
+"use client"
+
 import { ChevronDown, Menu, User, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Images } from "../assets/Images/Images";
