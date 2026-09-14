@@ -151,12 +151,12 @@ export default function NewsPage() {
               {featuredStory.image && (
                 <img
                   src={featuredStory.image}
-                  alt=""
-                  className="mt-7 aspect-[16/7] w-full rounded-md object-cover"
+                  alt={`${featuredStory.title} notice`}
+                  className="mx-auto mt-7 max-h-[820px] w-full rounded-md bg-[#f4f2ed] object-contain"
                   loading="lazy"
                 />
               )}
-              <p className="mt-7 text-base leading-8 text-[#555568]">
+              <p className="mt-7 whitespace-pre-line text-base leading-8 text-[#555568]">
                 {featuredStory.body}
               </p>
             </article>

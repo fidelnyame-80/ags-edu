@@ -1,4 +1,4 @@
-import { fallbackBriefs, fallbackNewsItems } from "../data/newsContent";
+import { fallbackBriefs, fallbackNewsItems, welcomeBackStory } from "../data/newsContent";
 
 const API_BASE_URL =
   import.meta.env.VITE_CMS_API_URL ||
@@ -50,11 +50,15 @@ export async function fetchNewsFeed() {
     }
 
     const payload = await response.json();
-    const items = Array.isArray(payload.items) ? payload.items.map(normalizeNewsItem) : [];
+    const cmsItems = Array.isArray(payload.items) ? payload.items.map(normalizeNewsItem) : [];
+    const items = [
+      welcomeBackStory,
+      ...cmsItems.filter((item) => item.slug !== welcomeBackStory.slug),
+    ];
     const briefs = Array.isArray(payload.briefs) ? payload.briefs : [];
 
     return {
-      items: items.length ? items : fallbackNewsItems,
+      items,
       briefs: briefs.length ? briefs : fallbackBriefs,
     };
   } catch (error) {

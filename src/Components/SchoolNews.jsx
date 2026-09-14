@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import React, { useEffect, useMemo, useState } from "react";
 import MotionText from "./MotionText";
-import { Images } from "../assets/Images/Images";
+import { welcomeBackStory } from "../data/newsContent";
 import {
   fetchEvents,
   getFallbackEventsFeed,
@@ -101,35 +101,34 @@ export default function SchoolNews() {
           Fresh updates from the AGS web.
         </MotionText>
 
-        {/* Admissions featured card */}
+        {/* Welcome-back featured story */}
         <div className="mt-8 grid gap-5 overflow-hidden rounded-lg border border-[#e4dfd2] bg-white shadow-[0_24px_70px_rgba(67,56,37,0.08)] sm:grid-cols-[1fr_1.2fr]">
           <MotionText
             as="img"
-            src={Images.updates}
-            alt="Accra Grammar School"
+            src={welcomeBackStory.image}
+            alt="Welcome back to Accra Grammar School for the 2026/2027 academic year"
             delay={0.08}
             loading="lazy"
-            className="h-full w-full object-cover"
+            className="h-full max-h-[680px] w-full bg-[#f4f2ed] object-contain"
           />
           <MotionText as="div" delay={0.12} className="flex flex-col justify-center p-6 sm:p-8">
             <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#7b70cc]">
-              Admissions 2026/2027
+              {welcomeBackStory.category} · {welcomeBackStory.date}
             </p>
             <h3
               className="mt-4 text-[1.8rem] font-bold leading-tight text-[#171727] sm:text-[2.1rem]"
               style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
             >
-              GIVE YOUR CHILD A STRONGER START
+              {welcomeBackStory.title}
             </h3>
             <p className="mt-4 text-base leading-7 text-[#555568]">
-              Explore our academic programmes, school community, and admissions
-              process at Accra Grammar School.
+              {welcomeBackStory.summary}
             </p>
             <a
-              href="/admissions/"
+              href="/news/"
               className="mt-6 inline-flex self-start rounded-full bg-[#7b70cc] px-5 py-2.5 text-sm font-bold text-white shadow-[0_16px_36px_rgba(123,112,204,0.22)] transition hover:-translate-y-0.5 hover:bg-[#6657c8]"
             >
-              Explore Admissions
+              Read School Notice
               <ArrowRight size={16} strokeWidth={2.4} className="ml-2" />
             </a>
           </MotionText>
