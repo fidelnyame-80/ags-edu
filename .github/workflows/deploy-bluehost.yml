@@ -35,9 +35,23 @@ jobs:
           protocol: ftps
           port: 21
           local-dir: ./dist/
-          server-dir: ./public_html/
+          # deploy@agsedu.org is already rooted at /home1/agsedug1/public_html.
+          server-dir: ./
+          # Recovery preview only: verify backups and review the planned changes
+          # before disabling dry-run for the first deployment to the correct root.
+          dry-run: true
+          dangerous-clean-slate: false
           exclude: |
             **/.git*
             **/.git*/**
             **/node_modules/**
-          log-level: minimal
+            documents/**
+            public_html/**
+            wp-admin/**
+            wp-content/**
+            wp-includes/**
+            wp-*.php
+            index.php
+            api/contact-config.php
+            .htaccess.wordpress-backup
+          log-level: standard

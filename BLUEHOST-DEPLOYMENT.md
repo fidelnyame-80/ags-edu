@@ -21,6 +21,27 @@ The `dist` folder is the complete web-root upload. It includes the static site, 
 
 ## Deploy from GitHub (recommended)
 
+### September 2026 recovery: preview only
+
+The `deploy@agsedu.org` FTP account is rooted at `/home1/agsedug1/public_html`.
+Use `server-dir: ./`; `./public_html/` uploads into the incorrect nested
+`public_html/public_html` directory, confirmed in cPanel on September 26.
+The workflow now has `dry-run: true` so it previews changes without publishing.
+Do not disable this until the existing files, SeedDMS storage, and databases
+have verified backups and the preview has been reviewed. Leave the nested copy
+and its FTP sync-state file in place during recovery; do not move that state file
+into the parent root. Review and preserve the current root `.htaccess` PHP
+settings when preparing the combined production configuration.
+
+Direct HTTPS testing of Bluehost at `173.254.30.77` with the `agsedu.org`
+hostname returned the SeedDMS login form and a WordPress homepage. Public
+requests still reached Vercel. Before changing public routing, validate the
+redesigned homepage, deep routes, forms, SeedDMS login and an existing document
+on Bluehost. The successful login-page response alone does not verify stored data.
+The historical full-account backup was recorded as
+`/home1/agsedug1/backup-9.3.2026_07-25-25_agsedug1.tar.gz`; confirm it still
+exists and take a current backup including the updated Document Manager.
+
 The repository includes `.github/workflows/deploy-bluehost.yml`. It builds the site and deploys `dist/` to Bluehost whenever a change is pushed to the `master` branch. It does not use Vercel.
 
 Before the first deployment, create an FTP account in cPanel **FTP Accounts** that has access to `public_html`, then add these GitHub repository secrets in **Settings → Secrets and variables → Actions**:
