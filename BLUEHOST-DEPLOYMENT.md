@@ -21,14 +21,17 @@ The `dist` folder is the complete web-root upload. It includes the static site, 
 
 ## Deploy from GitHub (recommended)
 
-### September 2026 recovery: preview only
+### September 2026 recovery
 
 The `deploy@agsedu.org` FTP account is rooted at `/home1/agsedug1/public_html`.
 Use `server-dir: ./`; `./public_html/` uploads into the incorrect nested
 `public_html/public_html` directory, confirmed in cPanel on September 26.
-The workflow now has `dry-run: true` so it previews changes without publishing.
-Do not disable this until the existing files, SeedDMS storage, and databases
-have verified backups and the preview has been reviewed. Leave the nested copy
+The corrected-root preview succeeded in GitHub Actions run `36263921672`,
+with no planned deletions. cPanel showed the September 26 full-account backup
+completed as `backup-9.26.2026_12-28-30_agsedug1.tar.gz` (not restore-tested).
+The workflow now permits uploads. The bundled `.htaccess` preserves the PHP
+settings shown in cPanel and excludes `/documents` from the SPA fallback.
+Keep DNS unchanged until direct-origin checks pass. Leave the nested copy
 and its FTP sync-state file in place during recovery; do not move that state file
 into the parent root. Review and preserve the current root `.htaccess` PHP
 settings when preparing the combined production configuration.

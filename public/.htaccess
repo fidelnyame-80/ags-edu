@@ -1,7 +1,10 @@
 Options -MultiViews
-DirectoryIndex index.html
+DirectoryIndex index.html index.php
 
 RewriteEngine On
+
+# SeedDMS is a separate PHP application, including its own redirects and errors.
+RewriteRule ^documents(?:/|$) - [L]
 
 # Preserve the redirects previously provided by Vercel.
 RewriteRule ^library/?(.*)$ https://library.agsedu.org/$1 [R=302,L,NE]
@@ -18,3 +21,35 @@ RewriteRule ^ index.html [L]
 <FilesMatch "^(contact-config\.php|contact-config\.example\.php)$">
   Require all denied
 </FilesMatch>
+
+# Preserve the existing cPanel PHP settings observed on September 26, 2026.
+# php -- BEGIN cPanel-generated handler, do not edit
+# This domain inherits the "PHP" package.
+# php -- END cPanel-generated handler, do not edit
+
+# BEGIN cPanel-generated php ini directives, do not edit
+<IfModule php8_module>
+   php_flag display_errors Off
+   php_value max_execution_time 300
+   php_value max_input_time 60
+   php_value max_input_vars 5000
+   php_value memory_limit 512M
+   php_value post_max_size 516M
+   php_value session.gc_maxlifetime 1440
+   php_value session.save_path "/var/cpanel/php/sessions/ea-php83"
+   php_value upload_max_filesize 512M
+   php_flag zlib.output_compression Off
+</IfModule>
+<IfModule lsapi_module>
+   php_flag display_errors Off
+   php_value max_execution_time 300
+   php_value max_input_time 60
+   php_value max_input_vars 5000
+   php_value memory_limit 512M
+   php_value post_max_size 516M
+   php_value session.gc_maxlifetime 1440
+   php_value session.save_path "/var/cpanel/php/sessions/ea-php83"
+   php_value upload_max_filesize 512M
+   php_flag zlib.output_compression Off
+</IfModule>
+# END cPanel-generated php ini directives, do not edit

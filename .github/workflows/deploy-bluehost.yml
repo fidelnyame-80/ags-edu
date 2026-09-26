@@ -37,9 +37,8 @@ jobs:
           local-dir: ./dist/
           # deploy@agsedu.org is already rooted at /home1/agsedug1/public_html.
           server-dir: ./
-          # Recovery preview only: verify backups and review the planned changes
-          # before disabling dry-run for the first deployment to the correct root.
-          dry-run: true
+          # September 26 backup confirmed; root preview reviewed with no deletions.
+          dry-run: false
           dangerous-clean-slate: false
           exclude: |
             **/.git*
