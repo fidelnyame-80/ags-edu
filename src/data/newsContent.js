@@ -1,4 +1,4 @@
-import welcomeBackImage from "../assets/Images/welcome-back-2026.jpg";
+import welcomeBackImage from "../assets/Images/optimized/welcome-back-2026.jpg.webp";
 
 export const welcomeBackStory = {
   slug: "welcome-back-to-school-2026-27",

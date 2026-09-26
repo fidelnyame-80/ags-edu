@@ -14,7 +14,7 @@ const handleHeroNavClick = (event, href) => {
 };
 
 const SCHOOL_BG = Images.heroImg1;
-const HERO_VIDEO_SRC = "/videos/Ags%20Droneview.optimized.mp4";
+const HERO_VIDEO_SRC = "/videos/ags-droneview-web.mp4";
 const WELCOME_TEXT = "Welcome to Accra Grammar School";
 const TAGLINE_TEXT = "Shaping leaders, building futures";
 const PASSPORT_TEXT = "Academic passport to the world";
@@ -28,6 +28,22 @@ export default function HeroSection() {
   const [typedText, setTypedText] = useState("");
   const [activePhraseIndex, setActivePhraseIndex] = useState(0);
   const [showActivePhrase, setShowActivePhrase] = useState(false);
+  const [loadVideo, setLoadVideo] = useState(false);
+
+  useEffect(() => {
+    const connection = navigator.connection;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+        connection?.saveData || /(^|-)2g$/.test(connection?.effectiveType || '')) return;
+    // Let the page and poster load before starting a decorative video download.
+    let timer;
+    const schedule = () => { timer = window.setTimeout(() => setLoadVideo(true), 1500); };
+    if (document.readyState === 'complete') schedule();
+    else window.addEventListener('load', schedule, { once: true });
+    return () => {
+      window.removeEventListener('load', schedule);
+      window.clearTimeout(timer);
+    };
+  }, []);
 
   useEffect(() => {
     let currentIndex = 0;
@@ -91,22 +107,23 @@ export default function HeroSection() {
         className="absolute inset-0 w-full h-full object-cover object-center"
         aria-hidden="true"
         decoding="async"
+        fetchPriority="high"
       />
-      <video
+      {loadVideo && <video
         className="absolute inset-0 h-full w-full object-cover object-center"
         style={{ transform: "translateZ(0)" }}
         autoPlay
         muted
         playsInline
         loop
-        preload="auto"
+        preload="none"
         poster={SCHOOL_BG}
         aria-hidden="true"
         tabIndex={-1}
         disablePictureInPicture
       >
         <source src={HERO_VIDEO_SRC} type="video/mp4" />
-      </video>
+      </video>}
 
       {/* Dark gradient overlay */}
       <div

@@ -1,34 +1,34 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import HeroSection from './Components/Hero';
 import AcademicFlip from './Components/AcademicFlip';
-import AcademicDivisionPage from './Components/AcademicDivisionPage';
-import AcademicsPage from './Components/AcademicsPage';
-import AboutPage from './Components/AboutPage';
-import FounderPage from './Components/FounderPage';
-import AdmissionsPage from './Components/AdmissionsPage';
-import HowToApplyPage from './Components/HowToApplyPage';
-import HowToEnrollPage from './Components/HowToEnrollPage';
-import TuitionAndFeesPage from './Components/TuitionAndFeesPage';
-import OnlineApplicationPage from './Components/OnlineApplicationPage';
-import HandbookPage from './Components/HandbookPage';
-import ParentTeacherAssociationPage from './Components/ParentTeacherAssociationPage';
-import AlumniPage from './Components/AlumniPage';
-import CommunityPage from './Components/CommunityPage';
-import ContactsPage from './Components/ContactsPage';
-import CounsellingPage from './Components/CounsellingPage';
-import CoCurricularPage from './Components/CoCurricularPage';
-import SportsPage from './Components/SportsPage';
-import TransportPage from './Components/TransportPage';
-import CafeteriaPage from './Components/CafeteriaPage';
-import EventsPage from './Components/EventsPage';
-import LibraryPage from './Components/LibraryPage';
-import StudentLoginPage from './Components/StudentLoginPage';
-import CampusTourPage from './Components/CampusTourPage';
+const AcademicDivisionPage = lazy(() => import('./Components/AcademicDivisionPage'));
+const AcademicsPage = lazy(() => import('./Components/AcademicsPage'));
+const AboutPage = lazy(() => import('./Components/AboutPage'));
+const FounderPage = lazy(() => import('./Components/FounderPage'));
+const AdmissionsPage = lazy(() => import('./Components/AdmissionsPage'));
+const HowToApplyPage = lazy(() => import('./Components/HowToApplyPage'));
+const HowToEnrollPage = lazy(() => import('./Components/HowToEnrollPage'));
+const TuitionAndFeesPage = lazy(() => import('./Components/TuitionAndFeesPage'));
+const OnlineApplicationPage = lazy(() => import('./Components/OnlineApplicationPage'));
+const HandbookPage = lazy(() => import('./Components/HandbookPage'));
+const ParentTeacherAssociationPage = lazy(() => import('./Components/ParentTeacherAssociationPage'));
+const AlumniPage = lazy(() => import('./Components/AlumniPage'));
+const CommunityPage = lazy(() => import('./Components/CommunityPage'));
+const ContactsPage = lazy(() => import('./Components/ContactsPage'));
+const CounsellingPage = lazy(() => import('./Components/CounsellingPage'));
+const CoCurricularPage = lazy(() => import('./Components/CoCurricularPage'));
+const SportsPage = lazy(() => import('./Components/SportsPage'));
+const TransportPage = lazy(() => import('./Components/TransportPage'));
+const CafeteriaPage = lazy(() => import('./Components/CafeteriaPage'));
+const EventsPage = lazy(() => import('./Components/EventsPage'));
+const LibraryPage = lazy(() => import('./Components/LibraryPage'));
+const StudentLoginPage = lazy(() => import('./Components/StudentLoginPage'));
+const CampusTourPage = lazy(() => import('./Components/CampusTourPage'));
 import Footer from './Components/Footer';
 import Intro from './Components/Intro';
 import LearningEnvironment from './Components/LearningEnvironment';
 import Navbar from './Components/Navbar';
-import NewsPage from './Components/NewsPage';
+const NewsPage = lazy(() => import('./Components/NewsPage'));
 import SchoolNews from './Components/SchoolNews';
 import Testimonials from './Components/Testimonials';
 
@@ -137,6 +137,7 @@ const App = () => {
   return (
     <div>
       <Navbar currentPage={navCurrentPage} />
+      <Suspense fallback={<div role="status" className="min-h-64 p-12 text-center">Loading page…</div>}>
       {currentPage === 'about' && <AboutPage />}
       {currentPage === 'founder' && <FounderPage />}
       {currentPage === 'academics' && <AcademicsPage />}
@@ -164,6 +165,7 @@ const App = () => {
       {currentPage === 'contacts' && <ContactsPage />}
       {currentPage === 'news' && <NewsPage />}
       {currentPage === 'home' && <HomePage />}
+      </Suspense>
       <Footer />
     </div>
   )

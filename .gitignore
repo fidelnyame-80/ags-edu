@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 agsedu-bluehost-deploy.zip
+src/assets/Images/optimized/
 
 # Editor directories and files
 .vscode/*
