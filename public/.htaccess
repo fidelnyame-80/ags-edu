@@ -3,6 +3,12 @@ DirectoryIndex index.html index.php
 
 RewriteEngine On
 
+# Other cPanel sites have document roots below public_html (for example,
+# lms.agsedu.org uses public_html/moodle). Do not route their requests through
+# the main website's redirects or React fallback.
+RewriteCond %{HTTP_HOST} !^(www\.)?agsedu\.org(?::[0-9]+)?$ [NC]
+RewriteRule ^ - [L]
+
 # SeedDMS is a separate PHP application, including its own redirects and errors.
 RewriteRule ^documents(?:/|$) - [L]
 
