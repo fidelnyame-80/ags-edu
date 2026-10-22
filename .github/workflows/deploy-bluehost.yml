@@ -1,56 +1,77 @@
-name: Deploy to Bluehost
-
+name: Repair Moodle canonical URL
 on:
-  push:
-    branches: [master]
   workflow_dispatch:
-
 permissions:
   contents: read
-
 jobs:
-  deploy:
+  repair:
     runs-on: ubuntu-latest
+    env:
+      FTP_USER: ${{ secrets.BLUEHOST_FTP_USERNAME }}
+      FTP_PASS: ${{ secrets.BLUEHOST_FTP_PASSWORD }}
+      RECOVERY_PUBLIC_KEY: |
+        -----BEGIN PUBLIC KEY-----
+        MIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEArYhg7jvZBLyrYj22Edjb
+        N1rfbBcOBbXbbYJ+zrrgt9U2QTwo7fk/fRFyosg5uxrQ1czwgf9dDXzzXqQGqLgW
+        mtIFR9lmil4z98Zv+hTGWElVAqtcwB4xRfs0uKnzOeHXr07zPew/m+9HwLHdr0Od
+        WOERv7gQAyTxMIKFA0RGtZPGyFJc91mSfuEVFAAQklBtXlxpv6c9u5Iq9GzRN7F0
+        bClXmzrrEXxlRtqVQzDbUOkV09OyO91vCKgLsT7Tx6NrrMmTu4GbhNuCB06hnwXQ
+        i6/crbO52BTnF3BXZ99lmFxYTu/mgZ9Xm2hJTZ254wzJaoe8tdA6N53246+CSdT+
+        q27KQIVRmFh1WoWBs+y/nrYwkPB/69cxF0owm/De0O0qY9SNOzmr8jjfZ2aVSCBx
+        dSHpKfVHg96p23I8F+wSEc7HK2QgYSAdlJIksU2yPxA9Sw2i54SPnrUyJog3K/Xa
+        Vppmz6Hoygag8S9Mrv2GKPnPz2ZVhkZgfVP/KVZFxFW7AgMBAAE=
+        -----END PUBLIC KEY-----
     steps:
-      - name: Check out source
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-
-      - name: Build website
+      - name: Inspect Moodle URL and prepare an encrypted backup
         run: |
-          npm ci
-          npm run build
-
-      - name: Publish build to Bluehost
-        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+          cat > "$RUNNER_TEMP/moodle-repair.cjs" <<'JS'
+          const fs=require('fs'),path=require('path'),crypto=require('crypto'),{spawnSync}=require('child_process');
+          const dir=path.join(process.env.RUNNER_TEMP,'moodle-url-repair');
+          const remote='moodle/config.php';
+          function ftp(file,upload) {
+            const args=['--fail','--silent','--show-error','--connect-timeout','15','--max-time','60','--ssl-reqd','--resolve','ftp.bluehost.com:21:129.121.157.187','--user',process.env.FTP_USER+':'+process.env.FTP_PASS];
+            if(upload)args.push('--upload-file','-');
+            args.push('ftp://ftp.bluehost.com/'+file);
+            const r=spawnSync('curl',args,{input:upload,maxBuffer:1024*1024});
+            if(r.status!==0)throw new Error('FTPS operation failed for '+file+' (exit '+r.status+')');
+            return r.stdout;
+          }
+          const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
+          try {
+            if(process.argv[2]==='prepare') {
+              fs.mkdirSync(dir,{recursive:true,mode:0o700});
+              const original=ftp(remote),text=original.toString('utf8');
+              if(!Buffer.from(text).equals(original))throw new Error('Configuration is not UTF-8; no changes made');
+              const matches=[...text.matchAll(/^\s*\$CFG->wwwroot\s*=\s*(['"])([^'"\r\n]+)\1\s*;/gm)];
+              if(matches.length!==1)throw new Error('Expected exactly one literal Moodle wwwroot setting; no changes made');
+              const current=matches[0][2],target='https://lms.agsedu.org';
+              console.log(JSON.stringify({file:remote,current_site_url:current,target_site_url:target,before_sha256:hash(original)}));
+              if(!['https://agsedu.org','https://agsedu.org/','http://agsedu.org','https://www.agsedu.org','https://lms.agsedu.org'].includes(current))throw new Error('Unexpected site URL; no changes made');
+              const key=crypto.randomBytes(32),iv=crypto.randomBytes(12),cipher=crypto.createCipheriv('aes-256-gcm',key,iv);
+              const ciphertext=Buffer.concat([cipher.update(original),cipher.final()]);
+              const wrapped=crypto.publicEncrypt({key:process.env.RECOVERY_PUBLIC_KEY,oaepHash:'sha256'},key);
+              fs.writeFileSync(path.join(dir,'config-backup.encrypted.json'),JSON.stringify({algorithm:'AES-256-GCM + RSA-OAEP-SHA256',file:remote,before_sha256:hash(original),wrapped_key:wrapped.toString('base64'),iv:iv.toString('base64'),tag:cipher.getAuthTag().toString('base64'),ciphertext:ciphertext.toString('base64')},null,2));
+              const m=matches[0],start=m.index+m[0].indexOf(current);
+              const updated=Buffer.from(text.slice(0,start)+target+text.slice(start+current.length));
+              fs.writeFileSync(path.join(dir,'candidate.php'),updated,{mode:0o600});
+              fs.writeFileSync(path.join(dir,'plan.json'),JSON.stringify({before:hash(original),after:hash(updated),changed:current!==target}));
+              console.log('Prepared a single site-URL correction and encrypted rollback backup.');
+            } else if(process.argv[2]==='apply') {
+              const plan=JSON.parse(fs.readFileSync(path.join(dir,'plan.json')));
+              if(hash(ftp(remote))!==plan.before)throw new Error('Configuration changed after backup; no changes made');
+              if(plan.changed)ftp(remote,fs.readFileSync(path.join(dir,'candidate.php')));
+              if(hash(ftp(remote))!==plan.after)throw new Error('Uploaded configuration verification failed');
+              console.log(plan.changed?'Corrected Moodle wwwroot to https://lms.agsedu.org and verified the uploaded file.':'Moodle wwwroot was already correct; no changes made.');
+            } else throw new Error('Expected prepare or apply');
+          } catch(e) {console.error(e.message);process.exitCode=1;}
+          JS
+          node "$RUNNER_TEMP/moodle-repair.cjs" prepare
+      - name: Save encrypted rollback backup
+        uses: actions/upload-artifact@v4
         with:
-          server: ${{ secrets.BLUEHOST_FTP_SERVER }}
-          username: ${{ secrets.BLUEHOST_FTP_USERNAME }}
-          password: ${{ secrets.BLUEHOST_FTP_PASSWORD }}
-          protocol: ftps
-          port: 21
-          local-dir: ./dist/
-          # deploy@agsedu.org is already rooted at /home1/agsedug1/public_html.
-          server-dir: ./
-          # September 26 backup confirmed; root preview reviewed with no deletions.
-          dry-run: false
-          dangerous-clean-slate: false
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
-            documents/**
-            public_html/**
-            wp-admin/**
-            wp-content/**
-            wp-includes/**
-            wp-*.php
-            index.php
-            api/contact-config.php
-            .htaccess.wordpress-backup
-          log-level: standard
+          name: moodle-config-before-url-repair-encrypted
+          path: ${{ runner.temp }}/moodle-url-repair/config-backup.encrypted.json
+          if-no-files-found: error
+          retention-days: 30
+      - name: Correct only the Moodle site URL
+        run: node "$RUNNER_TEMP/moodle-repair.cjs" apply
