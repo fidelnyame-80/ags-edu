@@ -22,16 +22,19 @@ jobs:
               http_response_code(404); exit;
           }
           header('Content-Type: application/json');
+          $stage = 'request';
           try {
               $p = json_decode(file_get_contents('php://input'), true, 8, JSON_THROW_ON_ERROR);
               if (!in_array($p['database'] ?? '', ['agsedug1_moodl', 'agsedug1_mood772'], true) ||
                   !in_array($p['prefix'] ?? '', ['mdl_', 'mdlh6_'], true)) {
                   http_response_code(400); exit;
               }
+              $stage = 'database_connection';
               mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
               $db = new mysqli('localhost', $p['username'], $p['password'], $p['database']);
               $db->set_charset('utf8mb4');
               $db->query('START TRANSACTION READ ONLY');
+              $stage = 'read_metadata';
               $prefix = $p['prefix'];
               $site = $db->query("SELECT fullname, shortname FROM {$prefix}course WHERE id=1")->fetch_assoc();
               $courses = $db->query("SELECT COUNT(*) AS n FROM {$prefix}course WHERE id<>1")->fetch_assoc()['n'];
@@ -56,7 +59,7 @@ jobs:
                   'referenced_file_bytes'=>(int)$files['bytes'], 'file_directory_readable'=>is_readable($filedir),
                   'sample_files_checked'=>$checked, 'sample_files_present'=>$present]);
           } catch (Throwable $e) {
-              echo json_encode(['ok'=>false,'error_code'=>(int)$e->getCode()]);
+              echo json_encode(['ok'=>false,'stage'=>$stage,'error_code'=>(int)$e->getCode()]);
           }
           PHP
           cat > "$RUNNER_TEMP/moodle-db-probe.cjs" <<'JS'
@@ -94,7 +97,7 @@ jobs:
              if(hash(ftp(ip,file))!==hash(probe))throw new Error('Probe upload verification failed');
              console.log(JSON.stringify({server:label,temporary_diagnostic:file}));
              for(const source of label==='old'?['old']:['new','old']){
-              const r=spawnSync('curl',['--fail','--silent','--show-error','--connect-timeout','10','--max-time','40','--resolve',`lms.agsedu.org:443:${ip}`,'--header','Content-Type: application/json','--header','X-AGS-Recovery-Token: '+token,'--data-binary','-','https://lms.agsedu.org/'+file.slice('moodle/'.length)],{input:JSON.stringify(configs[source]),maxBuffer:1048576});
+              const r=spawnSync('curl',['--fail','--silent','--show-error','--connect-timeout','10','--max-time','40','--resolve',`lms.agsedu.org:443:${ip}`,'--header','Content-Type: application/json','--header','X-AGS-Recovery-Token: '+token,'--data-binary','@-','https://lms.agsedu.org/'+file.slice('moodle/'.length)],{input:JSON.stringify(configs[source]),maxBuffer:1048576});
               if(r.status!==0){console.log(JSON.stringify({server:label,database:configs[source].database,error:'HTTPS diagnostic failed',curl_exit:r.status}));continue;}
               let result;try{result=JSON.parse(r.stdout.toString('utf8'));}catch{result={error:'Non-JSON diagnostic response',bytes:r.stdout.length};}
               console.log(JSON.stringify({server:label,database:configs[source].database,result}));
