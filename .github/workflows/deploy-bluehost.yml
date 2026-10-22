@@ -29,15 +29,20 @@ jobs:
            const m=text.match(re);return m?m[2]:null;
           }
           const summaries=[];
-          for(const [label,ip] of [['new','129.121.157.187'],['old','173.254.30.77']]){
+          for(const [label,ip,folder] of [['new-moodle','129.121.157.187','moodle'],['new-lms','129.121.157.187','lms'],['old-moodle','173.254.30.77','moodle']]){
            try{
-            const raw=get(ip,'moodle/config.php'),config=raw.toString('utf8');
-            const summary={server:label,ip,config_sha256:hash(raw),wwwroot:literal(config,'wwwroot'),database_name:literal(config,'dbname'),table_prefix:literal(config,'prefix'),data_directory:literal(config,'dataroot'),database_type:literal(config,'dbtype')};
-            try{const ver=get(ip,'moodle/version.php').toString('utf8');summary.release=ver.match(/^\s*\$release\s*=\s*['"]([^'"]+)/m)?.[1]||null;summary.code_version=ver.match(/^\s*\$version\s*=\s*([0-9.]+)/m)?.[1]||null;}catch(e){summary.version_read=e.message;}
+            const raw=get(ip,folder+'/config.php'),config=raw.toString('utf8');
+            const summary={server:label,ip,folder,config_sha256:hash(raw),wwwroot:literal(config,'wwwroot'),database_name:literal(config,'dbname'),table_prefix:literal(config,'prefix'),data_directory:literal(config,'dataroot'),database_type:literal(config,'dbtype')};
+            try{const ver=get(ip,folder+'/version.php').toString('utf8');summary.release=ver.match(/^\s*\$release\s*=\s*['"]([^'"]+)/m)?.[1]||null;summary.code_version=ver.match(/^\s*\$version\s*=\s*([0-9.]+)/m)?.[1]||null;}catch(e){summary.version_read=e.message;}
             try{summary.related_root_entries=get(ip,'',true).toString('utf8').split(/\r?\n/).filter(x=>/moodle|lms|backup|softaculous|installatron/i.test(x)).slice(0,30);}catch(e){summary.root_listing=e.message;}
             summaries.push(summary);
            }catch(e){summaries.push({server:label,ip,status:e.message});}
           }
+          try{
+           const r=spawnSync('openssl',['s_client','-starttls','ftp','-connect','173.254.30.77:21','-servername','ftp.bluehost.com','-showcerts'],{input:'',timeout:15000,maxBuffer:1048576});
+           const pem=r.stdout.toString().match(/-----BEGIN CERTIFICATE-----[\s\S]+?-----END CERTIFICATE-----/)?.[0];
+           if(pem){const cert=new crypto.X509Certificate(pem);console.log(JSON.stringify({server:'old',public_ftp_certificate:{subject:cert.subject,issuer:cert.issuer,SAN:cert.subjectAltName,validTo:cert.validTo}}));}
+          }catch{console.log('Old-server public FTP certificate inspection unavailable.');}
           for(const s of summaries)console.log(JSON.stringify(s));
           console.log('Read-only comparison complete. No files, settings, courses, or accounts were changed.');
           JS
