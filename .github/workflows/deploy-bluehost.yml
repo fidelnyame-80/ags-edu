@@ -17,9 +17,10 @@ jobs:
           const crypto=require('crypto'),{spawnSync}=require('child_process');
           const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
           function get(ip,file,list=false){
-           const args=['--fail','--silent','--show-error','--connect-timeout','10','--max-time','35','--ssl-reqd','--resolve',`ftp.bluehost.com:21:${ip}`,'--user',process.env.FTP_USER+':'+process.env.FTP_PASS];
+           const hostname=ip==='173.254.30.77'?'ftp.justhost.com':'ftp.bluehost.com';
+           const args=['--fail','--silent','--show-error','--connect-timeout','10','--max-time','35','--ssl-reqd','--resolve',`${hostname}:21:${ip}`,'--user',process.env.FTP_USER+':'+process.env.FTP_PASS];
            if(list)args.push('--list-only');
-           args.push('ftp://ftp.bluehost.com/'+file);
+           args.push('ftp://'+hostname+'/'+file);
            const r=spawnSync('curl',args,{maxBuffer:2097152});
            if(r.status!==0)throw new Error(`Secure read failed (curl exit ${r.status})`);
            return r.stdout;
@@ -36,7 +37,7 @@ jobs:
             try{const ver=get(ip,folder+'/version.php').toString('utf8');summary.release=ver.match(/^\s*\$release\s*=\s*['"]([^'"]+)/m)?.[1]||null;summary.code_version=ver.match(/^\s*\$version\s*=\s*([0-9.]+)/m)?.[1]||null;}catch(e){summary.version_read=e.message;}
             try{summary.related_root_entries=get(ip,'',true).toString('utf8').split(/\r?\n/).filter(x=>/moodle|lms|backup|softaculous|installatron/i.test(x)).slice(0,30);}catch(e){summary.root_listing=e.message;}
             summaries.push(summary);
-           }catch(e){summaries.push({server:label,ip,status:e.message});}
+           }catch(e){const result={server:label,ip,status:e.message};try{result.directory_entries=get(ip,folder+'/',true).toString('utf8').split(/\r?\n/).filter(Boolean).slice(0,35);}catch(listError){result.directory_status=listError.message;}summaries.push(result);}
           }
           try{
            const r=spawnSync('openssl',['s_client','-starttls','ftp','-connect','173.254.30.77:21','-servername','ftp.bluehost.com','-showcerts'],{input:'',timeout:15000,maxBuffer:1048576});
