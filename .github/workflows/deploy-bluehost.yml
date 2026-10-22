@@ -65,13 +65,27 @@ jobs:
                       $locations[]=['directory'=>$entry->getPathname(),'sample_files_present'=>$n];
                   }
               }
+              $nested=[];
+              foreach (['lms','lms/public_html','lms/moodledata','lms/moodle','lms/public_html/moodle'] as $rel) {
+                  $dir=$home.'/'.$rel;
+                  if (!is_dir($dir)) continue;
+                  $nested[$rel]=array_slice(array_values(array_diff(scandir($dir),['.','..'])),0,35);
+                  if (is_dir($dir.'/filedir')) {
+                      $n=0;
+                      foreach ($hashes as $hash) if (is_readable($dir.'/filedir/'.substr($hash,0,2).'/'.substr($hash,2,2).'/'.$hash)) $n++;
+                      $locations[]=['directory'=>$dir,'sample_files_present'=>$n];
+                  }
+              }
               $db->rollback();
               echo json_encode(['ok'=>true, 'site'=>$site, 'courses'=>(int)$courses, 'active_accounts'=>(int)$users,
                   'enrolments'=>(int)$enrolments, 'settings'=>$settings, 'file_records'=>(int)$files['n'],
                   'referenced_file_bytes'=>(int)$files['bytes'], 'file_directory_readable'=>is_readable($filedir),
                   'sample_files_checked'=>$checked, 'sample_files_present'=>$present, 'home_candidates'=>$candidates,
                   'data_locations'=>$locations, 'php_version'=>PHP_VERSION, 'zip_available'=>class_exists('ZipArchive'),
-                  'exec_available'=>function_exists('exec'), 'free_bytes'=>disk_free_space($home)]);
+                  'exec_available'=>function_exists('exec'), 'proc_open_available'=>function_exists('proc_open'),
+                  'tar_available'=>is_executable('/usr/bin/tar'), 'mysqldump_available'=>is_executable('/usr/bin/mysqldump'),
+                  'php83_available'=>is_executable('/opt/cpanel/ea-php83/root/usr/bin/php'),
+                  'nested_directories'=>$nested, 'free_bytes'=>disk_free_space($home)]);
           } catch (Throwable $e) {
               echo json_encode(['ok'=>false,'stage'=>$stage,'error_code'=>(int)$e->getCode()]);
           }
