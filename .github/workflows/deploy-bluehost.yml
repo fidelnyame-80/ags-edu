@@ -1,144 +1,175 @@
-name: Verify original Moodle records and uploaded files
+name: Preserve Elizabeth and current Moodle before restoration
 on:
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
-  inspect:
+  backup:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 30
     env:
       FTP_USER: ${{ secrets.BLUEHOST_FTP_USERNAME }}
       FTP_PASS: ${{ secrets.BLUEHOST_FTP_PASSWORD }}
+      RECOVERY_PUBLIC_KEY: |
+        -----BEGIN PUBLIC KEY-----
+        MIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEArYhg7jvZBLyrYj22Edjb
+        N1rfbBcOBbXbbYJ+zrrgt9U2QTwo7fk/fRFyosg5uxrQ1czwgf9dDXzzXqQGqLgW
+        mtIFR9lmil4z98Zv+hTGWElVAqtcwB4xRfs0uKnzOeHXr07zPew/m+9HwLHdr0Od
+        WOERv7gQAyTxMIKFA0RGtZPGyFJc91mSfuEVFAAQklBtXlxpv6c9u5Iq9GzRN7F0
+        bClXmzrrEXxlRtqVQzDbUOkV09OyO91vCKgLsT7Tx6NrrMmTu4GbhNuCB06hnwXQ
+        i6/crbO52BTnF3BXZ99lmFxYTu/mgZ9Xm2hJTZ254wzJaoe8tdA6N53246+CSdT+
+        q27KQIVRmFh1WoWBs+y/nrYwkPB/69cxF0owm/De0O0qY9SNOzmr8jjfZ2aVSCBx
+        dSHpKfVHg96p23I8F+wSEc7HK2QgYSAdlJIksU2yPxA9Sw2i54SPnrUyJog3K/Xa
+        Vppmz6Hoygag8S9Mrv2GKPnPz2ZVhkZgfVP/KVZFxFW7AgMBAAE=
+        -----END PUBLIC KEY-----
     steps:
-      - name: Read Moodle record counts using a temporary protected diagnostic and remove it
+      - name: Create and verify encrypted recovery backups
         run: |
-          cat > "$RUNNER_TEMP/moodle-db-probe.php" <<'PHP'
+          cat > "$RUNNER_TEMP/moodle-recovery.php" <<'PHP'
           <?php
-          ini_set('display_errors', '0');
+          ini_set('display_errors','0');
+          set_time_limit(600);
           header('Cache-Control: no-store');
-          if ($_SERVER['REQUEST_METHOD'] !== 'POST' || time() > __EXPIRES__ ||
-              !hash_equals('__TOKEN_HASH__', hash('sha256', $_SERVER['HTTP_X_AGS_RECOVERY_TOKEN'] ?? ''))) {
-              http_response_code(404); exit;
+          if (time()>__EXPIRES__ || !hash_equals('__TOKEN_HASH__',hash('sha256',$_SERVER['HTTP_X_AGS_RECOVERY_TOKEN']??''))) {http_response_code(404);exit;}
+          $home='/home1/agsedug1';
+          $work=$home.'/.ags-recovery-__RECOVERY_ID__';
+          $role='__ROLE__';
+          $stage='request';
+          function response($value){header('Content-Type: application/json');echo json_encode($value,JSON_THROW_ON_ERROR);exit;}
+          function command($args,$stdout='/dev/null'){
+           global $work;
+           $err=$work.'/command-error.txt';
+           $proc=proc_open($args,[0=>['file','/dev/null','r'],1=>['file',$stdout,'w'],2=>['file',$err,'w']],$pipes,null,null,['bypass_shell'=>true]);
+           if(!is_resource($proc))throw new RuntimeException('Command could not start');
+           $code=proc_close($proc);
+           if($code!==0)throw new RuntimeException('Server command failed with status '.$code);
           }
-          header('Content-Type: application/json');
-          $stage = 'request';
-          try {
-              $p = json_decode(file_get_contents('php://input'), true, 8, JSON_THROW_ON_ERROR);
-              if (!in_array($p['database'] ?? '', ['agsedug1_moodl', 'agsedug1_mood772'], true) ||
-                  !in_array($p['prefix'] ?? '', ['mdl_', 'mdlh6_'], true)) {
-                  http_response_code(400); exit;
-              }
-              $stage = 'database_connection';
-              mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-              $db = new mysqli('localhost', $p['username'], $p['password'], $p['database']);
-              $db->set_charset('utf8mb4');
-              $db->query('START TRANSACTION READ ONLY');
-              $stage = 'read_metadata';
-              $prefix = $p['prefix'];
-              $site = $db->query("SELECT fullname, shortname FROM {$prefix}course WHERE id=1")->fetch_assoc();
-              $courses = $db->query("SELECT COUNT(*) AS n FROM {$prefix}course WHERE id<>1")->fetch_assoc()['n'];
-              $users = $db->query("SELECT COUNT(*) AS n FROM {$prefix}user WHERE deleted=0 AND username<>'guest'")->fetch_assoc()['n'];
-              $enrolments = $db->query("SELECT COUNT(*) AS n FROM {$prefix}user_enrolments")->fetch_assoc()['n'];
-              $settings = [];
-              $rows = $db->query("SELECT name,value FROM {$prefix}config WHERE name IN ('version','release','theme')");
-              while ($row = $rows->fetch_assoc()) $settings[$row['name']] = $row['value'];
-              $filedir = '/home1/agsedug1/moodledata/filedir';
-              $files = $db->query("SELECT COUNT(*) AS n, SUM(filesize) AS bytes FROM {$prefix}files WHERE filename<>'.'")->fetch_assoc();
-              $samples = $db->query("SELECT DISTINCT contenthash FROM {$prefix}files WHERE filename<>'.' AND filesize>0 ORDER BY contenthash LIMIT 20");
-              $checked=0; $present=0; $hashes=[];
-              while ($row = $samples->fetch_assoc()) {
-                  $hash = $row['contenthash'];
-                  if (!preg_match('/^[0-9a-f]{40}$/', $hash)) continue;
-                  $hashes[] = $hash;
-                  $checked++;
-                  if (is_readable($filedir.'/'.substr($hash,0,2).'/'.substr($hash,2,2).'/'.$hash)) $present++;
-              }
-              $home='/home1/agsedug1';
-              $candidates=[]; $locations=[];
-              foreach (new DirectoryIterator($home) as $entry) {
-                  if ($entry->isDot() || !preg_match('/moodle|lms|backup|softaculous/i', $entry->getFilename())) continue;
-                  $candidates[]=['name'=>$entry->getFilename(),'directory'=>$entry->isDir(),'modified'=>$entry->getMTime(),'bytes'=>$entry->isFile()?$entry->getSize():null];
-                  if ($entry->isDir() && is_dir($entry->getPathname().'/filedir')) {
-                      $n=0;
-                      foreach ($hashes as $hash) if (is_readable($entry->getPathname().'/filedir/'.substr($hash,0,2).'/'.substr($hash,2,2).'/'.$hash)) $n++;
-                      $locations[]=['directory'=>$entry->getPathname(),'sample_files_present'=>$n];
-                  }
-              }
-              $nested=[];
-              foreach (['lms','lms/public_html','lms/moodledata','lms/moodle','lms/public_html/moodle'] as $rel) {
-                  $dir=$home.'/'.$rel;
-                  if (!is_dir($dir)) continue;
-                  $nested[$rel]=array_slice(array_values(array_diff(scandir($dir),['.','..'])),0,35);
-                  if (is_dir($dir.'/filedir')) {
-                      $n=0;
-                      foreach ($hashes as $hash) if (is_readable($dir.'/filedir/'.substr($hash,0,2).'/'.substr($hash,2,2).'/'.$hash)) $n++;
-                      $locations[]=['directory'=>$dir,'sample_files_present'=>$n];
-                  }
-              }
-              $db->rollback();
-              echo json_encode(['ok'=>true, 'site'=>$site, 'courses'=>(int)$courses, 'active_accounts'=>(int)$users,
-                  'enrolments'=>(int)$enrolments, 'settings'=>$settings, 'file_records'=>(int)$files['n'],
-                  'referenced_file_bytes'=>(int)$files['bytes'], 'file_directory_readable'=>is_readable($filedir),
-                  'sample_files_checked'=>$checked, 'sample_files_present'=>$present, 'home_candidates'=>$candidates,
-                  'data_locations'=>$locations, 'php_version'=>PHP_VERSION, 'zip_available'=>class_exists('ZipArchive'),
-                  'exec_available'=>function_exists('exec'), 'proc_open_available'=>function_exists('proc_open'),
-                  'tar_available'=>is_executable('/usr/bin/tar'), 'mysqldump_available'=>is_executable('/usr/bin/mysqldump'),
-                  'php83_available'=>is_executable('/opt/cpanel/ea-php83/root/usr/bin/php'),
-                  'nested_directories'=>$nested, 'free_bytes'=>disk_free_space($home)]);
-          } catch (Throwable $e) {
-              echo json_encode(['ok'=>false,'stage'=>$stage,'error_code'=>(int)$e->getCode()]);
+          function connect_db($p){
+           if(!in_array($p['database']??'',['agsedug1_moodl','agsedug1_mood772'],true)||!in_array($p['prefix']??'',['mdl_','mdlh6_'],true))throw new RuntimeException('Unexpected database');
+           mysqli_report(MYSQLI_REPORT_ERROR|MYSQLI_REPORT_STRICT);
+           $db=new mysqli('localhost',$p['username'],$p['password'],$p['database']);$db->set_charset('utf8mb4');return $db;
           }
+          function db_summary($p,$data){
+           $db=connect_db($p);$prefix=$p['prefix'];$db->query('START TRANSACTION READ ONLY');
+           $site=$db->query("SELECT fullname,shortname FROM {$prefix}course WHERE id=1")->fetch_assoc();
+           $out=['site'=>$site];
+           foreach(['course'=>"id<>1",'user'=>"deleted=0 AND username<>'guest'",'user_enrolments'=>'1=1','files'=>"filename<>'.'"] as $table=>$where){$out[$table]=(int)$db->query("SELECT COUNT(*) AS n FROM {$prefix}{$table} WHERE {$where}")->fetch_assoc()['n'];}
+           $fingerprints=[];
+           foreach(['course'=>'*','user'=>'id,auth,confirmed,deleted,username,password,firstname,lastname,email,timecreated,timemodified','user_enrolments'=>'*','grade_grades'=>'*','assign_submission'=>'*','quiz_attempts'=>'*','files'=>'*'] as $table=>$columns){
+            $ctx=hash_init('sha256');$rows=$db->query("SELECT {$columns} FROM {$prefix}{$table} ORDER BY id",MYSQLI_USE_RESULT);
+            while($row=$rows->fetch_assoc())hash_update($ctx,json_encode($row,JSON_INVALID_UTF8_SUBSTITUTE)."\n");
+            $rows->free();$fingerprints[$table]=hash_final($ctx);
+           }
+           $out['fingerprints']=$fingerprints;
+           $rows=$db->query("SELECT DISTINCT contenthash FROM {$prefix}files WHERE filename<>'.' AND filesize>0");$checked=0;$present=0;
+           while($row=$rows->fetch_assoc()){$hash=$row['contenthash'];if(!preg_match('/^[0-9a-f]{40}$/',$hash))continue;$checked++;if(is_readable($data.'/filedir/'.substr($hash,0,2).'/'.substr($hash,2,2).'/'.$hash))$present++;}
+           $out['unique_files_checked']=$checked;$out['unique_files_present']=$present;$db->rollback();$db->close();return $out;
+          }
+          function dump_database($p){
+           global $work;
+           connect_db($p)->close();
+           $cnf=$work.'/client.cnf';
+           $quote=fn($s)=>'"'.strtr($s,["\\"=>"\\\\",'"'=>'\\"',"\n"=>'\\n',"\r"=>'\\r']).'"';
+           file_put_contents($cnf,"[client]\nhost=localhost\nuser=".$quote($p['username'])."\npassword=".$quote($p['password'])."\n");chmod($cnf,0600);
+           $dest=$work.'/databases/'.$p['database'].'.sql';
+           try{command(['/usr/bin/mysqldump','--defaults-extra-file='.$cnf,'--single-transaction','--skip-lock-tables','--quick','--hex-blob','--default-character-set=utf8mb4','--no-tablespaces',$p['database']],$dest);chmod($dest,0600);if(filesize($dest)<100)throw new RuntimeException('Database backup is unexpectedly small');}
+           finally{if(is_file($cnf))unlink($cnf);}
+           return ['bytes'=>filesize($dest),'sha256'=>hash_file('sha256',$dest)];
+          }
+          try{
+           umask(0077);if(!is_dir($work)&&!mkdir($work,0700))throw new RuntimeException('Cannot create private recovery directory');
+           $input=json_decode(file_get_contents('php://input'),true,16,JSON_THROW_ON_ERROR);
+           $action=$input['action']??'';
+           if($action==='backup'){
+            $stage='database_backups';
+            if(is_file($work.'/snapshot.tar.gz'))throw new RuntimeException('Snapshot already exists');
+            mkdir($work.'/databases',0700);
+            $manifest=['role'=>$role,'created_utc'=>gmdate('c'),'php_version'=>PHP_VERSION,'config_sha256'=>hash_file('sha256',$home.'/public_html/moodle/config.php'),'databases'=>[]];
+            foreach($input['databases'] as $p){$dump=dump_database($p);$manifest['databases'][$p['database']]=['dump'=>$dump,'summary'=>db_summary($p,$home.'/moodledata')];}
+            file_put_contents($work.'/manifest.json',json_encode($manifest,JSON_PRETTY_PRINT|JSON_THROW_ON_ERROR));
+            $stage='file_backup';
+            command(['/usr/bin/tar','--create','--gzip','--dereference','--hard-dereference','--file',$work.'/snapshot.tar.gz',
+              '--exclude=public_html/moodle/ags-recovery-*','--exclude=moodledata/cache','--exclude=moodledata/localcache',
+              '--exclude=moodledata/sessions','--exclude=moodledata/temp','--exclude=moodledata/trashdir','--exclude=moodledata/lock',
+              '--directory',$home,'public_html/moodle','moodledata','--directory',$work,'databases','manifest.json']);
+            chmod($work.'/snapshot.tar.gz',0600);
+            $stage='verify_backup';command(['/usr/bin/tar','--list','--gzip','--file',$work.'/snapshot.tar.gz']);
+            response(['ok'=>true,'private_directory'=>$work,'archive_bytes'=>filesize($work.'/snapshot.tar.gz'),'archive_sha256'=>hash_file('sha256',$work.'/snapshot.tar.gz'),'manifest'=>$manifest]);
+           }
+           if($action==='download'){
+            $stage='download';$file=$work.'/snapshot.tar.gz';if(!is_file($file))throw new RuntimeException('Snapshot unavailable');
+            header('Content-Type: application/octet-stream');header('Content-Length: '.filesize($file));readfile($file);exit;
+           }
+           response(['ok'=>false,'stage'=>'request','error'=>'Unknown action']);
+          }catch(Throwable $e){response(['ok'=>false,'stage'=>$stage,'error_code'=>(int)$e->getCode(),'error'=>($e instanceof mysqli_sql_exception?'Database operation failed':$e->getMessage())]);}
           PHP
-          cat > "$RUNNER_TEMP/moodle-db-probe.cjs" <<'JS'
-          const fs=require('fs'),crypto=require('crypto'),{spawnSync}=require('child_process');
+          cat > "$RUNNER_TEMP/moodle-snapshot.cjs" <<'JS'
+          const fs=require('fs'),path=require('path'),crypto=require('crypto'),{spawnSync}=require('child_process');
+          const {pipeline}=require('stream/promises');
+          const root=process.env.RUNNER_TEMP,dir=path.join(root,'moodle-snapshots'),out=path.join(dir,'encrypted');
           const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
           function ftp(ip,file,upload,remove=false){
            const host=ip==='173.254.30.77'?'ftp.justhost.com':'ftp.bluehost.com';
-           const args=['--fail','--silent','--show-error','--connect-timeout','10','--max-time','45','--ssl-reqd','--resolve',`${host}:21:${ip}`,'--user',process.env.FTP_USER+':'+process.env.FTP_PASS];
-           if(upload)args.push('--upload-file','-');
-           if(remove)args.push('--quote','DELE '+file,'--list-only');
-           args.push('ftp://'+host+'/'+(remove?'':file));
+           const args=['--fail','--silent','--show-error','--connect-timeout','15','--max-time','60','--ssl-reqd','--resolve',`${host}:21:${ip}`,'--user',process.env.FTP_USER+':'+process.env.FTP_PASS];
+           if(upload)args.push('--upload-file','-');if(remove)args.push('--quote','DELE '+file,'--list-only');args.push('ftp://'+host+'/'+(remove?'':file));
            const r=spawnSync('curl',args,{input:upload,maxBuffer:2097152});
-           if(r.status!==0){const e=new Error(`FTPS operation failed with exit ${r.status}`);e.code=r.status;throw e;}
-           return r.stdout;
+           if(r.status!==0){const e=new Error('FTPS operation failed with exit '+r.status);e.code=r.status;throw e;}return r.stdout;
           }
-          function literal(text,name){
-           const re=new RegExp('^\\s*\\$CFG->'+name+'\\s*=\\s*([\'\"])((?:\\\\.|[^\'\"\\\\\\r\\n])*)\\1\\s*;','m');
-           const m=text.match(re);if(!m)throw new Error('Unsupported configuration field format: '+name);
-           if(m[1]==='\'')return m[2].replace(/\\(['\\])/g,'$1');
-           if(/\$/.test(m[2]))throw new Error('Unsupported interpolated configuration field: '+name);
-           return m[2].replace(/\\([\\"nrt])/g,(_,c)=>({n:'\n',r:'\r',t:'\t'}[c]||c));
+          function literal(t,n){const m=t.match(new RegExp('^\\s*\\$CFG->'+n+'\\s*=\\s*([\'\"])((?:\\\\.|[^\'\"\\\\\\r\\n])*)\\1\\s*;','m'));if(!m)throw new Error('Unsupported configuration format for '+n);if(m[1]==="'")return m[2].replace(/\\(['\\])/g,'$1');if(/\$/.test(m[2]))throw new Error('Unsupported configuration interpolation');return m[2].replace(/\\([\\"nrt])/g,(_,c)=>({n:'\n',r:'\r',t:'\t'}[c]||c));}
+          function config(ip){const t=ftp(ip,'moodle/config.php').toString('utf8');return {database:literal(t,'dbname'),username:literal(t,'dbuser'),password:literal(t,'dbpass'),prefix:literal(t,'prefix')};}
+          function request(state,ip,payload,dest){
+           const args=['--fail','--silent','--show-error','--connect-timeout','15','--max-time','600','--resolve',`agsedu.org:443:${ip}`,'--header','Content-Type: application/json','--header','X-AGS-Recovery-Token: '+state.token,'--data-binary','@-'];
+           if(dest)args.push('--output',dest);args.push('https://agsedu.org/'+state.file);
+           const r=spawnSync('curl',args,{input:JSON.stringify(payload),maxBuffer:1048576});if(r.status!==0)throw new Error('Protected HTTPS operation failed with exit '+r.status);
+           if(dest)return;
+           let parsed;try{parsed=JSON.parse(r.stdout.toString('utf8'));}catch{throw new Error('Expected a JSON response from backup operation');}
+           if(!parsed.ok)throw new Error('Backup operation failed: '+JSON.stringify(parsed));return parsed;
           }
-          function cfg(ip){const c=ftp(ip,'moodle/config.php').toString('utf8');return {database:literal(c,'dbname'),username:literal(c,'dbuser'),password:literal(c,'dbpass'),prefix:literal(c,'prefix')};}
-          const installed=[];
-          try{
-           const configs={old:cfg('173.254.30.77'),new:cfg('129.121.157.187')};
-           const template=fs.readFileSync(process.env.RUNNER_TEMP+'/moodle-db-probe.php','utf8');
-           const token=crypto.randomBytes(32).toString('hex'),file='moodle/ags-recovery-'+crypto.randomBytes(16).toString('hex')+'.php';
-           const probe=Buffer.from(template.replace('__EXPIRES__',String(Math.floor(Date.now()/1000)+900)).replace('__TOKEN_HASH__',hash(token)));
-           for(const [label,ip] of [['old','173.254.30.77'],['new','129.121.157.187']]){
-            try{
-             try{ftp(ip,file);throw new Error('Probe filename unexpectedly exists');}catch(e){if(e.code!==78)throw e;}
-             installed.push({ip,file});
-             ftp(ip,file,probe);
-             if(hash(ftp(ip,file))!==hash(probe))throw new Error('Probe upload verification failed');
-             console.log(JSON.stringify({server:label,temporary_diagnostic:file}));
-             for(const source of label==='old'?['old']:['new','old']){
-              const r=spawnSync('curl',['--fail','--silent','--show-error','--connect-timeout','10','--max-time','40','--resolve',`lms.agsedu.org:443:${ip}`,'--header','Content-Type: application/json','--header','X-AGS-Recovery-Token: '+token,'--data-binary','@-','https://lms.agsedu.org/'+file.slice('moodle/'.length)],{input:JSON.stringify(configs[source]),maxBuffer:1048576});
-              if(r.status!==0){console.log(JSON.stringify({server:label,database:configs[source].database,error:'HTTPS diagnostic failed',curl_exit:r.status}));continue;}
-              let result;try{result=JSON.parse(r.stdout.toString('utf8'));}catch{result={error:'Non-JSON diagnostic response',bytes:r.stdout.length};}
-              console.log(JSON.stringify({server:label,database:configs[source].database,result}));
-             }
-            }catch(e){console.log(JSON.stringify({server:label,error:e.message}));}
+          async function digest(file){const ctx=crypto.createHash('sha256');for await(const chunk of fs.createReadStream(file))ctx.update(chunk);return ctx.digest('hex');}
+          async function backup(){
+           fs.mkdirSync(out,{recursive:true,mode:0o700});
+           const state={id:'20261022-'+crypto.randomBytes(8).toString('hex'),token:crypto.randomBytes(32).toString('hex'),installed:[],backups:{}};
+           state.file='ags-recovery-'+state.id+'.php';
+           const save=()=>fs.writeFileSync(path.join(dir,'state.json'),JSON.stringify(state),{mode:0o600});save();
+           const cfg={old:config('173.254.30.77'),new:config('129.121.157.187')};
+           const template=fs.readFileSync(path.join(root,'moodle-recovery.php'),'utf8');
+           for(const [role,ip] of [['old','173.254.30.77'],['new','129.121.157.187']]){
+            const script=Buffer.from(template.replace('__EXPIRES__',String(Math.floor(Date.now()/1000)+7200)).replace('__TOKEN_HASH__',hash(state.token)).replace('__RECOVERY_ID__',state.id).replace('__ROLE__',role));
+            try{ftp(ip,state.file);throw new Error('Unexpected pre-existing diagnostic file');}catch(e){if(e.code!==78)throw e;}
+            state.installed.push({ip,file:state.file});save();ftp(ip,state.file,script);
+            if(hash(ftp(ip,state.file))!==hash(script))throw new Error('Diagnostic upload did not verify');
+            console.log(JSON.stringify({server:role,status:'Creating a private backup of Moodle code, persistent data, and databases',recovery_id:state.id}));
+            const info=request(state,ip,{action:'backup',databases:role==='old'?[cfg.old]:[cfg.old,cfg.new]});
+            state.backups[role]=info;save();console.log(JSON.stringify({server:role,status:'Server backup verified',details:info}));
+            const plain=path.join(dir,role+'-snapshot.tar.gz');fs.writeFileSync(plain,'',{mode:0o600});request(state,ip,{action:'download'},plain);
+            if(fs.statSync(plain).size!==info.archive_bytes||await digest(plain)!==info.archive_sha256)throw new Error('Downloaded backup verification failed');
+            const key=crypto.randomBytes(32),iv=crypto.randomBytes(12),cipher=crypto.createCipheriv('aes-256-gcm',key,iv);
+            await pipeline(fs.createReadStream(plain),cipher,fs.createWriteStream(path.join(out,role+'-snapshot.tar.gz.enc'),{mode:0o600}));
+            const wrapped=crypto.publicEncrypt({key:process.env.RECOVERY_PUBLIC_KEY,oaepHash:'sha256'},key);
+            fs.writeFileSync(path.join(out,role+'-snapshot.metadata.json'),JSON.stringify({algorithm:'AES-256-GCM + RSA-OAEP-SHA256',wrapped_key:wrapped.toString('base64'),iv:iv.toString('base64'),tag:cipher.getAuthTag().toString('base64'),recovery_id:state.id,backup:info},null,2),{mode:0o600});
+            console.log(JSON.stringify({server:role,status:'Downloaded, verified, and encrypted recovery backup',bytes:info.archive_bytes}));
            }
-          }catch(e){console.error(e.message);process.exitCode=1;}
-          finally{
-           for(const item of installed){
-            try{ftp(item.ip,item.file,undefined,true);try{ftp(item.ip,item.file);throw new Error('Diagnostic remains present');}catch(e){if(e.code!==78)throw e;}console.log(JSON.stringify({server_ip:item.ip,temporary_diagnostic_removed:true}));}
-            catch(e){console.error(JSON.stringify({server_ip:item.ip,cleanup_failed:item.file,error:e.message}));process.exitCode=1;}
-           }
+           fs.writeFileSync(path.join(out,'recovery-manifest.json'),JSON.stringify({recovery_id:state.id,backups:state.backups},null,2));
           }
+          function cleanup(){
+           if(!fs.existsSync(path.join(dir,'state.json')))return;
+           const s=JSON.parse(fs.readFileSync(path.join(dir,'state.json')));let failed=false;
+           for(const item of s.installed){try{ftp(item.ip,item.file,undefined,true);try{ftp(item.ip,item.file);throw new Error('Temporary endpoint still exists');}catch(e){if(e.code!==78)throw e;}console.log(JSON.stringify({server_ip:item.ip,temporary_endpoint_removed:true}));}catch(e){console.error(JSON.stringify({server_ip:item.ip,cleanup_failed:item.file,error:e.message}));failed=true;}}
+           if(failed)throw new Error('Temporary endpoint cleanup requires attention');
+          }
+          (async()=>{try{if(process.argv[2]==='backup')await backup();else if(process.argv[2]==='cleanup')cleanup();else throw new Error('Unknown mode');}catch(e){console.error(e.message);process.exitCode=1;}})();
           JS
-          php -l "$RUNNER_TEMP/moodle-db-probe.php"
-          node "$RUNNER_TEMP/moodle-db-probe.cjs"
+          php -l "$RUNNER_TEMP/moodle-recovery.php"
+          node "$RUNNER_TEMP/moodle-snapshot.cjs" backup
+      - name: Preserve encrypted recovery artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: moodle-recovery-backups-encrypted
+          path: ${{ runner.temp }}/moodle-snapshots/encrypted/
+          if-no-files-found: warn
+          retention-days: 30
+          compression-level: 0
+      - name: Remove temporary protected recovery endpoints
+        if: always()
+        run: node "$RUNNER_TEMP/moodle-snapshot.cjs" cleanup
