@@ -7,7 +7,7 @@ permissions:
   contents: read
 
 jobs:
-  inspect:
+  restore:
     runs-on: ubuntu-latest
     steps:
       - name: Back up the new server homepage and routing configuration
@@ -41,3 +41,78 @@ jobs:
           include-hidden-files: true
           if-no-files-found: error
           retention-days: 30
+      - name: Check out the current production source
+        uses: actions/checkout@v4
+        with:
+          ref: 80df194b0269bc0f9cb260b3dae34d2731b3aee5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Build production homepage
+        run: |
+          npm ci
+          npm run build
+      - name: Prepare the homepage and preserve the new server PHP settings
+        run: |
+          python - <<'PY'
+          import os, pathlib, hashlib, re, urllib.request
+          backup = pathlib.Path(os.environ['RUNNER_TEMP']) / 'ags-recovery-backup'
+          expected = {
+              'index.html': '1d4518ac4d4acc4b318d5dd0ab6dacab6a5868bc401b87bab3964eda4eabb078',
+              '.htaccess': '3ad8210f91fe96a20e444710bdb1fc37a9383e60d105e2b9304eeb53bf3cc393',
+          }
+          for name, digest in expected.items():
+              assert hashlib.sha256((backup / name).read_bytes()).hexdigest() == digest, f'{name} changed since inspection'
+          live_config = (backup / '.htaccess').read_text()
+          source_config = pathlib.Path('public/.htaccess').read_text()
+          app_rules = source_config.split('# Preserve the existing cPanel PHP settings')[0]
+          assert 'RewriteRule ^documents' in app_rules
+          assert 'ea-php84' in live_config
+          target = pathlib.Path(os.environ['RUNNER_TEMP']) / 'ags-recovery-upload'
+          target.mkdir()
+          (target / '.htaccess').write_text(app_rules + live_config)
+          index = pathlib.Path('dist/index.html').read_text()
+          assert 'Accra Grammar School' in index and 'type="module"' in index
+          for asset in re.findall(r'(?:src|href)="(/assets/[^\"]+)"', index):
+              with urllib.request.urlopen('https://agsedu.org' + asset, timeout=20) as response:
+                  assert response.status == 200
+                  remote = response.read()
+                  local = pathlib.Path('dist' + asset).read_bytes()
+                  assert remote == local, f'Asset differs: {asset}'
+              print('Verified existing asset:', asset)
+          (target / 'index.html').write_text(index)
+          print('Prepared two files; retained the new PHP 8.4 handler.')
+          PY
+      - name: Restore only the homepage and routing file
+        env:
+          FTP_USER: ${{ secrets.BLUEHOST_FTP_USERNAME }}
+          FTP_PASS: ${{ secrets.BLUEHOST_FTP_PASSWORD }}
+          DEPLOY_HOST: ${{ secrets.BLUEHOST_FTP_SERVER }}
+        run: |
+          set -euo pipefail
+          for file in index.html .htaccess; do
+            curl --fail --silent --show-error --connect-timeout 15 --max-time 90 \
+              --ssl-reqd --resolve ftp.bluehost.com:21:129.121.157.187 \
+              --user "$FTP_USER:$FTP_PASS" \
+              --upload-file "$RUNNER_TEMP/ags-recovery-upload/$file" \
+              "ftp://ftp.bluehost.com/$file"
+            echo "Restored $file"
+          done
+          python - <<'PY'
+          import os, socket
+          print('Existing deployment target IPs:', sorted({x[4][0] for x in socket.getaddrinfo(os.environ['DEPLOY_HOST'], 21)}))
+          PY
+      - name: Verify the restored public website
+        run: |
+          python - <<'PY'
+          import urllib.request
+          for path in ('/', '/admissions'):
+              with urllib.request.urlopen('https://agsedu.org' + path, timeout=30) as response:
+                  body = response.read().decode()
+                  assert response.status == 200 and 'Accra Grammar School' in body and 'type="module"' in body
+              print('Restored:', path)
+          with urllib.request.urlopen('https://agsedu.org/documents/', timeout=30) as response:
+              assert response.status == 200 and 'out.Login.php' in response.url
+          print('Document Manager login still responds.')
+          PY
