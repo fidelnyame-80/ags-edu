@@ -54,9 +54,12 @@ jobs:
           npm ci
           npm run build
       - name: Prepare the homepage and preserve the new server PHP settings
+        env:
+          FTP_USER: ${{ secrets.BLUEHOST_FTP_USERNAME }}
+          FTP_PASS: ${{ secrets.BLUEHOST_FTP_PASSWORD }}
         run: |
           python - <<'PY'
-          import os, pathlib, hashlib, re, urllib.request
+          import os, pathlib, hashlib, re, subprocess
           backup = pathlib.Path(os.environ['RUNNER_TEMP']) / 'ags-recovery-backup'
           expected = {
               'index.html': '1d4518ac4d4acc4b318d5dd0ab6dacab6a5868bc401b87bab3964eda4eabb078',
@@ -75,11 +78,12 @@ jobs:
           index = pathlib.Path('dist/index.html').read_text()
           assert 'Accra Grammar School' in index and 'type="module"' in index
           for asset in re.findall(r'(?:src|href)="(/assets/[^\"]+)"', index):
-              with urllib.request.urlopen('https://agsedu.org' + asset, timeout=20) as response:
-                  assert response.status == 200
-                  remote = response.read()
-                  local = pathlib.Path('dist' + asset).read_bytes()
-                  assert remote == local, f'Asset differs: {asset}'
+              result = subprocess.run(['curl', '--fail', '--silent', '--show-error', '--max-time', '60',
+                  '--ssl-reqd', '--resolve', 'ftp.bluehost.com:21:129.121.157.187',
+                  '--user', os.environ['FTP_USER'] + ':' + os.environ['FTP_PASS'],
+                  'ftp://ftp.bluehost.com' + asset], capture_output=True)
+              assert result.returncode == 0, f'Could not read existing asset: {asset}'
+              assert result.stdout == pathlib.Path('dist' + asset).read_bytes(), f'Asset differs: {asset}'
               print('Verified existing asset:', asset)
           (target / 'index.html').write_text(index)
           print('Prepared two files; retained the new PHP 8.4 handler.')
@@ -107,12 +111,14 @@ jobs:
         run: |
           python - <<'PY'
           import urllib.request
+          opener = urllib.request.build_opener()
+          opener.addheaders = [('User-Agent', 'Mozilla/5.0 (compatible; AGS-Recovery/1.0)')]
           for path in ('/', '/admissions'):
-              with urllib.request.urlopen('https://agsedu.org' + path, timeout=30) as response:
+              with opener.open('https://agsedu.org' + path, timeout=30) as response:
                   body = response.read().decode()
                   assert response.status == 200 and 'Accra Grammar School' in body and 'type="module"' in body
               print('Restored:', path)
-          with urllib.request.urlopen('https://agsedu.org/documents/', timeout=30) as response:
+          with opener.open('https://agsedu.org/documents/', timeout=30) as response:
               assert response.status == 200 and 'out.Login.php' in response.url
           print('Document Manager login still responds.')
           PY
