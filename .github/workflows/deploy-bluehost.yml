@@ -1,56 +1,43 @@
-name: Deploy to Bluehost
+name: AGS server migration recovery
 
 on:
-  push:
-    branches: [master]
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  deploy:
+  inspect:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out source
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-
-      - name: Build website
+      - name: Back up the new server homepage and routing configuration
+        env:
+          FTP_USER: ${{ secrets.BLUEHOST_FTP_USERNAME }}
+          FTP_PASS: ${{ secrets.BLUEHOST_FTP_PASSWORD }}
         run: |
-          npm ci
-          npm run build
-
-      - name: Publish build to Bluehost
-        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/ags-recovery-backup"
+          for file in index.html .htaccess; do
+            curl --fail --silent --show-error --connect-timeout 15 --max-time 90 \
+              --ssl-reqd --resolve ftp.bluehost.com:21:129.121.157.187 \
+              --user "$FTP_USER:$FTP_PASS" \
+              "ftp://ftp.bluehost.com/$file" \
+              --output "$RUNNER_TEMP/ags-recovery-backup/$file"
+          done
+          python - <<'PY'
+          import os, pathlib, hashlib
+          root = pathlib.Path(os.environ['RUNNER_TEMP']) / 'ags-recovery-backup'
+          for name in ('index.html', '.htaccess'):
+              data = (root / name).read_bytes()
+              print(f'{name}: {len(data)} bytes, sha256={hashlib.sha256(data).hexdigest()}')
+              print(data.decode('utf-8', errors='replace'))
+          PY
+      - name: Save recovery backup
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
-          server: ${{ secrets.BLUEHOST_FTP_SERVER }}
-          username: ${{ secrets.BLUEHOST_FTP_USERNAME }}
-          password: ${{ secrets.BLUEHOST_FTP_PASSWORD }}
-          protocol: ftps
-          port: 21
-          local-dir: ./dist/
-          # deploy@agsedu.org is already rooted at /home1/agsedug1/public_html.
-          server-dir: ./
-          # September 26 backup confirmed; root preview reviewed with no deletions.
-          dry-run: false
-          dangerous-clean-slate: false
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
-            documents/**
-            public_html/**
-            wp-admin/**
-            wp-content/**
-            wp-includes/**
-            wp-*.php
-            index.php
-            api/contact-config.php
-            .htaccess.wordpress-backup
-          log-level: standard
+          name: ags-server-before-homepage-recovery
+          path: ${{ runner.temp }}/ags-recovery-backup/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
