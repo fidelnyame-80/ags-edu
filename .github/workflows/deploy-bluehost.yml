@@ -46,18 +46,32 @@ jobs:
               $filedir = '/home1/agsedug1/moodledata/filedir';
               $files = $db->query("SELECT COUNT(*) AS n, SUM(filesize) AS bytes FROM {$prefix}files WHERE filename<>'.'")->fetch_assoc();
               $samples = $db->query("SELECT DISTINCT contenthash FROM {$prefix}files WHERE filename<>'.' AND filesize>0 ORDER BY contenthash LIMIT 20");
-              $checked=0; $present=0;
+              $checked=0; $present=0; $hashes=[];
               while ($row = $samples->fetch_assoc()) {
                   $hash = $row['contenthash'];
                   if (!preg_match('/^[0-9a-f]{40}$/', $hash)) continue;
+                  $hashes[] = $hash;
                   $checked++;
                   if (is_readable($filedir.'/'.substr($hash,0,2).'/'.substr($hash,2,2).'/'.$hash)) $present++;
+              }
+              $home='/home1/agsedug1';
+              $candidates=[]; $locations=[];
+              foreach (new DirectoryIterator($home) as $entry) {
+                  if ($entry->isDot() || !preg_match('/moodle|lms|backup|softaculous/i', $entry->getFilename())) continue;
+                  $candidates[]=['name'=>$entry->getFilename(),'directory'=>$entry->isDir(),'modified'=>$entry->getMTime(),'bytes'=>$entry->isFile()?$entry->getSize():null];
+                  if ($entry->isDir() && is_dir($entry->getPathname().'/filedir')) {
+                      $n=0;
+                      foreach ($hashes as $hash) if (is_readable($entry->getPathname().'/filedir/'.substr($hash,0,2).'/'.substr($hash,2,2).'/'.$hash)) $n++;
+                      $locations[]=['directory'=>$entry->getPathname(),'sample_files_present'=>$n];
+                  }
               }
               $db->rollback();
               echo json_encode(['ok'=>true, 'site'=>$site, 'courses'=>(int)$courses, 'active_accounts'=>(int)$users,
                   'enrolments'=>(int)$enrolments, 'settings'=>$settings, 'file_records'=>(int)$files['n'],
                   'referenced_file_bytes'=>(int)$files['bytes'], 'file_directory_readable'=>is_readable($filedir),
-                  'sample_files_checked'=>$checked, 'sample_files_present'=>$present]);
+                  'sample_files_checked'=>$checked, 'sample_files_present'=>$present, 'home_candidates'=>$candidates,
+                  'data_locations'=>$locations, 'php_version'=>PHP_VERSION, 'zip_available'=>class_exists('ZipArchive'),
+                  'exec_available'=>function_exists('exec'), 'free_bytes'=>disk_free_space($home)]);
           } catch (Throwable $e) {
               echo json_encode(['ok'=>false,'stage'=>$stage,'error_code'=>(int)$e->getCode()]);
           }
