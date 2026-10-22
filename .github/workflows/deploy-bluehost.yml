@@ -1,4 +1,4 @@
-name: Check active Moodle PHP settings and server error logs
+name: Repair Moodle Apache configuration and verify PHP settings
 on:
   workflow_dispatch:
 permissions:
@@ -11,13 +11,19 @@ jobs:
       FTP_USER: ${{ secrets.BLUEHOST_FTP_USERNAME }}
       FTP_PASS: ${{ secrets.BLUEHOST_FTP_PASSWORD }}
     steps:
-      - name: Inspect active PHP settings and errors
+      - name: Repair malformed closing tag and verify Moodle
         run: |
           cat > "$RUNNER_TEMP/ini-check.php" <<'PHP'
           <?php
           ini_set('display_errors','0');set_time_limit(40);header('Cache-Control: no-store');
           if(time()>__EXPIRES__||!hash_equals('__HASH__',hash('sha256',$_SERVER['HTTP_X_AGS_DIAG']??''))){http_response_code(404);exit;}
-          header('Content-Type: application/json');$home='/home1/agsedug1';$out=['php'=>PHP_VERSION,'sapi'=>PHP_SAPI,'loaded_ini'=>php_ini_loaded_file(),'scanned_ini'=>php_ini_scanned_files()];
+          header('Content-Type: application/json');$home='/home1/agsedug1';$out=['php'=>PHP_VERSION,'sapi'=>PHP_SAPI,'loaded_ini'=>php_ini_loaded_file(),'scanned_ini_count'=>count(array_filter(explode(',',(string)php_ini_scanned_files())))];
+          
+          if(__DIR__===$home.'/public_html'){
+           $path=$home.'/public_html/moodle/.htaccess';$before=file_get_contents($path);$fixed=preg_replace('/^([ \t]*<\/IfModule)[ \t]*$/m','$1>',$before,-1,$n);
+           if($n>0){if(is_link($path)||realpath(dirname($path))!==$home.'/public_html/moodle')throw new RuntimeException('Unexpected configuration path');$saved=$home.'/.ags-config-repair-'.gmdate('Ymd-His').'-'.bin2hex(random_bytes(6));mkdir($saved,0700);file_put_contents($saved.'/moodle.htaccess.before',$before);chmod($saved.'/moodle.htaccess.before',0600);$tmp=$path.'.repair-'.bin2hex(random_bytes(6));file_put_contents($tmp,$fixed);chmod($tmp,0644);if(file_get_contents($path)!==$before){unlink($tmp);throw new RuntimeException('Configuration changed during repair');}if(!rename($tmp,$path))throw new RuntimeException('Configuration repair failed');$out['repair']=['changed'=>true,'fixed_closing_tags'=>$n,'saved_on_server'=>$saved.'/moodle.htaccess.before','before_sha256'=>hash('sha256',$before),'after_sha256'=>hash_file('sha256',$path)];}
+           else $out['repair']=['changed'=>false,'reason'=>'No malformed closing tag found'];
+          }
           foreach(['memory_limit','max_execution_time','max_input_vars','upload_max_filesize','post_max_size','error_log','user_ini.filename'] as $k)$out['settings'][$k]=ini_get($k);
           foreach([$home.'/public_html/php.ini',$home.'/public_html/.user.ini',$home.'/public_html/moodle/php.ini',$home.'/public_html/moodle/.user.ini',$home.'/public_html/moodle/.htaccess'] as $f){$out['local_config'][$f]=['exists'=>is_file($f),'mtime'=>is_file($f)?gmdate('c',filemtime($f)):null];if(is_file($f)){$lines=file($f,FILE_IGNORE_NEW_LINES);$out['local_config'][$f]['directives']=array_values(array_filter($lines,fn($l)=>preg_match('/^\s*(memory_limit|max_execution_time|max_input_vars|upload_max_filesize|post_max_size|session\.|error_log|display_errors|log_errors|extension|zend_extension|php_|AddHandler|SetHandler|Options|Require|Deny|Allow|<|>)/i',$l)));}}
           foreach([$home.'/public_html/moodle',$home.'/public_html/moodle/index.php',$home.'/public_html/moodle/config.php',$home.'/moodledata'] as $f)$out['permissions'][$f]=['mode'=>substr(sprintf('%o',fileperms($f)),-4),'uid'=>fileowner($f),'gid'=>filegroup($f)];
@@ -31,7 +37,9 @@ jobs:
           
           const statePath=path.join(process.env.RUNNER_TEMP,'ini-state.json');
           function cleanup(){if(!fs.existsSync(statePath))return;for(const file of JSON.parse(fs.readFileSync(statePath)).files){try{ftp('129.121.157.187',file);}catch(e){if(e.code===78)continue;throw e;}ftp('129.121.157.187',file,undefined,true);try{ftp('129.121.157.187',file);throw new Error('Probe remains');}catch(e){if(e.code!==78)throw e;}console.log(JSON.stringify({removed:file}));}}
-          function check(){const token=crypto.randomBytes(32).toString('hex'),id=crypto.randomBytes(8).toString('hex'),name='ags-ini-'+id+'.php',state={files:[]};const script=Buffer.from(fs.readFileSync(path.join(process.env.RUNNER_TEMP,'ini-check.php'),'utf8').replaceAll('__EXPIRES__',String(Math.floor(Date.now()/1000)+3600)).replaceAll('__HASH__',crypto.createHash('sha256').update(token).digest('hex')));for(const [file,host] of [[name,'agsedu.org'],['moodle/'+name,'lms.agsedu.org']]){state.files.push(file);fs.writeFileSync(statePath,JSON.stringify(state),{mode:0o600});ftp('129.121.157.187',file,script);const x=spawnSync('curl',['--http1.1','--silent','--show-error','--connect-timeout','10','--max-time','55','--resolve',host+':443:129.121.157.187','--header','X-AGS-Diag: '+token,'https://'+host+'/'+name],{maxBuffer:262144});let result;try{result=JSON.parse(x.stdout.toString());}catch{result={html_title:x.stdout.toString().match(/<title>(.*?)<\/title>/is)?.[1],bytes:x.stdout.length,curl_exit:x.status};}console.log(JSON.stringify({host,result}));}}
+          function check(){const token=crypto.randomBytes(32).toString('hex'),id=crypto.randomBytes(8).toString('hex'),name='ags-ini-'+id+'.php',state={files:[]};const script=Buffer.from(fs.readFileSync(path.join(process.env.RUNNER_TEMP,'ini-check.php'),'utf8').replaceAll('__EXPIRES__',String(Math.floor(Date.now()/1000)+3600)).replaceAll('__HASH__',crypto.createHash('sha256').update(token).digest('hex')));for(const [file,host] of [[name,'agsedu.org'],['moodle/'+name,'lms.agsedu.org']]){state.files.push(file);fs.writeFileSync(statePath,JSON.stringify(state),{mode:0o600});ftp('129.121.157.187',file,script);const x=spawnSync('curl',['--http1.1','--silent','--show-error','--connect-timeout','10','--max-time','55','--resolve',host+':443:129.121.157.187','--header','X-AGS-Diag: '+token,'https://'+host+'/'+name],{maxBuffer:262144});let result;try{result=JSON.parse(x.stdout.toString());}catch{result={html_title:x.stdout.toString().match(/<title>(.*?)<\/title>/is)?.[1],bytes:x.stdout.length,curl_exit:x.status};}console.log(JSON.stringify({host,result}));}
+          for(const url of ['https://lms.agsedu.org/','https://lms.agsedu.org/login/index.php','https://agsedu.org/moodle','https://agsedu.org/']){const dest=path.join(process.env.RUNNER_TEMP,'php-repair-check.html');const x=spawnSync('curl',['--silent','--show-error','--fail','--location','--max-time','30','--output',dest,'--write-out','%{http_code}|%{remote_ip}|%{url_effective}',url]);const body=fs.existsSync(dest)?fs.readFileSync(dest,'utf8'):'';const title=body.match(/<title>(.*?)<\/title>/is)?.[1]||null;const ok=x.status===0&&x.stdout.toString().startsWith('200|')&&(url==='https://agsedu.org/'||/Elizabeth/i.test(title||''));console.log(JSON.stringify({page_check:{url,ok,result:x.stdout.toString(),title}}));if(!ok)throw new Error('Page check failed');}}
+          
           try{if(process.argv[2]==='cleanup')cleanup();else check();}catch(e){console.error(e.message);process.exitCode=1;}
           JS
           php -l "$RUNNER_TEMP/ini-check.php"
