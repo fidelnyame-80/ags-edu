@@ -59,7 +59,7 @@ Use FTPS on port 21. Do not put credentials in a committed file. After adding th
 
 ## Configure mail on the server
 
-After uploading, in cPanel File Manager open `public_html/api/` and copy `contact-config.example.php` to `contact-config.php`. Edit only these values:
+The handler defaults to `admin@agsedu.org` for both sender and recipient and uses cPanel's local mail service. No configuration file or SMTP password is required for those defaults. To override them, in cPanel File Manager open `public_html/api/` and copy `contact-config.example.php` to `contact-config.php`. Edit only these values:
 
 ```php
 return [
@@ -76,7 +76,7 @@ Use a real mailbox on the hosted domain as `from_email`; this improves delivery.
 1. Zip the **contents** of `dist` (not the `dist` folder itself).
 2. Back up the current `public_html` contents in cPanel, then upload the zip into `public_html` and extract it there.
 3. Confirm `.htaccess` is present. In File Manager, enable **Show Hidden Files** if necessary.
-4. Create `api/contact-config.php` as described above.
+4. Optionally create `api/contact-config.php` to override the default mail addresses.
 5. Test the home page, a direct route such as `/admissions`, the Library and Moodle links, and all three forms—especially an application with an attachment under 2.5 MB.
 
 `/library/*` and `/moodle/*` use temporary (302) redirects, matching the prior Vercel behavior. Change `R=302` to `R=301` only after confirming the destinations.

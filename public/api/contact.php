@@ -11,20 +11,31 @@ function reply(int $status, array $body): void {
 
 function text_value($value, int $limit = 5000): string {
     $value = preg_replace('/[\r\n]+/', ' ', (string) $value);
-    return mb_substr(trim($value), 0, $limit);
+    return function_exists('mb_substr') ? mb_substr(trim($value), 0, $limit) : substr(trim($value), 0, $limit);
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     reply(405, ['ok' => false, 'error' => 'Method not allowed.']);
 }
 
+// cPanel's local mail service needs no password. Keep server overrides optional.
+$config = [
+    'to' => 'admin@agsedu.org',
+    'from_email' => 'admin@agsedu.org',
+    'from_name' => 'Accra Grammar School',
+];
 $configPath = __DIR__ . '/contact-config.php';
-if (!is_file($configPath)) {
-    error_log('Form mail is not configured: contact-config.php is missing.');
-    reply(503, ['ok' => false, 'error' => 'The mail service is not configured yet. Please contact the school office.']);
+if (is_file($configPath)) {
+    $overrides = require $configPath;
+    if (!is_array($overrides)) {
+        error_log('Form mail configuration is invalid.');
+        reply(503, ['ok' => false, 'error' => 'The mail service is not configured yet. Please contact the school office.']);
+    }
+    $config = array_replace($config, $overrides);
 }
-$config = require $configPath;
-if (!is_array($config) || empty($config['to']) || empty($config['from_email']) || empty($config['from_name'])) {
+if (!filter_var($config['to'], FILTER_VALIDATE_EMAIL) ||
+    !filter_var($config['from_email'], FILTER_VALIDATE_EMAIL) ||
+    !is_string($config['from_name']) || trim($config['from_name']) === '') {
     error_log('Form mail configuration is invalid.');
     reply(503, ['ok' => false, 'error' => 'The mail service is not configured yet. Please contact the school office.']);
 }
