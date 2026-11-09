@@ -7,14 +7,19 @@ import assert from 'node:assert/strict';
 const host = 'ftp.bluehost.com';
 const address = '129.121.157.187';
 const target = 'api/contact.php';
-function ftp(path, upload, commands = []) {
+function ftp(path, upload, commands = [], list = false) {
   const args = ['--fail', '--silent', '--show-error', '--connect-timeout', '15', '--max-time', '60', '--ssl-reqd', '--resolve', `${host}:21:${address}`, '--user', `${process.env.FTP_USER}:${process.env.FTP_PASS}`];
   for (const command of commands) args.push('--quote', command);
+  if (list) args.push('--list-only');
   if (upload) args.push('--ftp-create-dirs', '--upload-file', '-');
   args.push(`ftp://${host}/${path}`);
   const result = spawnSync('curl', args, { input: upload, maxBuffer: 2 * 1024 * 1024 });
   if (result.status !== 0) {
-    const error = new Error(`FTPS operation failed (curl ${result.status})`);
+    let detail = result.stderr.toString();
+    for (const secret of [process.env.FTP_USER, process.env.FTP_PASS]) {
+      if (secret) detail = detail.split(secret).join('[redacted]');
+    }
+    const error = new Error(`FTPS operation failed (curl ${result.status}): ${detail.trim()}`);
     error.code = result.status;
     throw error;
   }
@@ -39,7 +44,14 @@ assert.equal(liveIndex.status, 0);
 assert.equal(index, liveIndex.stdout.toString(), 'FTP root does not match the live website');
 let before;
 try { before = ftp(target); }
-catch (error) { if (error.code !== 78) throw error; }
+catch (error) {
+  if (error.code === 9) {
+    // curl reports a missing parent directory as a failed CWD, not a missing file.
+    const entries = ftp('', undefined, [], true).toString().split(/\r?\n/).map(name => name.replace(/\/$/, ''));
+    assert.ok(!entries.includes('api'), 'The API directory exists but is inaccessible; stopping deployment');
+    console.log('No API directory exists yet; installing the PHP handler for the first time.');
+  } else if (error.code !== 78) throw error;
+}
 if (before) writeFileSync(join(process.env.RUNNER_TEMP, 'contact.php.before'), before, { mode: 0o600 });
 const contents = readFileSync('public/api/contact.php');
 // Keep the PHP extension during staging so the server never serves raw source.
