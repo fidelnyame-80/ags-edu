@@ -1,0 +1,41 @@
+name: Repair website form mail
+on:
+  push:
+    branches: [fix/website-form-mail]
+    paths:
+      - public/api/contact.php
+      - scripts/deploy-form-mail.mjs
+      - tests/contact-mail.mjs
+      - .github/workflows/repair-form-mail.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ags-form-mail-repair
+  cancel-in-progress: false
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate PHP and test mail without sending messages
+        run: |
+          php -l public/api/contact.php
+          node tests/contact-mail.mjs
+      - name: Deploy only the mail handler to current hosting
+        env:
+          FTP_USER: ${{ secrets.BLUEHOST_FTP_USERNAME }}
+          FTP_PASS: ${{ secrets.BLUEHOST_FTP_PASSWORD }}
+        run: node scripts/deploy-form-mail.mjs
+      - name: Preserve previous handler for rollback
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: previous-mail-handler
+          path: ${{ runner.temp }}/contact.php.before
+          if-no-files-found: ignore
+          retention-days: 7
