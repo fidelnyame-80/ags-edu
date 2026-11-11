@@ -72,7 +72,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .zoom{position:fixed;inset:0;background:#120e0f;z-index:30;display:none;flex-direction:column}
 .zoom.show{display:flex}
 .zoom .zbar{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--red)}
- .zoom .zbar{flex-wrap:wrap;gap:8px}
+.zoom .zbar{flex-wrap:wrap;gap:8px}
 .zoom .zbody{flex:1;min-height:0;overflow:auto;padding:16px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y}
 .zpages{display:flex;gap:10px;margin:0 auto;align-items:flex-start}
 .zoom .zpages img{display:block;width:100%;height:auto;min-width:0;box-shadow:0 10px 30px rgba(0,0,0,.5)}
@@ -82,6 +82,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .zcontrols output{min-width:48px;text-align:center}
 #btnZoom .lbl{display:inline}
 @media(max-width:900px){.zpages{flex-direction:column}.zoom .zpages.two img{width:100%}}
+.hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.55);padding:7px 14px;border-radius:20px;font-size:13px;pointer-events:none;transition:opacity .6s}
 @media(max-width:380px){.foot{gap:6px;padding-left:6px;padding-right:6px}.foot .pg{min-width:0;flex:1;font-size:12px}}
 </style>
 </head>
