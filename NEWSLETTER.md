@@ -42,3 +42,6 @@ turn pages, use contents/thumbnails/zoom, and check portrait/landscape on iPhone
 - WebKit was downloaded but could not launch because the environment lacks
   system libraries (including `libharfbuzz-icu.so.0`). iPhone emulation in
   Chromium does not replace an actual iPhone Safari check before release.
+
+The reading overlay supports 100–400% magnification with +/− buttons, Fit reset,
+two-finger pinch zoom, and native horizontal/vertical scrolling on mobile.
