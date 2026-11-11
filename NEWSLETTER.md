@@ -45,3 +45,6 @@ turn pages, use contents/thumbnails/zoom, and check portrait/landscape on iPhone
 
 The reading overlay supports 100–400% magnification with +/− buttons, Fit reset,
 two-finger pinch zoom, and native horizontal/vertical scrolling on mobile.
+
+Previous/Next controls and arrow keys turn individual pages inside the zoom
+overlay, preserving magnification and resetting scroll to the top of each page.
