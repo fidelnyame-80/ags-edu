@@ -125,10 +125,10 @@ export default function SchoolNews() {
               {welcomeBackStory.summary}
             </p>
             <a
-              href="/news/"
+              href="/newsletter"
               className="mt-6 inline-flex self-start rounded-full bg-[#7b70cc] px-5 py-2.5 text-sm font-bold text-white shadow-[0_16px_36px_rgba(123,112,204,0.22)] transition hover:-translate-y-0.5 hover:bg-[#6657c8]"
             >
-              Read School Notice
+              Read Spider News
               <ArrowRight size={16} strokeWidth={2.4} className="ml-2" />
             </a>
           </MotionText>

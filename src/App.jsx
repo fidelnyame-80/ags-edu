@@ -28,6 +28,7 @@ import Footer from './Components/Footer';
 import Intro from './Components/Intro';
 import LearningEnvironment from './Components/LearningEnvironment';
 import Navbar from './Components/Navbar';
+const NewsletterPage = lazy(() => import('./Components/NewsletterPage'));
 const NewsPage = lazy(() => import('./Components/NewsPage'));
 import SchoolNews from './Components/SchoolNews';
 import Testimonials from './Components/Testimonials';
@@ -69,6 +70,7 @@ const getCurrentRoute = () => {
     if (subPage === 'handbook') return { page: 'handbook', academicDivision: null };
     return { page: 'admissions', academicDivision: null };
   }
+  if (section === 'newsletter') return { page: 'newsletter', academicDivision: null };
   if (section === 'news') return { page: 'news', academicDivision: null };
   if (section === 'community' || window.location.hash === '#community') {
     const subPage = academicDivision;
@@ -163,6 +165,7 @@ const App = () => {
       {currentPage === 'student-login' && <StudentLoginPage />}
       {currentPage === 'campus-tour' && <CampusTourPage />}
       {currentPage === 'contacts' && <ContactsPage />}
+      {currentPage === 'newsletter' && <NewsletterPage />}
       {currentPage === 'news' && <NewsPage />}
       {currentPage === 'home' && <HomePage />}
       </Suspense>
