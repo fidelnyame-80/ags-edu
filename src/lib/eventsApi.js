@@ -1,23 +1,8 @@
-const API_BASE_URL =
-  import.meta.env.VITE_CMS_API_URL ||
-  import.meta.env.VITE_API_BASE_URL ||
-  "https://ags-dashboard.vercel.app/api";
-
 const formatDate = (dateStr) =>
   new Intl.DateTimeFormat("en", { month: "long", day: "numeric" }).format(new Date(`${dateStr}T00:00:00`));
 
 const formatDateShort = (dateStr) =>
   new Intl.DateTimeFormat("en", { month: "short", day: "numeric" }).format(new Date(`${dateStr}T00:00:00`));
-
-const normalizeEvent = (item) => ({
-  title: item.title,
-  description: item.description || item.summary || "",
-  startDate: item.startDate || item.start_date || item.dateTime || item.date,
-  endDate: item.endDate || item.end_date || item.startDate || item.start_date || item.dateTime || item.date,
-  location: item.location || "",
-  category: item.category || "General",
-  featured: Boolean(item.featured),
-});
 
 export const fallbackEvents = [
   {
@@ -114,22 +99,9 @@ export const fallbackEvents = [
 
 export const getFallbackEventsFeed = () => fallbackEvents;
 
+// Events are bundled with the Bluehost site; no external CMS request is made.
 export async function fetchEvents() {
-  if (!API_BASE_URL) return getFallbackEventsFeed();
-
-  try {
-    const response = await fetch(`${API_BASE_URL.replace(/\/$/, "")}/events`);
-
-    if (!response.ok) throw new Error(`Events request failed with ${response.status}`);
-
-    const payload = await response.json();
-    const items = Array.isArray(payload) ? payload.map(normalizeEvent) : [];
-
-    return items.length ? items : getFallbackEventsFeed();
-  } catch (error) {
-    console.warn("Using fallback events feed:", error);
-    return getFallbackEventsFeed();
-  }
+  return getFallbackEventsFeed();
 }
 
 export function getCurrentEvent(events) {

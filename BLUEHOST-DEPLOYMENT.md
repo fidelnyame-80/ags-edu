@@ -85,10 +85,15 @@ Use a real mailbox on the hosted domain as `from_email`; this improves delivery.
 
 In the DNS provider, replace the Vercel domain records with the A record / nameservers supplied by Bluehost. Keep the old Vercel deployment available until DNS propagation completes and the production checks above pass. DNS changes can take several hours, occasionally up to 48 hours.
 
-## External services that remain unchanged
+## News and events
 
-The site currently reads news and events from `https://ags-dashboard.vercel.app/api`. This can remain on Vercel independently. If that dashboard is also being retired, its API must be migrated separately and the frontend rebuilt with `VITE_CMS_API_URL` pointing to its new URL.
+The unused external dashboard connection has been removed. News comes from
+`src/data/newsContent.js`; events come from `fallbackEvents` in
+`src/lib/eventsApi.js`. Both are bundled with the website and served by
+Bluehost. Edit those source files and rebuild/deploy to update the content.
+There are no CMS API environment variables or external news/events requests.
+The website forms continue to use the bundled `/api/contact.php` handler.
 
 ## Rollback
 
-Restore the `public_html` backup and point DNS back to Vercel. No database migration is part of this website deployment.
+Restore the previous `public_html` backup or redeploy a previous known-good commit using the Bluehost workflow. No DNS change or database migration is required.
