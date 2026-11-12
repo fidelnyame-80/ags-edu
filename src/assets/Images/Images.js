@@ -34,7 +34,7 @@ import sports2 from "./optimized/sports2.webp.webp";
 import heroImg1 from "./optimized/ags-compound.webp.webp";
 import schoolProspectus from "./optimized/schoolProspectus.webp.webp";
 import schoolBroadsheet from "./optimized/schoolBroadsheet.webp.webp";
-import principal from "./optimized/principalImage.webp.webp";
+import principal from "./optimized/principalImage.webp.webp.webp";
 import ourPromiseSectionImg from "./optimized/ourPromiseSectionImg.jpeg.webp";
 import agsCompoundDroneview1 from "./optimized/ags_compound_droneview1.webp.webp";
 import libraryImg1 from "./optimized/libraryImg1.webp.webp";
