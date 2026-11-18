@@ -1,16 +1,42 @@
-# React + Vite
+# Accra Grammar School
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Source code for the Accra Grammar School website.
 
-Currently, two official plugins are available:
+**Live site:** https://agsedu.org
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## About
 
-## React Compiler
+This project handles the school's public-facing website, including school information, admissions content, news and publications.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The frontend is built with React, Vite and Tailwind CSS. The production website is hosted on Bluehost.
 
-## Expanding the ESLint configuration
+## Running locally
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+You'll need Node.js and npm installed.
+
+```bash
+git clone https://github.com/fidelnyame-80/ags-edu.git
+cd ags-edu
+npm install
+npm run dev
+```
+
+To generate a production build:
+
+```bash
+npm run build
+```
+
+The build output is in `dist/`.
+
+## Deployment
+
+The live site runs on Bluehost. Changes should be tested locally and built before being deployed.
+
+The GitHub repository is the source for the website code, but not necessarily for every file already on the server. Server-managed content, including SpiderNews publications and existing archives, must be checked and preserved during deployment.
+
+Do not commit hosting credentials, environment files or other private configuration.
+
+## Maintenance
+
+Website updates, fixes and improvements are tracked through Git. Changes to the live site should be verified after deployment.
